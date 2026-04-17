@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Source\Pages\Domain\Repository\Repository;
+use Source\Pages\Infrastructure\Persistence\PageRepositroy;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            Repository::class,
+            PageRepositroy::class,
+        );
     }
 
     /**
