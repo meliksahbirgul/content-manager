@@ -10,6 +10,11 @@ use Source\Pages\Domain\Enums\PageStatus;
 
 readonly class CreatePage
 {
+    /**
+     * @param array<string,string> $title
+     * @param array<string,string> $content
+     * @param array<string,string> $slug
+     */
     public function __construct(
         private string $id,
         private array $title,
@@ -22,6 +27,7 @@ readonly class CreatePage
         $this->validate();
     }
 
+    /** @param array<string,mixed> $data */
     public static function createFromArray(array $data): self
     {
         return new self(
@@ -53,16 +59,19 @@ readonly class CreatePage
         return $this->id;
     }
 
+    /** @return array<string,string> */
     public function title(): array
     {
         return $this->title;
     }
 
+    /** @return array<string,string> */
     public function content(): array
     {
         return $this->content;
     }
 
+    /** @return array<string,string> */
     public function slug(): array
     {
         return $this->slug;

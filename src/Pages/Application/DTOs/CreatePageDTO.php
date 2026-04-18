@@ -8,6 +8,10 @@ use Source\Pages\Domain\Enums\PageStatus;
 
 readonly class CreatePageDTO
 {
+    /** @param array<string,string> $title
+     * @param array<string,string> $content
+     * @param array<string,string> $slug
+     */
     public function __construct(
         private array $title,
         private array $content,
@@ -17,6 +21,7 @@ readonly class CreatePageDTO
         private string $isActive = 'passive'
     ) {}
 
+    /** @param array<string,mixed> $data */
     public static function fromRequest(array $data): self
     {
         return new self(
@@ -29,6 +34,7 @@ readonly class CreatePageDTO
         );
     }
 
+    /** @return array<string,mixed> */
     public function toArray(): array
     {
         return [

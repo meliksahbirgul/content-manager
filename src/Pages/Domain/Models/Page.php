@@ -41,11 +41,13 @@ class Page extends Model
         ];
     }
 
+    /** @return HasMany<Page,$this> */
     public function subPages(): HasMany
     {
         return $this->hasMany(Page::class, 'parent_id')->orderBy('order');
     }
 
+    /** @return BelongsTo<Page,$this> */
     public function parentPage(): BelongsTo
     {
         return $this->belongsTo(Page::class, 'parent_id');

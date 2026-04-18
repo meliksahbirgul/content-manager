@@ -4,4 +4,4 @@ parameters:
     paths:
         - src
         - app
-    level: 5
+    level: 6
