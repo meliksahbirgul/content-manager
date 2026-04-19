@@ -21,9 +21,9 @@ class PageRepositroy implements Repository
             'title' => $payload->title(),
             'content' => $payload->content(),
             'slug' => $payload->slug(),
-            'parent_id' => $payload->parentId(),
+            'parent_id' => $payload->parentOriginalId(),
             'order' => $payload->order(),
-            'is_active' => $payload->isActive()->value,
+            'is_active' => $payload->status()->value,
         ]);
 
         return $payload;
@@ -92,17 +92,34 @@ class PageRepositroy implements Repository
     public function listPages(): array
     {
         return EloquentPage::query()
-            ->leftJoin('pages as parents', 'pages.parent_id', '=', 'parents.id')
-            ->select(
-                [
-                    'pages.uuid as id',
-                    'pages.title as title',
-                    'pages.is_active as status',
-                    'pages.order',
-                    'parents.uuid as parentId',
-                ]
-            )
+            ->with('parentPage:id,uuid')
+            ->select([
+                'id',
+                'uuid',
+                'title',
+                'is_active',
+                'order',
+                'parent_id',
+            ])
+            ->orderBy('order')
             ->get()
+            ->map(fn(EloquentPage $page) => [
+                'id'       => $page->uuid,
+                'title'    => $page->title,
+                'status'   => $page->is_active,
+                'order'    => $page->order,
+                'parentId' => $page->parentPage?->uuid,
+            ])
             ->toArray();
+    }
+
+    public function findOriginalIdByUuid(string $uuid): int|null
+    {
+        $model = EloquentPage::where('uuid', $uuid)->first();
+        if (! $model) {
+            return null;
+        }
+
+        return $model->id;
     }
 }

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Source\Pages\Application\DTOs;
 
-readonly class PageTreeResponseDTO
+use JsonSerializable;
+
+readonly class PageTreeResponseDTO implements JsonSerializable
 {
     /**
      * @param array<string, string> $title
@@ -58,5 +60,17 @@ readonly class PageTreeResponseDTO
     public function order(): int
     {
         return $this->order;
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id(),
+            'title' => $this->title(),
+            'status' => $this->status(),
+            'order' => $this->order(),
+            'children' => $this->children(),
+        ];
     }
 }

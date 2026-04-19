@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 use Source\Pages\Domain\Enums\PageStatus;
 
-readonly class CreatePage
+class CreatePage
 {
     /**
      * @param array<string,string> $title
@@ -21,8 +21,9 @@ readonly class CreatePage
         private array $content,
         private array $slug,
         private string|null $parentId = null,
+        public int|null $parentOriginalId = null,
         private int $order = 0,
-        private PageStatus $isActive = PageStatus::PASSIVE,
+        private PageStatus $status = PageStatus::PASSIVE,
     ) {
         $this->validate();
     }
@@ -30,12 +31,15 @@ readonly class CreatePage
     /** @param array<string,mixed> $data */
     public static function createFromArray(array $data): self
     {
+
         return new self(
             id: $data['id'] ?? Uuid::uuid7()->toString(),
             title: $data['title'],
             content: $data['content'],
             slug: $data['slug'],
             parentId: $data['parentId'] ?? null,
+            order: $data['order'] ?? 0,
+            status: isset($data['status']) ? PageStatus::from($data['status']) : PageStatus::PASSIVE,
         );
     }
 
@@ -87,8 +91,18 @@ readonly class CreatePage
         return $this->order;
     }
 
-    public function isActive(): PageStatus
+    public function status(): PageStatus
     {
-        return $this->isActive;
+        return $this->status;
+    }
+
+    public function parentOriginalId(): int|null
+    {
+        return $this->parentOriginalId;
+    }
+
+    public function setParentOriginalId(int $id): void
+    {
+        $this->parentOriginalId = $id;
     }
 }

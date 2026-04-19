@@ -30,8 +30,8 @@ readonly class GetPageTree
         $tree = [];
 
         foreach ($pages as $page) {
-            if ($page->parent_id === $parentId) {
-                $children = $this->buildTree($pages, $page->id());
+            if ($page['parentId'] === $parentId) {
+                $children = $this->buildTree($pages, $page['id']);
                 $tree[]   = PageTreeResponseDTO::createFromArray($page, $children);
             }
         }

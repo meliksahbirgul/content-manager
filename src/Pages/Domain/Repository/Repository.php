@@ -21,4 +21,6 @@ interface Repository
 
     /** @return array<string, mixed> */
     public function listPages(): array;
+
+    public function findOriginalIdByUuid(string $uuid): int|null;
 }

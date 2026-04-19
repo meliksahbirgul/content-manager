@@ -25,6 +25,15 @@ readonly class PageService
             throw new DomainException('This slug is already taken.');
         }
 
+        if ($pagePayload->parentId() !== null) {
+            $parentPageId = $this->repository->findOriginalIdByUuid($pagePayload->parentId());
+            if (! $parentPageId) {
+                throw new DomainException('Parent page not found.');
+            }
+
+            $pagePayload->setParentOriginalId($parentPageId);
+        }
+
         return $this->repository->create($pagePayload);
     }
 

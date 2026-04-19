@@ -18,7 +18,7 @@ readonly class CreatePageDTO
         private array $slug,
         private string|null $parentId = null,
         private int $order = 0,
-        private string $isActive = 'passive'
+        private string $status = 'passive'
     ) {}
 
     /** @param array<string,mixed> $data */
@@ -30,7 +30,7 @@ readonly class CreatePageDTO
             slug: $data['slug'],
             parentId: $data['parentId'] ?? null,
             order: (int) ($data['order'] ?? 0),
-            isActive: ($data['isActive'] ?? PageStatus::PASSIVE->value),
+            status: ($data['status'] ?? PageStatus::PASSIVE->value),
         );
     }
 
@@ -43,7 +43,7 @@ readonly class CreatePageDTO
             'slug' => $this->slug,
             'parentId' => $this->parentId,
             'order' => $this->order,
-            'isActive' => $this->isActive,
+            'status' => $this->status,
         ];
     }
 }

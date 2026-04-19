@@ -13,20 +13,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Table('pages')]
-#[Fillable(['parent_id', 'title', 'content', 'slug', 'order', 'is_active'])]
+#[Fillable(['uuid', 'parent_id', 'title', 'content', 'slug', 'order', 'is_active'])]
 #[Touches(['parentPage'])]
 class Page extends Model
 {
     use SoftDeletes;
-
-    protected $fillable = [
-        'parent_id',
-        'title',
-        'content',
-        'slug',
-        'order',
-        'is_active'
-    ];
 
     protected function casts(): array
     {
@@ -34,9 +25,7 @@ class Page extends Model
             'title' => 'array',
             'content' => 'array',
             'slug' => 'array',
-            'is_active' => 'boolean',
-            'parent_id' => 'integer',
-            'order' => 'integer',
+            'is_active' => 'string',
             'created_at' => 'datetime',
         ];
     }
@@ -58,6 +47,6 @@ class Page extends Model
     /** @return BelongsTo<Page,$this> */
     public function parentPage(): BelongsTo
     {
-        return $this->belongsTo(Page::class, 'parent_id');
+        return $this->belongsTo(Page::class, 'parent_id', 'id');
     }
 }
