@@ -6,7 +6,6 @@ namespace Source\Pages\Presentation\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-use PhpParser\Node\Expr\Throw_;
 use Source\Pages\Application\DTOs\CreatePageDTO;
 use Source\Pages\Application\Services\PageService;
 use Source\Pages\Presentation\Http\Requests\CreatePageRequest;
