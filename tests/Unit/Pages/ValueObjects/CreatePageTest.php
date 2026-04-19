@@ -62,12 +62,12 @@ class CreatePageTest extends TestCase
             slug: $slug,
             parentId: $this->validParentUuid,
             order: $order,
-            isActive: PageStatus::ACTIVE,
+            status: PageStatus::ACTIVE,
         );
 
         $this->assertEquals($this->validParentUuid, $createPage->parentId());
         $this->assertEquals($order, $createPage->order());
-        $this->assertEquals(PageStatus::ACTIVE, $createPage->isActive());
+        $this->assertEquals(PageStatus::ACTIVE, $createPage->status());
     }
 
     /** @test */
@@ -85,7 +85,7 @@ class CreatePageTest extends TestCase
             slug: $slug,
         );
 
-        $this->assertEquals(PageStatus::PASSIVE, $createPage->isActive());
+        $this->assertEquals(PageStatus::PASSIVE, $createPage->status());
     }
 
     /** @test */
@@ -312,7 +312,7 @@ class CreatePageTest extends TestCase
             slug: $slug,
             parentId: $this->validParentUuid,
             order: $order,
-            isActive: PageStatus::ACTIVE,
+            status: PageStatus::ACTIVE,
         );
 
         $this->assertSame($this->validUuid, $createPage->id());
@@ -321,7 +321,7 @@ class CreatePageTest extends TestCase
         $this->assertSame($slug, $createPage->slug());
         $this->assertSame($this->validParentUuid, $createPage->parentId());
         $this->assertSame($order, $createPage->order());
-        $this->assertSame(PageStatus::ACTIVE, $createPage->isActive());
+        $this->assertSame(PageStatus::ACTIVE, $createPage->status());
     }
 
     /** @test */

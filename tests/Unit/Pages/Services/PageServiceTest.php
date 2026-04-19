@@ -159,6 +159,12 @@ class PageServiceTest extends TestCase
             ->andReturn(true);
 
         $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn(1);
+
+        $this->repositoryMock
             ->shouldReceive('create')
             ->once()
             ->andReturnUsing(function (CreatePage $page) {
