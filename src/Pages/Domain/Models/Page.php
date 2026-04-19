@@ -41,6 +41,14 @@ class Page extends Model
         ];
     }
 
+    protected $casts = [
+        'title' => 'array',
+        'content' => 'array',
+        'slug' => 'array',
+        'metadata' => 'array',
+        'is_active' => 'string',
+    ];
+
     /** @return HasMany<Page,$this> */
     public function subPages(): HasMany
     {

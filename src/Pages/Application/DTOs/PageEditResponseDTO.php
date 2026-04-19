@@ -1,0 +1,89 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Source\Pages\Application\DTOs;
+
+use Source\Pages\Domain\Entity\PageEntity;
+
+readonly class PageEditResponseDTO
+{
+    /**
+     * @param array<string, string> $title
+     * @param array<string, string> $content
+     * @param array<string, string> $slug
+     */
+    public function __construct(
+        private string $id,
+        private array $title,
+        private array $content,
+        private array $slug,
+        private string $status,
+        private int $order,
+        private string|null $parentId = null,
+    ) {}
+
+    public static function fromModel(object $page): self
+    {
+        return new self(
+            id: $page->uuid,
+            title: $page->title,
+            content: $page->content,
+            slug: $page->slug,
+            status: $page->is_active,
+            parentId: $page->parent_id,
+            order: $page->order
+        );
+    }
+
+    public static function fromEntity(PageEntity $entity): self
+    {
+        return new self(
+            id: $entity->id(),
+            title: $entity->title(),
+            content: $entity->content(),
+            slug: $entity->slug(),
+            status: $entity->status()->value,
+            parentId: $entity->parentId(),
+            order: $entity->order()
+        );
+    }
+
+    public function id(): string
+    {
+        return $this->id;
+    }
+
+    /** @return array<string, string> */
+    public function title(): array
+    {
+        return $this->title;
+    }
+
+    /** @return array<string, string> */
+    public function content(): array
+    {
+        return $this->content;
+    }
+
+    /** @return array<string, string> */
+    public function slug(): array
+    {
+        return $this->slug;
+    }
+
+    public function status(): string
+    {
+        return $this->status;
+    }
+
+    public function order(): int
+    {
+        return $this->order;
+    }
+
+    public function parentId(): string|null
+    {
+        return $this->parentId;
+    }
+}

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Source\Pages\Infrastructure\Persistence;
 
+use Source\Pages\Domain\Entity\PageEntity;
+use Source\Pages\Domain\Enums\PageStatus;
 use Source\Pages\Domain\Models\Page as EloquentPage;
 use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Domain\ValueObjects\CreatePage;
@@ -34,18 +36,22 @@ class PageRepositroy implements Repository
         })->exists();
     }
 
-    public function findByUuid(string $uuid): CreatePage
+    public function findByUuid(string $uuid): PageEntity|null
     {
-        $model = EloquentPage::where('uuid', $uuid)->firstOrFail();
+        $model = EloquentPage::where('uuid', $uuid)->first();
+        if (! $model) {
+            return null;
+        }
 
-        return CreatePage::createFromArray([
-            'id' => $model->uuid,
-            'title' => $model->title,
-            'content' => $model->content,
-            'slug' => $model->slug,
-            'parentId' => $model->parent_id,
-            'order' => $model->order,
-            'isActive' => $model->is_active,
-        ]);
+        return new PageEntity(
+            id: $model->uuid,
+            title: $model->title,
+            content: $model->content,
+            slug: $model->slug,
+            parentId: $model->parentPage?->uuid,
+            order: $model->order,
+            status: PageStatus::from($model->is_active),
+            metadata: $model->metadata ?? null,
+        );
     }
 }
