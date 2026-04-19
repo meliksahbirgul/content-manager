@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Source\Pages\Infrastructure\Persistence;
 
+use DomainException;
 use Source\Pages\Domain\Entity\PageEntity;
 use Source\Pages\Domain\Enums\PageStatus;
 use Source\Pages\Domain\Models\Page as EloquentPage;
 use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Domain\ValueObjects\CreatePage;
+use Source\Pages\Domain\ValueObjects\UpdatePage;
 
 class PageRepositroy implements Repository
 {
@@ -53,5 +55,36 @@ class PageRepositroy implements Repository
             status: PageStatus::from($model->is_active),
             metadata: $model->metadata ?? null,
         );
+    }
+
+    public function updatePage(UpdatePage $payload): void
+    {
+        $model = EloquentPage::where('uuid', $$payload->id())->first();
+        if (! $model) {
+            throw new DomainException('Page not found.');
+        }
+
+        $updateData = [];
+        if ($payload->title() !== null) {
+            $updateData['title'] = $payload->title();
+        }
+        if ($payload->content() !== null) {
+            $updateData['content'] = $payload->content();
+        }
+        if ($payload->slug() !== null) {
+            $updateData['slug'] = $payload->slug();
+        }
+        if ($payload->order() !== null) {
+            $updateData['order'] = $payload->order();
+        }
+        if ($payload->status() !== null) {
+            $updateData['is_active'] = $payload->status()->value;
+        }
+
+        if (empty($updateData)) {
+            return;
+        }
+
+        $model->update($updateData);
     }
 }
