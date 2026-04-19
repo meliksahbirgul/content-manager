@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Source\Pages\Presentation\Http\Controllers\CreatePageController;
+use Source\Pages\Presentation\Http\Controllers\ListPagesController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('pages', ListPagesController::class);
+Route::post('pages', CreatePageController::class);
