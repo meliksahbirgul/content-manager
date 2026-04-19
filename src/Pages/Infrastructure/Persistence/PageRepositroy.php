@@ -59,7 +59,7 @@ class PageRepositroy implements Repository
 
     public function updatePage(UpdatePage $payload): void
     {
-        $model = EloquentPage::where('uuid', $$payload->id())->first();
+        $model = EloquentPage::where('uuid', $payload->id())->first();
         if (! $model) {
             throw new DomainException('Page not found.');
         }
