@@ -6,7 +6,7 @@ namespace Source\Pages\Domain\Entity;
 
 use Source\Pages\Domain\Enums\PageStatus;
 
-readonly class PageEntity
+class PageEntity
 {
     /**
      * @param array<string, string> $title

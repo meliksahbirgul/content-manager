@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Pages\Application\DTOs;
 
-class UpdatePageDTO
+readonly class UpdatePageDTO
 {
     /** 
      * @param array<string, string>|null $title
