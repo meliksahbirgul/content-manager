@@ -18,4 +18,7 @@ interface Repository
     public function findByUuid(string $uuid): PageEntity|null;
 
     public function updatePage(UpdatePage $payload): void;
+
+    /** @return array<string, mixed> */
+    public function listPages(): array;
 }

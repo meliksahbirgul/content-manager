@@ -87,4 +87,22 @@ class PageRepositroy implements Repository
 
         $model->update($updateData);
     }
+
+    /** @return array<string, mixed> */
+    public function listPages(): array
+    {
+        return EloquentPage::query()
+            ->leftJoin('pages as parents', 'pages.parent_id', '=', 'parents.id')
+            ->select(
+                [
+                    'pages.uuid as id',
+                    'pages.title as title',
+                    'pages.is_active as status',
+                    'pages.order',
+                    'parents.uuid as parentId',
+                ]
+            )
+            ->get()
+            ->toArray();
+    }
 }
