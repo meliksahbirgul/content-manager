@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Table('pages ')]
+#[Table('pages')]
 #[Fillable(['parent_id', 'title', 'content', 'slug', 'order', 'is_active'])]
 #[Touches(['parentPage'])]
 class Page extends Model
