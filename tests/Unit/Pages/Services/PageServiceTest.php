@@ -10,9 +10,11 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
 use Source\Pages\Application\DTOs\CreatePageDTO;
+use Source\Pages\Application\DTOs\UpdatePageDTO;
 use Source\Pages\Application\Services\PageService;
 use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Domain\ValueObjects\CreatePage;
+use Source\Pages\Domain\ValueObjects\UpdatePage;
 
 class PageServiceTest extends TestCase
 {
@@ -315,5 +317,468 @@ class PageServiceTest extends TestCase
 
         // THEN: Page should be created successfully
         $this->assertInstanceOf(CreatePage::class, $result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldUpdatePageSuccessfully(): void
+    {
+        // GIVEN: A valid UpdatePageDTO
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'Updated Title'],
+            content: ['en' => 'Updated Content'],
+        );
+
+        // Mock repository expectations
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once()
+            ->andReturnUsing(function (UpdatePage $page) use ($pageId) {
+                return $page;
+            });
+
+        // WHEN: We call the PageService updatePage method
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldThrowExceptionWhenPageNotFound(): void
+    {
+        // GIVEN: An UpdatePageDTO with non-existent page ID
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'Updated Title'],
+        );
+
+        // Mock repository to return null (page not found)
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(null);
+
+        // AND: updatePage should NOT be called
+        $this->repositoryMock->shouldNotReceive('updatePage');
+
+        // THEN: We expect DomainException
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Page not found.');
+
+        // WHEN: We call the PageService updatePage method
+        $this->pageService->updatePage($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldThrowExceptionWhenUpdatingWithDuplicateSlug(): void
+    {
+        // GIVEN: An UpdatePageDTO with a slug that already exists
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            slug: ['en' => 'existing-slug'],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // Mock repository to return false (slug not unique)
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->with(['en' => 'existing-slug'])
+            ->andReturn(false);
+
+        // AND: updatePage should NOT be called
+        $this->repositoryMock->shouldNotReceive('updatePage');
+
+        // THEN: We expect DomainException
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('This slug is already taken.');
+
+        // WHEN: We call the PageService updatePage method
+        $this->pageService->updatePage($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldUpdatePageWithUniqueSlug(): void
+    {
+        // GIVEN: An UpdatePageDTO with a unique slug
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            slug: ['en' => 'new-unique-slug'],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // Mock repository slug uniqueness check
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->with(['en' => 'new-unique-slug'])
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once();
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldSkipSlugValidationWhenSlugIsNull(): void
+    {
+        // GIVEN: An UpdatePageDTO without slug update
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'Updated Title'],
+            slug: null,
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // AND: isSlugUnique should NOT be called
+        $this->repositoryMock->shouldNotReceive('isSlugUnique');
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once();
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldVerifyRepositoryCallOrderDuringUpdate(): void
+    {
+        // GIVEN: A valid UpdatePageDTO
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            slug: ['en' => 'unique-slug'],
+        );
+
+        // Mock with ordered expectations
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->ordered()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->ordered()
+            ->with(['en' => 'unique-slug'])
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once()
+            ->ordered();
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: The ordered() constraints ensure correct call sequence
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleMultilingualPageUpdate(): void
+    {
+        // GIVEN: A multilingual UpdatePageDTO
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: [
+                'en' => 'English Title',
+                'tr' => 'Türkçe Başlık',
+                'es' => 'Título en Español',
+            ],
+            content: [
+                'en' => 'English Content',
+                'tr' => 'Türkçe İçerik',
+                'es' => 'Contenido en Español',
+            ],
+            slug: [
+                'en' => 'english-page',
+                'tr' => 'turkce-sayfa',
+                'es' => 'pagina-espanola',
+            ],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // Mock repository slug uniqueness check
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->with([
+                'en' => 'english-page',
+                'tr' => 'turkce-sayfa',
+                'es' => 'pagina-espanola',
+            ])
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once()
+            ->andReturnUsing(function (UpdatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldUpdateSingleFieldOnly(): void
+    {
+        // GIVEN: An UpdatePageDTO with only one field to update
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'Only Title Updated'],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // AND: isSlugUnique should NOT be called (no slug update)
+        $this->repositoryMock->shouldNotReceive('isSlugUnique');
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once();
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldThrowExceptionIfRepositoryThrowsDuringUpdate(): void
+    {
+        // GIVEN: Repository throws an exception
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'Title'],
+        );
+
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->andThrow(new DomainException('Database connection failed'));
+
+        // THEN: We expect the exception to propagate
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Database connection failed');
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldUpdatePageWithContentOnly(): void
+    {
+        // GIVEN: An UpdatePageDTO with only content field
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            content: ['en' => 'Updated Content Only', 'tr' => 'Güncellenen İçerik'],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // AND: isSlugUnique should NOT be called (no slug update)
+        $this->repositoryMock->shouldNotReceive('isSlugUnique');
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once();
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldUpdateMultipleFieldsTogether(): void
+    {
+        // GIVEN: An UpdatePageDTO with multiple fields
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'New Title', 'tr' => 'Yeni Başlık'],
+            content: ['en' => 'New Content', 'tr' => 'Yeni İçerik'],
+            slug: ['en' => 'new-slug', 'tr' => 'yeni-slug'],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // Mock repository slug uniqueness check
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->with(['en' => 'new-slug', 'tr' => 'yeni-slug'])
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once()
+            ->andReturnUsing(function (UpdatePage $page) use ($pageId) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleUpdateWithMinimalData(): void
+    {
+        // GIVEN: An UpdatePageDTO with only required id field
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(id: $pageId);
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // AND: isSlugUnique should NOT be called (no slug)
+        $this->repositoryMock->shouldNotReceive('isSlugUnique');
+
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once();
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldVerifyUpdatePageReceivesCorrectData(): void
+    {
+        // GIVEN: A specific UpdatePageDTO
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(
+            id: $pageId,
+            title: ['en' => 'My Updated Page'],
+            slug: ['en' => 'my-updated-page'],
+        );
+
+        // Mock repository to find the page
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+
+        // Mock repository slug uniqueness check
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->andReturn(true);
+
+        // Mock expectations with data verification
+        $this->repositoryMock
+            ->shouldReceive('updatePage')
+            ->once()
+            ->with(Mockery::on(function (UpdatePage $page) use ($pageId) {
+                return $page->id() === $pageId
+                    && $page->title() === ['en' => 'My Updated Page']
+                    && $page->slug() === ['en' => 'my-updated-page'];
+            }))
+            ->andReturnUsing(function (UpdatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $this->pageService->updatePage($dto);
+
+        // THEN: Should execute without exception
+        $this->assertTrue(true);
     }
 }
