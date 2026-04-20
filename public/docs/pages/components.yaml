@@ -1,0 +1,79 @@
+# components.yaml
+components:
+  schemas:
+    ListPageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          $ref: '#/components/schemas/MultiLanguageString'
+        status:
+          $ref: '#/components/schemas/PageStatusString'
+        order:
+          type: integer
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListPageResponse'
+    MultiLanguageString:
+      type: object
+      additionalProperties:
+        type: string
+      example:
+        en: "Who We Are?"
+        tr: "Biz Kimiz?"
+    PageStatusString:
+      type: string
+      enum: [active, passive]
+    CreatePageRequest:
+      type: object
+      required:
+        - title
+        - slug
+      properties:
+        title:
+          $ref: '#/components/schemas/MultiLanguageString'
+        slug:
+          $ref: '#/components/schemas/MultiLanguageString'
+        content:
+          nullable: true
+          $ref: '#/components/schemas/MultiLanguageString'
+        parentId:
+          nullable: true
+          type: string
+          format: uuid
+        order:
+          nullable: true
+          type: integer
+        status:
+          nullable: true
+          $ref: '#/components/schemas/PageStatusString'
+    UpdatePageRequest:
+      type: object
+      properties:
+        title:
+          nullable: true
+          $ref: '#/components/schemas/MultiLanguageString'
+        slug:
+          nullable: true
+          $ref: '#/components/schemas/MultiLanguageString'
+        content:
+          nullable: true
+          $ref: '#/components/schemas/MultiLanguageString'
+        order:
+          nullable: true
+          type: integer
+        status:
+          nullable: true
+          $ref: '#/components/schemas/PageStatusString'
+  parameters:
+    PageId:
+      name: pageId
+      in: path
+      required: true
+      description: Page id value as uuid.
+      schema:
+        type: string
+        format: uuid

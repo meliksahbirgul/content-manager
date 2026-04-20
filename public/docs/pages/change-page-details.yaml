@@ -1,0 +1,16 @@
+tags:
+  - Pages
+operationId: changePageDetails
+summary: Change page details.
+description: Change page details.
+parameters:
+  - $ref: './components.yaml#/components/parameters/PageId'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: './components.yaml#/components/schemas/UpdatePageRequest'
+responses:
+  '204':
+    description: Success

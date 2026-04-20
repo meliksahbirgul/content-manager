@@ -1,0 +1,18 @@
+tags:
+  - Pages
+operationId: listPages
+summary: List page with tree structure.
+description: List all page with tree structure.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [success, error]
+            pages:
+              $ref: './components.yaml#/components/schemas/ListPageResponse'

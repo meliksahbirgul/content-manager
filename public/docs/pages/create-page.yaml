@@ -1,0 +1,29 @@
+tags:
+  - Pages
+operationId: createPage
+summary: Create a page.
+description: Create a page.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: './components.yaml#/components/schemas/CreatePageRequest'
+responses:
+  '201':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [success, error]
+            page:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                 

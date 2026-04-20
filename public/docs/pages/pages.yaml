@@ -1,0 +1,5 @@
+get:
+  $ref: './list-pages.yaml'
+post:
+  $ref: './create-page.yaml'
+                 
