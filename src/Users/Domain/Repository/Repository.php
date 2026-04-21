@@ -11,4 +11,6 @@ interface Repository
 {
     public function findByEmail(string $email): UserEntity|null;
     public function createTokenForUser(string $email): UserTokenEntity|null;
+    public function findUserByRefreshToken(string $token): UserEntity|null;
+    public function deleteToken(string $token): void;
 }

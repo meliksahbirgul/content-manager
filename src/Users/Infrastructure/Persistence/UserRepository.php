@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Source\Users\Infrastructure\Persistence;
 
 use DateTimeImmutable;
+use Laravel\Sanctum\PersonalAccessToken;
 use Source\Users\Domain\Entity\UserEntity;
 use Source\Users\Domain\Entity\UserTokenEntity;
 use Source\Users\Domain\Models\User as EloquentUser;
@@ -63,5 +64,38 @@ class UserRepository implements Repository
             email: $user->email,
             password: $user->password,
         );
+    }
+
+    public function findUserByRefreshToken(string $token): UserEntity|null
+    {
+        $tokenModel = PersonalAccessToken::findToken($token);
+        if (! $tokenModel || ! $tokenModel->can('issue-access-token')) {
+            return null;
+        }
+
+        if ($tokenModel->expires_at && $tokenModel->expires_at->isPast()) {
+            return null;
+        }
+
+        $user = $tokenModel->tokenable;
+        if (! $user) {
+            return null;
+        }
+
+        if (! $user instanceof EloquentUser) {
+            return null;
+        }
+
+        return $this->mapToEntity($user);
+    }
+
+    public function deleteToken(string $token): void
+    {
+        $tokenModel = PersonalAccessToken::findToken($token);
+        if (! $tokenModel) {
+            return;
+        }
+
+        $tokenModel->delete();
     }
 }
