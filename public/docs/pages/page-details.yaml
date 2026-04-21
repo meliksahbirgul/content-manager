@@ -1,2 +1,4 @@
 patch:
-  $ref: './change-page-details.yaml' 
+  $ref: './change-page-details.yaml'
+get:
+  $ref: './get-page-details.yaml' 

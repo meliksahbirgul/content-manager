@@ -68,6 +68,35 @@ components:
         status:
           nullable: true
           $ref: '#/components/schemas/PageStatusString'
+    PageDetailsResponse:
+      type: object
+      required:
+        - id
+        - title
+        - slug
+        - content
+        - status
+        - order
+        - parentId
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          $ref: '#/components/schemas/MultiLanguageString'
+        slug:
+          $ref: '#/components/schemas/MultiLanguageString'
+        content:
+          nullable: true
+          $ref: '#/components/schemas/MultiLanguageString'
+        status:
+          $ref: '#/components/schemas/PageStatusString'
+        order:
+          type: integer
+        parentId:
+          nullable: true
+          type: string
+          format: uuid
   parameters:
     PageId:
       name: pageId

@@ -1,0 +1,20 @@
+tags:
+  - Pages
+operationId: getPageDetails
+summary: Get page details.
+description: Get page details.
+parameters:
+  - $ref: './components.yaml#/components/parameters/PageId'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [success, error]
+            pages:
+              $ref: './components.yaml#/components/schemas/PageDetailsResponse'
