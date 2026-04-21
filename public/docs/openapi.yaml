@@ -6,8 +6,20 @@ info:
 servers:
   - url: http://127.0.0.1:8000/api
     description: Local development server
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 paths:
   /panel/pages:
     $ref: './pages/pages.yaml'
   /panel/pages/{pageId}:
     $ref: './pages/page-details.yaml'
+  /panel/v1/auth/login:
+    $ref: './users/login.yaml'
+  /panel/v1/auth/me:
+    $ref: './users/me.yaml'
+  /panel/v1/auth/logout:
+    $ref: './users/logout.yaml'
