@@ -409,7 +409,7 @@ class PageServiceTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('isSlugUnique')
             ->once()
-            ->with(['en' => 'existing-slug'])
+            ->with(['en' => 'existing-slug'], $pageId)
             ->andReturn(false);
 
         // AND: updatePage should NOT be called
@@ -445,7 +445,7 @@ class PageServiceTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('isSlugUnique')
             ->once()
-            ->with(['en' => 'new-unique-slug'])
+            ->with(['en' => 'new-unique-slug'], $pageId)
             ->andReturn(true);
 
         $this->repositoryMock
@@ -515,7 +515,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('isSlugUnique')
             ->once()
             ->ordered()
-            ->with(['en' => 'unique-slug'])
+            ->with(['en' => 'unique-slug'], $pageId)
             ->andReturn(true);
 
         $this->repositoryMock
@@ -570,7 +570,7 @@ class PageServiceTest extends TestCase
                 'en' => 'english-page',
                 'tr' => 'turkce-sayfa',
                 'es' => 'pagina-espanola',
-            ])
+            ], $pageId)
             ->andReturn(true);
 
         $this->repositoryMock
@@ -699,7 +699,7 @@ class PageServiceTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('isSlugUnique')
             ->once()
-            ->with(['en' => 'new-slug', 'tr' => 'yeni-slug'])
+            ->with(['en' => 'new-slug', 'tr' => 'yeni-slug'], $pageId)
             ->andReturn(true);
 
         $this->repositoryMock
