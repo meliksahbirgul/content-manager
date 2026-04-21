@@ -1,0 +1,37 @@
+post:
+  tags:
+    - Authentication
+  operationId: authLogin
+  description: Login to the panel page.
+  summary: Get credentials.
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - refreshToken
+          properties:
+            refreshToken:
+              type: string
+  responses:
+    '201':
+      description: Success
+      content:
+        applicatio/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              name:
+                type: string
+              token:
+                type: string
+              refreshToken:
+                type: string
+              expireTime:
+                type: integer
+                description: It shows how many seconds the authentication will expire in.
+
