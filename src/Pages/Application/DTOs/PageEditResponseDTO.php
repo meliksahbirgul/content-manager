@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Source\Pages\Application\DTOs;
 
+use JsonSerializable;
 use Source\Pages\Domain\Entity\PageEntity;
 
-readonly class PageEditResponseDTO
+readonly class PageEditResponseDTO implements JsonSerializable
 {
     /**
      * @param array<string, string> $title
@@ -22,19 +23,6 @@ readonly class PageEditResponseDTO
         private int $order,
         private string|null $parentId = null,
     ) {}
-
-    public static function fromModel(object $page): self
-    {
-        return new self(
-            id: $page->uuid,
-            title: $page->title,
-            content: $page->content,
-            slug: $page->slug,
-            status: $page->is_active,
-            parentId: $page->parent_id,
-            order: $page->order
-        );
-    }
 
     public static function fromEntity(PageEntity $entity): self
     {
@@ -85,5 +73,19 @@ readonly class PageEditResponseDTO
     public function parentId(): string|null
     {
         return $this->parentId;
+    }
+
+    /** @return array<string, mixed> */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id(),
+            'title' => $this->title(),
+            'slug' => $this->slug(),
+            'content' => $this->content(),
+            'status' => $this->status(),
+            'order' => $this->order(),
+            'parentId' => $this->parentId(),
+        ];
     }
 }
