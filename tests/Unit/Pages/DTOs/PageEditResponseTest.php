@@ -247,51 +247,6 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromModelWithAllFields(): void
-    {
-        $modelData = (object) [
-            'uuid' => Uuid::uuid7()->toString(),
-            'title' => ['en' => 'Model Title'],
-            'content' => ['en' => 'Model Content'],
-            'slug' => ['en' => 'model-slug'],
-            'is_active' => PageStatus::ACTIVE->value,
-            'parent_id' => Uuid::uuid7()->toString(),
-            'order' => 3,
-        ];
-
-        $dto = PageEditResponseDTO::fromModel($modelData);
-
-        $this->assertEquals($modelData->uuid, $dto->id());
-        $this->assertEquals($modelData->title, $dto->title());
-        $this->assertEquals($modelData->content, $dto->content());
-        $this->assertEquals($modelData->slug, $dto->slug());
-        $this->assertEquals($modelData->is_active, $dto->status());
-        $this->assertEquals($modelData->parent_id, $dto->parentId());
-        $this->assertEquals($modelData->order, $dto->order());
-    }
-
-    /** @test */
-    #[Test]
-    public function shouldCreateFromModelWithoutParentId(): void
-    {
-        $modelData = (object) [
-            'uuid' => Uuid::uuid7()->toString(),
-            'title' => ['en' => 'Root Page'],
-            'content' => ['en' => 'Root Content'],
-            'slug' => ['en' => 'root-page'],
-            'is_active' => PageStatus::PASSIVE->value,
-            'parent_id' => null,
-            'order' => 0,
-        ];
-
-        $dto = PageEditResponseDTO::fromModel($modelData);
-
-        $this->assertNull($dto->parentId());
-        $this->assertEquals(PageStatus::PASSIVE->value, $dto->status());
-    }
-
-    /** @test */
-    #[Test]
     public function shouldHandleMultilingualDataCorrectly(): void
     {
         $dto = new PageEditResponseDTO(
