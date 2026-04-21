@@ -12,7 +12,7 @@ use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Domain\ValueObjects\CreatePage;
 use Source\Pages\Domain\ValueObjects\UpdatePage;
 
-class PageRepositroy implements Repository
+class PageRepository implements Repository
 {
     public function create(CreatePage $payload): CreatePage
     {
