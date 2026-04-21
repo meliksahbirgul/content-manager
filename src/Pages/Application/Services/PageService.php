@@ -45,7 +45,7 @@ readonly class PageService
             throw new DomainException('Page not found.');
         }
 
-        if ($payload->slug() !== null && ! $this->repository->isSlugUnique($payload->slug())) {
+        if ($payload->slug() !== null && ! $this->repository->isSlugUnique($payload->slug(), $payload->id())) {
             throw new DomainException('This slug is already taken.');
         }
 

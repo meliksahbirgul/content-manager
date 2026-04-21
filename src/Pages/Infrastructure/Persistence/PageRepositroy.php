@@ -29,13 +29,17 @@ class PageRepositroy implements Repository
         return $payload;
     }
 
-    public function isSlugUnique(array $slugs): bool
+    public function isSlugUnique(array $slugs, string|null $pageId = null): bool
     {
         return ! EloquentPage::where(function ($query) use ($slugs) {
             foreach ($slugs as $lang => $value) {
                 $query->orWhere("slug->$lang", $value);
             }
-        })->exists();
+        })
+            ->when($pageId, function ($query, $pageId) {
+                return $query->where('uuid', '!=', $pageId);
+            })
+            ->exists();
     }
 
     public function findByUuid(string $uuid): PageEntity|null

@@ -13,7 +13,7 @@ interface Repository
     public function create(CreatePage $payload): CreatePage;
 
     /** @param array<string> $slugs */
-    public function isSlugUnique(array $slugs): bool;
+    public function isSlugUnique(array $slugs, string|null $pageId = null): bool;
 
     public function findByUuid(string $uuid): PageEntity|null;
 
