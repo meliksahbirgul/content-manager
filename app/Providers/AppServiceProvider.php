@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Infrastructure\Persistence\PageRepository;
-use Source\Pages\Infrastructure\Persistence\PageRepositroy;
 
 class AppServiceProvider extends ServiceProvider
 {
