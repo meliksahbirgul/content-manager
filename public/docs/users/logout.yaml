@@ -1,0 +1,22 @@
+post:
+  tags:
+    - Authentication
+  operationId: authLogout
+  description: Logout from the user.
+  summary: Remove credentials.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - refreshToken
+          properties:
+            refreshToken:
+              type: string
+  responses:
+    '204':
+      description: Success
