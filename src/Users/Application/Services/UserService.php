@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Source\Users\Domain\Repository\Repository;
 use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Application\DTOs\LoginResponseDTO;
+use Source\Users\Application\DTOs\LogoutDTO;
 use Source\Users\Application\DTOs\RefreshDTO;
 use Source\Users\Domain\ValueObjects\LoginUser;
 use Source\Users\Domain\ValueObjects\RefreshUser;
@@ -68,5 +69,15 @@ readonly class UserService
             refreshToken: $token->refreshToken(),
             expireTime: $token->expiresAt(),
         );
+    }
+
+    public function logout(LogoutDTO $dto): void
+    {
+        $this->repository->deleteToken($dto->accessToken());
+        if ($dto->refreshToken() === null) {
+            return;
+        }
+
+        $this->repository->deleteToken($dto->refreshToken());
     }
 }

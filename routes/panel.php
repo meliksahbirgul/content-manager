@@ -6,6 +6,7 @@ use Source\Pages\Presentation\Http\Controllers\CreatePageController;
 use Source\Pages\Presentation\Http\Controllers\ListPagesController;
 use Source\Pages\Presentation\Http\Controllers\PageDetailsController;
 use Source\Users\Presentation\Http\Controllers\LoginController;
+use Source\Users\Presentation\Http\Controllers\LogoutController;
 use Source\Users\Presentation\Http\Controllers\RefreshController;
 
 Route::get('pages', ListPagesController::class);
@@ -17,7 +18,7 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('login', LoginController::class);
         Route::get('me');
-        Route::post('logout');
+        Route::post('logout', LogoutController::class);
         Route::post('refresh', RefreshController::class);
     });
 });
