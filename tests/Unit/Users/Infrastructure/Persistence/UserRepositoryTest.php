@@ -7,12 +7,14 @@ namespace Tests\Unit\Users\Infrastructure\Persistence;
 use DateTimeImmutable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\PersonalAccessToken;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Source\Users\Domain\Entity\UserEntity;
 use Source\Users\Domain\Models\User;
 use Source\Users\Infrastructure\Persistence\UserRepository;
 use Tests\TestCase;
 
+#[Group('infrastructure')]
 class UserRepositoryTest extends TestCase
 {
     use RefreshDatabase;

@@ -6,6 +6,7 @@ namespace Tests\Unit\Pages\Infrastructure\Persistence;
 
 use DomainException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Ramsey\Uuid\Uuid;
 use Source\Pages\Domain\Entity\PageEntity;
@@ -16,6 +17,7 @@ use Source\Pages\Domain\ValueObjects\UpdatePage;
 use Source\Pages\Infrastructure\Persistence\PageRepository;
 use Tests\TestCase;
 
+#[Group('infrastructure')]
 class PageRepositoryTest extends TestCase
 {
     use RefreshDatabase;
