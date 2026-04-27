@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Users\Services;
 
 use DomainException;
+use Illuminate\Contracts\Hashing\Hasher;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -19,13 +20,17 @@ class UserServiceTest extends TestCase
     /** @var Repository&Mockery\MockInterface */
     private Mockery\MockInterface $repositoryMock;
 
+    /** @var Hasher&Mockery\MockInterface */
+    private Mockery\MockInterface $hasherMock;
+
     private UserService $userService;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->repositoryMock = Mockery::mock(Repository::class);
-        $this->userService = new UserService($this->repositoryMock);
+        $this->hasherMock = Mockery::mock(Hasher::class);
+        $this->userService = new UserService($this->repositoryMock, $this->hasherMock);
     }
 
     protected function tearDown(): void
@@ -84,8 +89,8 @@ class UserServiceTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() by mocking the password verification in the actual service
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -156,8 +161,8 @@ class UserServiceTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return false
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return false
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(false);
@@ -188,8 +193,8 @@ class UserServiceTest extends TestCase
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('password')->andReturn($hashedPassword);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -240,8 +245,8 @@ class UserServiceTest extends TestCase
         $tokenEntity->shouldReceive('refreshToken')->andReturn($refreshToken);
         $tokenEntity->shouldReceive('expiresAt')->andReturn($expireTime);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -448,8 +453,8 @@ class UserServiceTest extends TestCase
             ['email' => 'user3@example.com', 'password' => 'password9012', 'name' => 'User Three'],
         ];
 
-        // Setup Hash mock once before loop
-        $hashMock = Mockery::mock('overload:Illuminate\Support\Facades\Hash');
+        // Setup hasher mock once before loop
+        $hashMock = $this->hasherMock;
 
         foreach ($testUsers as $user) {
             $dto = new LoginDTO(email: $user['email'], password: $user['password']);
@@ -552,8 +557,8 @@ class UserServiceTest extends TestCase
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
         $userEntity->shouldReceive('password')->andReturn($hashedPassword);
 
-        // Mock Hash::check() to return false
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return false
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(false);
@@ -624,8 +629,8 @@ class UserServiceTest extends TestCase
         $tokenEntity->shouldReceive('refreshToken')->andReturn('refresh123');
         $tokenEntity->shouldReceive('expiresAt')->andReturn(3600);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);

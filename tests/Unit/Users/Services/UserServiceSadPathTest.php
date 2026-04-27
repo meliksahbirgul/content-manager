@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Users\Services;
 
 use DomainException;
+use Illuminate\Contracts\Hashing\Hasher;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -18,13 +19,17 @@ class UserServiceSadPathTest extends TestCase
     /** @var Repository&Mockery\MockInterface */
     private Mockery\MockInterface $repositoryMock;
 
+    /** @var Hasher&Mockery\MockInterface */
+    private Mockery\MockInterface $hasherMock;
+
     private UserService $userService;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->repositoryMock = Mockery::mock(Repository::class);
-        $this->userService = new UserService($this->repositoryMock);
+        $this->hasherMock = Mockery::mock(Hasher::class);
+        $this->userService = new UserService($this->repositoryMock, $this->hasherMock);
     }
 
     protected function tearDown(): void
@@ -85,8 +90,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -219,8 +224,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to throw exception
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to throw exception
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andThrow(new \RuntimeException('Hash service error'));
@@ -255,8 +260,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return false
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return false
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(false);
@@ -297,8 +302,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -384,8 +389,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -489,8 +494,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return false
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return false
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(false);
@@ -524,8 +529,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return true
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return true
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(true);
@@ -619,8 +624,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn(null);
 
-        // Hash::check should NOT be called
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // hasher->check should NOT be called
+        $this->hasherMock
             ->shouldNotReceive('check');
 
         // THEN: Should throw exception
@@ -652,8 +657,8 @@ class UserServiceSadPathTest extends TestCase
             ->with($email)
             ->andReturn($userEntity);
 
-        // Mock Hash::check() to return false
-        Mockery::mock('overload:Illuminate\Support\Facades\Hash')
+        // Mock hasher->check() to return false
+        $this->hasherMock
             ->shouldReceive('check')
             ->with($password, $hashedPassword)
             ->andReturn(false);
