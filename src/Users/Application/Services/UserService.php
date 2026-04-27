@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Source\Users\Application\Services;
 
 use DomainException;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Hashing\Hasher;
 use Source\Users\Domain\Repository\Repository;
 use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Application\DTOs\LoginResponseDTO;
@@ -17,7 +17,8 @@ use Source\Users\Domain\ValueObjects\RefreshUser;
 readonly class UserService
 {
     public function __construct(
-        private Repository $repository
+        private Repository $repository,
+        private Hasher $hasher,
     ) {}
 
     public function login(LoginDTO $dto): LoginResponseDTO
@@ -29,7 +30,7 @@ readonly class UserService
             throw new DomainException('User not found.');
         }
 
-        if (! Hash::check($dto->password(), $user->password())) {
+        if (! $this->hasher->check($dto->password(), $user->password())) {
             throw new DomainException('Login credentials are wrong.');
         }
 
