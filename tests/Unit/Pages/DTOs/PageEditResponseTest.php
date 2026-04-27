@@ -262,4 +262,151 @@ class PageEditResponseTest extends TestCase
         $this->assertCount(1, $dto->content());
         $this->assertCount(1, $dto->slug());
     }
+
+    /** @test */
+    #[Test]
+    public function shouldJsonSerializeCorrectly(): void
+    {
+        // GIVEN: PageEditResponseDTO with all data
+        $id = Uuid::uuid7()->toString();
+        $parentId = Uuid::uuid7()->toString();
+        $title = ['en' => 'Test Title', 'tr' => 'Test Başlığı'];
+        $content = ['en' => 'Test Content', 'tr' => 'Test İçeriği'];
+        $slug = ['en' => 'test-title', 'tr' => 'test-basligi'];
+        $status = 'active';
+        $order = 5;
+
+        $dto = new PageEditResponseDTO(
+            id: $id,
+            title: $title,
+            content: $content,
+            slug: $slug,
+            status: $status,
+            order: $order,
+            parentId: $parentId,
+        );
+
+        // WHEN: Calling jsonSerialize
+        $result = $dto->jsonSerialize();
+
+        // THEN: Should return array with all data
+        $this->assertIsArray($result);
+        $this->assertEquals($id, $result['id']);
+        $this->assertEquals($title, $result['title']);
+        $this->assertEquals($content, $result['content']);
+        $this->assertEquals($slug, $result['slug']);
+        $this->assertEquals($status, $result['status']);
+        $this->assertEquals($order, $result['order']);
+        $this->assertEquals($parentId, $result['parentId']);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldJsonSerializeWithoutParentId(): void
+    {
+        // GIVEN: PageEditResponseDTO without parentId
+        $id = Uuid::uuid7()->toString();
+        $title = ['en' => 'Test Title'];
+        $content = ['en' => 'Test Content'];
+        $slug = ['en' => 'test-title'];
+        $status = 'passive';
+        $order = 0;
+
+        $dto = new PageEditResponseDTO(
+            id: $id,
+            title: $title,
+            content: $content,
+            slug: $slug,
+            status: $status,
+            order: $order,
+        );
+
+        // WHEN: Calling jsonSerialize
+        $result = $dto->jsonSerialize();
+
+        // THEN: Should return array with null parentId
+        $this->assertIsArray($result);
+        $this->assertNull($result['parentId']);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldBeJsonSerializable(): void
+    {
+        // GIVEN: PageEditResponseDTO
+        $dto = new PageEditResponseDTO(
+            id: Uuid::uuid7()->toString(),
+            title: ['en' => 'Title'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'slug'],
+            status: 'active',
+            order: 0,
+        );
+
+        // WHEN: Converting to JSON
+        $json = json_encode($dto);
+
+        // THEN: Should be valid JSON
+        $this->assertNotFalse($json);
+        $decoded = json_decode($json, true);
+        $this->assertIsArray($decoded);
+        $this->assertEquals('Title', $decoded['title']['en']);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldJsonSerializeWithMultilingualData(): void
+    {
+        // GIVEN: PageEditResponseDTO with multilingual data
+        $title = ['en' => 'English', 'tr' => 'Turkish', 'es' => 'Spanish'];
+        $content = ['en' => 'Content EN', 'tr' => 'Content TR', 'es' => 'Content ES'];
+        $slug = ['en' => 'english', 'tr' => 'turkish', 'es' => 'spanish'];
+
+        $dto = new PageEditResponseDTO(
+            id: Uuid::uuid7()->toString(),
+            title: $title,
+            content: $content,
+            slug: $slug,
+            status: 'active',
+            order: 1,
+        );
+
+        // WHEN: Calling jsonSerialize
+        $result = $dto->jsonSerialize();
+
+        // THEN: Should preserve all language versions
+        $this->assertCount(3, $result['title']);
+        $this->assertCount(3, $result['content']);
+        $this->assertCount(3, $result['slug']);
+        $this->assertEquals('English', $result['title']['en']);
+        $this->assertEquals('Turkish', $result['title']['tr']);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldJsonSerializeContainAllKeys(): void
+    {
+        // GIVEN: PageEditResponseDTO
+        $dto = new PageEditResponseDTO(
+            id: Uuid::uuid7()->toString(),
+            title: ['en' => 'Title'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'slug'],
+            status: 'active',
+            order: 3,
+            parentId: Uuid::uuid7()->toString(),
+        );
+
+        // WHEN: Calling jsonSerialize
+        $result = $dto->jsonSerialize();
+
+        // THEN: Should contain all required keys
+        $this->assertArrayHasKey('id', $result);
+        $this->assertArrayHasKey('title', $result);
+        $this->assertArrayHasKey('slug', $result);
+        $this->assertArrayHasKey('content', $result);
+        $this->assertArrayHasKey('status', $result);
+        $this->assertArrayHasKey('order', $result);
+        $this->assertArrayHasKey('parentId', $result);
+    }
 }

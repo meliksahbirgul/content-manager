@@ -9,6 +9,7 @@ use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Source\Users\Application\DTOs\LoginDTO;
+use Source\Users\Application\DTOs\LogoutDTO;
 use Source\Users\Application\DTOs\RefreshDTO;
 use Source\Users\Application\Services\UserService;
 use Source\Users\Domain\Repository\Repository;
@@ -673,5 +674,393 @@ class UserServiceTest extends TestCase
 
         // WHEN: Calling refresh
         $this->userService->refresh($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogoutSuccessfullyWithAccessTokenOnly(): void
+    {
+        // GIVEN: LogoutDTO with access token only
+        $accessToken = 'access_token_12345';
+        $dto = new LogoutDTO(accessToken: $accessToken);
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->once()
+            ->with($accessToken);
+
+        // WHEN: Calling logout
+        $result = $this->userService->logout($dto);
+
+        // THEN: Should successfully logout and return void
+        $this->assertNull($result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogoutSuccessfullyWithAccessTokenAndRefreshToken(): void
+    {
+        // GIVEN: LogoutDTO with both access token and refresh token
+        $accessToken = 'access_token_12345';
+        $refreshToken = 'refresh_token_67890';
+        $dto = new LogoutDTO(accessToken: $accessToken, refreshToken: $refreshToken);
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->with($accessToken)
+            ->once()
+            ->ordered();
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->with($refreshToken)
+            ->once()
+            ->ordered();
+
+        // WHEN: Calling logout
+        $result = $this->userService->logout($dto);
+
+        // THEN: Should successfully logout both tokens
+        $this->assertNull($result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldVerifyRepositoryCallOrderDuringLogout(): void
+    {
+        // GIVEN: LogoutDTO with both tokens
+        $accessToken = 'access_token_12345';
+        $refreshToken = 'refresh_token_67890';
+        $dto = new LogoutDTO(accessToken: $accessToken, refreshToken: $refreshToken);
+
+        // Verify access token is deleted before refresh token
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->with($accessToken)
+            ->once()
+            ->ordered();
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->with($refreshToken)
+            ->once()
+            ->ordered();
+
+        // WHEN: Calling logout
+        $this->userService->logout($dto);
+
+        // THEN: deleteToken should be called twice in correct order
+        // Assertion is implicit through ordered() expectations
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldDeleteOnlyAccessTokenWhenRefreshTokenIsNull(): void
+    {
+        // GIVEN: LogoutDTO with null refresh token
+        $accessToken = 'access_token_12345';
+        $dto = new LogoutDTO(accessToken: $accessToken, refreshToken: null);
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->once()
+            ->with($accessToken);
+
+        // Verify deleteToken is only called once
+        $this->repositoryMock->shouldNotReceive('deleteToken')
+            ->with(null);
+
+        // WHEN: Calling logout
+        $this->userService->logout($dto);
+
+        // THEN: Should only delete access token
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleLogoutWithVariousAccessTokenFormats(): void
+    {
+        // GIVEN: Various access token formats
+        $accessTokens = [
+            'simple_token',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
+            'token_with_special_chars_!@#$%',
+            'token_with_numbers_123456789',
+            'very_long_token_' . str_repeat('a', 256),
+        ];
+
+        foreach ($accessTokens as $token) {
+            // Reset mock for each iteration
+            $this->tearDown();
+            $this->setUp();
+
+            $dto = new LogoutDTO(accessToken: $token);
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->once()
+                ->with($token);
+
+            // WHEN: Calling logout
+            $result = $this->userService->logout($dto);
+
+            // THEN: Should handle various token formats
+            $this->assertNull($result);
+        }
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleLogoutWithVariousRefreshTokenFormats(): void
+    {
+        // GIVEN: Various refresh token formats
+        $refreshTokens = [
+            'simple_refresh_token',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
+            'refresh_token_with_special_chars_!@#$%',
+            'refresh_token_with_numbers_987654321',
+            'very_long_refresh_token_' . str_repeat('a', 256),
+        ];
+
+        foreach ($refreshTokens as $token) {
+            // Reset mock for each iteration
+            $this->tearDown();
+            $this->setUp();
+
+            $dto = new LogoutDTO(
+                accessToken: 'access_token_12345',
+                refreshToken: $token
+            );
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->with('access_token_12345')
+                ->once();
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->with($token)
+                ->once();
+
+            // WHEN: Calling logout
+            $result = $this->userService->logout($dto);
+
+            // THEN: Should handle various refresh token formats
+            $this->assertNull($result);
+        }
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleMultipleConsecutiveLogouts(): void
+    {
+        // GIVEN: Multiple logout requests
+        $logoutRequests = [
+            new LogoutDTO(accessToken: 'access_token_1', refreshToken: 'refresh_token_1'),
+            new LogoutDTO(accessToken: 'access_token_2', refreshToken: 'refresh_token_2'),
+            new LogoutDTO(accessToken: 'access_token_3', refreshToken: 'refresh_token_3'),
+        ];
+
+        foreach ($logoutRequests as $dto) {
+            // Reset mock for each iteration
+            $this->tearDown();
+            $this->setUp();
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->with($dto->accessToken())
+                ->once();
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->with($dto->refreshToken())
+                ->once();
+
+            // WHEN: Calling logout
+            $result = $this->userService->logout($dto);
+
+            // THEN: Should successfully logout each request
+            $this->assertNull($result);
+        }
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleLogoutWithEmptyAccessToken(): void
+    {
+        // GIVEN: LogoutDTO with empty access token
+        $dto = new LogoutDTO(accessToken: '');
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->once()
+            ->with('');
+
+        // WHEN: Calling logout
+        $result = $this->userService->logout($dto);
+
+        // THEN: Should still call deleteToken (validation happens at repository level)
+        $this->assertNull($result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldCallDeleteTokenExactlyTwiceWhenBothTokensProvided(): void
+    {
+        // GIVEN: LogoutDTO with both tokens
+        $accessToken = 'access_token_12345';
+        $refreshToken = 'refresh_token_67890';
+        $dto = new LogoutDTO(accessToken: $accessToken, refreshToken: $refreshToken);
+
+        $deleteTokenCall = 0;
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->andReturnUsing(function () use (&$deleteTokenCall) {
+                $deleteTokenCall++;
+            });
+
+        // WHEN: Calling logout
+        $this->userService->logout($dto);
+
+        // THEN: deleteToken should be called exactly twice
+        $this->assertEquals(2, $deleteTokenCall);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldCallDeleteTokenExactlyOnceWhenOnlyAccessTokenProvided(): void
+    {
+        // GIVEN: LogoutDTO with only access token
+        $accessToken = 'access_token_12345';
+        $dto = new LogoutDTO(accessToken: $accessToken);
+
+        $deleteTokenCall = 0;
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->andReturnUsing(function () use (&$deleteTokenCall) {
+                $deleteTokenCall++;
+            });
+
+        // WHEN: Calling logout
+        $this->userService->logout($dto);
+
+        // THEN: deleteToken should be called exactly once
+        $this->assertEquals(1, $deleteTokenCall);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogoutReturnVoid(): void
+    {
+        // GIVEN: LogoutDTO
+        $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: 'refresh_token_67890');
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken');
+
+        // WHEN: Calling logout
+        $result = $this->userService->logout($dto);
+
+        // THEN: Should return void (null)
+        $this->assertNull($result);
+        $this->assertIsNotString($result);
+        $this->assertIsNotArray($result);
+        $this->assertIsNotObject($result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldNotThrowExceptionDuringLogout(): void
+    {
+        // GIVEN: LogoutDTO
+        $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: 'refresh_token_67890');
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken');
+
+        // THEN: Should not throw any exception
+        $this->expectNotToPerformAssertions();
+
+        // WHEN: Calling logout
+        $this->userService->logout($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogoutBeIdempotent(): void
+    {
+        // GIVEN: Same logout request called multiple times
+        $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: 'refresh_token_67890');
+
+        // Call logout 3 times
+        for ($i = 0; $i < 3; $i++) {
+            $this->tearDown();
+            $this->setUp();
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->with('access_token_12345')
+                ->once();
+
+            $this->repositoryMock
+                ->shouldReceive('deleteToken')
+                ->with('refresh_token_67890')
+                ->once();
+
+            // WHEN: Calling logout
+            $result = $this->userService->logout($dto);
+
+            // THEN: Should return same result each time
+            $this->assertNull($result);
+        }
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogoutWithAccessTokenContainingSpaces(): void
+    {
+        // GIVEN: LogoutDTO with access token containing spaces
+        $accessToken = '  access_token_12345  ';
+        $dto = new LogoutDTO(accessToken: $accessToken);
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->once()
+            ->with($accessToken);
+
+        // WHEN: Calling logout
+        $result = $this->userService->logout($dto);
+
+        // THEN: Should preserve and delete token with spaces
+        $this->assertNull($result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogoutWithRefreshTokenContainingSpaces(): void
+    {
+        // GIVEN: LogoutDTO with refresh token containing spaces
+        $refreshToken = '  refresh_token_67890  ';
+        $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: $refreshToken);
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->with('access_token_12345')
+            ->once();
+
+        $this->repositoryMock
+            ->shouldReceive('deleteToken')
+            ->with($refreshToken)
+            ->once();
+
+        // WHEN: Calling logout
+        $result = $this->userService->logout($dto);
+
+        // THEN: Should preserve and delete token with spaces
+        $this->assertNull($result);
     }
 }

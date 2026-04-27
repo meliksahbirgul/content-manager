@@ -787,4 +787,371 @@ class PageServiceTest extends TestCase
         // THEN: Should execute without exception
         $this->assertTrue(true);
     }
+
+    /** @test */
+    #[Test]
+    public function shouldThrowExceptionWhenParentPageNotFound(): void
+    {
+        // GIVEN: A CreatePageDTO with parent ID that doesn't exist
+        $parentUuid = Uuid::uuid7()->toString();
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Child Page'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'child-page'],
+            parentId: $parentUuid,
+        );
+
+        // Mock repository expectations
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->andReturn(true);
+
+        // Mock repository to return null (parent not found)
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn(null);
+
+        // AND: create should NOT be called
+        $this->repositoryMock->shouldNotReceive('create');
+
+        // THEN: We expect DomainException
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Parent page not found.');
+
+        // WHEN: We call the service
+        $this->pageService->createPage($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldThrowExceptionWhenParentPageIdIsZero(): void
+    {
+        // GIVEN: A CreatePageDTO with parent ID but repository returns 0 (falsy)
+        $parentUuid = Uuid::uuid7()->toString();
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Child Page'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'child-page'],
+            parentId: $parentUuid,
+        );
+
+        // Mock repository expectations
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->andReturn(true);
+
+        // Mock repository to return 0 (falsy value)
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn(0);
+
+        // AND: create should NOT be called
+        $this->repositoryMock->shouldNotReceive('create');
+
+        // THEN: We expect DomainException
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Parent page not found.');
+
+        // WHEN: We call the service
+        $this->pageService->createPage($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldSetParentOriginalIdWhenParentFound(): void
+    {
+        // GIVEN: A CreatePageDTO with parent ID that exists
+        $parentUuid = Uuid::uuid7()->toString();
+        $parentOriginalId = 42;
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Child Page'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'child-page'],
+            parentId: $parentUuid,
+        );
+
+        // Mock repository expectations
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn($parentOriginalId);
+
+        // Mock create to verify setParentOriginalId was called
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->with(Mockery::on(function (CreatePage $page) use ($parentOriginalId) {
+                return $page->parentOriginalId() === $parentOriginalId;
+            }))
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $result = $this->pageService->createPage($dto);
+
+        // THEN: Result should have parent original ID set
+        $this->assertInstanceOf(CreatePage::class, $result);
+        $this->assertEquals($parentOriginalId, $result->parentOriginalId());
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldVerifyFindOriginalIdByUuidCalledWithCorrectParentId(): void
+    {
+        // GIVEN: A CreatePageDTO with a specific parent UUID
+        $parentUuid = Uuid::uuid7()->toString();
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Child Page'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'child-page'],
+            parentId: $parentUuid,
+        );
+
+        // Mock repository expectations with ordered calls
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->ordered()
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->ordered()
+            ->with($parentUuid)
+            ->andReturn(10);
+
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->ordered()
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $result = $this->pageService->createPage($dto);
+
+        // THEN: Result should be created successfully
+        $this->assertInstanceOf(CreatePage::class, $result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldNotCallFindOriginalIdByUuidWhenParentIdIsNull(): void
+    {
+        // GIVEN: A CreatePageDTO without parent ID
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Root Page'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'root-page'],
+            parentId: null,
+        );
+
+        // Mock repository expectations
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->andReturn(true);
+
+        // AND: findOriginalIdByUuid should NOT be called
+        $this->repositoryMock->shouldNotReceive('findOriginalIdByUuid');
+
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $result = $this->pageService->createPage($dto);
+
+        // THEN: Should create page without calling findOriginalIdByUuid
+        $this->assertInstanceOf(CreatePage::class, $result);
+        $this->assertNull($result->parentId());
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldHandleMultipleChildrenWithSameParent(): void
+    {
+        // GIVEN: Two pages with the same parent
+        $parentUuid = Uuid::uuid7()->toString();
+        $parentOriginalId = 5;
+
+        $dto1 = new CreatePageDTO(
+            title: ['en' => 'First Child'],
+            content: ['en' => 'Content 1'],
+            slug: ['en' => 'first-child'],
+            parentId: $parentUuid,
+        );
+
+        $dto2 = new CreatePageDTO(
+            title: ['en' => 'Second Child'],
+            content: ['en' => 'Content 2'],
+            slug: ['en' => 'second-child'],
+            parentId: $parentUuid,
+        );
+
+        // Mock repository expectations for first call
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->with(['en' => 'first-child'])
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn($parentOriginalId);
+
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service first time
+        $result1 = $this->pageService->createPage($dto1);
+
+        // THEN: First child should have parent original ID
+        $this->assertEquals($parentOriginalId, $result1->parentOriginalId());
+
+        // Reset mocks for second call
+        Mockery::close();
+        $this->repositoryMock = Mockery::mock(Repository::class);
+        $this->pageService = new PageService($this->repositoryMock);
+
+        // Mock repository expectations for second call
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->with(['en' => 'second-child'])
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn($parentOriginalId);
+
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service second time
+        $result2 = $this->pageService->createPage($dto2);
+
+        // THEN: Second child should also have same parent original ID
+        $this->assertEquals($parentOriginalId, $result2->parentOriginalId());
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldVerifyCallOrderForParentValidation(): void
+    {
+        // GIVEN: A CreatePageDTO with parent ID
+        $parentUuid = Uuid::uuid7()->toString();
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Child Page'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'child-page'],
+            parentId: $parentUuid,
+        );
+
+        // Mock with strict ordered expectations
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->ordered()
+            ->andReturn(true);
+
+        // findOriginalIdByUuid must be called after isSlugUnique
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->ordered()
+            ->with($parentUuid)
+            ->andReturn(7);
+
+        // create must be called after parent validation
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->ordered()
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $result = $this->pageService->createPage($dto);
+
+        // THEN: Verify all calls happened in correct order
+        $this->assertInstanceOf(CreatePage::class, $result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldCreatePageWithParentIdAndCustomOrder(): void
+    {
+        // GIVEN: A CreatePageDTO with parent ID and custom order
+        $parentUuid = Uuid::uuid7()->toString();
+        $parentOriginalId = 15;
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Ordered Child'],
+            content: ['en' => 'Content'],
+            slug: ['en' => 'ordered-child'],
+            parentId: $parentUuid,
+            order: 3,
+        );
+
+        // Mock repository expectations
+        $this->repositoryMock
+            ->shouldReceive('isSlugUnique')
+            ->once()
+            ->andReturn(true);
+
+        $this->repositoryMock
+            ->shouldReceive('findOriginalIdByUuid')
+            ->once()
+            ->with($parentUuid)
+            ->andReturn($parentOriginalId);
+
+        $this->repositoryMock
+            ->shouldReceive('create')
+            ->once()
+            ->with(Mockery::on(function (CreatePage $page) use ($parentOriginalId) {
+                return $page->parentOriginalId() === $parentOriginalId
+                    && $page->order() === 3;
+            }))
+            ->andReturnUsing(function (CreatePage $page) {
+                return $page;
+            });
+
+        // WHEN: We call the service
+        $result = $this->pageService->createPage($dto);
+
+        // THEN: Should have both parent original ID and order set correctly
+        $this->assertEquals($parentOriginalId, $result->parentOriginalId());
+        $this->assertEquals(3, $result->order());
+    }
 }
