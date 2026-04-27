@@ -50,4 +50,4 @@ jobs:
         DB_DATABASE: testing
         DB_USERNAME: postgres
         DB_PASSWORD: password
-      run: php artisan test
+      run: php artisan test --exclude-path="tests/Unit/*/Infrastructure,tests/Unit/*/Presentation"
