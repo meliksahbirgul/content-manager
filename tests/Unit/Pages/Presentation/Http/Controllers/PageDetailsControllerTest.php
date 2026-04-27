@@ -6,10 +6,12 @@ namespace Tests\Unit\Pages\Presentation\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
+#[Group('presentation')]
 class PageDetailsControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -51,12 +53,12 @@ class PageDetailsControllerTest extends TestCase
                 'parentId',
             ],
         ]);
-        
+
         $response->assertJsonFragment([
             'status' => 'success',
             'id' => $uuid,
         ]);
-        
+
         $this->assertEquals(['en' => 'Test Page'], $response->json('page.title'));
         $this->assertEquals(['en' => 'Test Content'], $response->json('page.content'));
         $this->assertEquals(['en' => 'test-page'], $response->json('page.slug'));

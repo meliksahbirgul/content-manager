@@ -6,10 +6,12 @@ namespace Tests\Unit\Users\Presentation\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Source\Users\Domain\Models\User;
 use Tests\TestCase;
 
+#[Group('presentation')]
 class RefreshControllerTest extends TestCase
 {
     use RefreshDatabase;

@@ -6,10 +6,12 @@ namespace Tests\Unit\Pages\Presentation\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
+#[Group('presentation')]
 class ChangePageDetailsControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -91,7 +93,7 @@ class ChangePageDetailsControllerTest extends TestCase
             'details' => 'This slug is already taken.',
         ]);
     }
-    
+
     /** @test */
     #[Test]
     public function shouldReturnBadRequestWhenPageNotFound(): void

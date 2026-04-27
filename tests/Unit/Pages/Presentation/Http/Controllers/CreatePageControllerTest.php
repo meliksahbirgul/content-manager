@@ -6,10 +6,12 @@ namespace Tests\Unit\Pages\Presentation\Http\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
+#[Group('presentation')]
 class CreatePageControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -44,7 +46,7 @@ class CreatePageControllerTest extends TestCase
             'order' => 1,
             'is_active' => 'active',
         ]);
-        
+
         $pageId = $response->json('page.id');
         $page = Page::where('uuid', $pageId)->first();
         $this->assertNotNull($page);
