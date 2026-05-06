@@ -4,6 +4,7 @@ post:
   operationId: authLogin
   description: Login to the panel page.
   summary: Get credentials.
+  security: []
   requestBody:
     required: true
     content:

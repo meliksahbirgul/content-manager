@@ -34,4 +34,3 @@ post:
               expireTime:
                 type: integer
                 description: It shows how many seconds the authentication will expire in.
-
