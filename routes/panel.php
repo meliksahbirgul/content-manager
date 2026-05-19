@@ -5,9 +5,9 @@ use Source\Pages\Presentation\Http\Controllers\ChangePageDetailsController;
 use Source\Pages\Presentation\Http\Controllers\CreatePageController;
 use Source\Pages\Presentation\Http\Controllers\ListPagesController;
 use Source\Pages\Presentation\Http\Controllers\PageDetailsController;
-use Source\Users\Presentation\Http\Controllers\LoginController;
-use Source\Users\Presentation\Http\Controllers\LogoutController;
-use Source\Users\Presentation\Http\Controllers\RefreshController;
+use Source\Users\Presentation\Http\Controllers\API\LoginController;
+use Source\Users\Presentation\Http\Controllers\API\LogoutController;
+use Source\Users\Presentation\Http\Controllers\API\RefreshController;
 
 Route::get('pages', ListPagesController::class);
 Route::post('pages', CreatePageController::class);

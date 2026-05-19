@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Source\Users\Presentation\Http\Controllers;
+namespace Source\Users\Presentation\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Application\DTOs\RefreshDTO;
 use Source\Users\Application\Services\UserService;
 use Throwable;
