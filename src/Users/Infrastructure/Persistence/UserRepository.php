@@ -98,4 +98,14 @@ class UserRepository implements Repository
 
         $tokenModel->delete();
     }
+
+    public function getUserModelWithEmail(string $email): EloquentUser|null
+    {
+        $user = EloquentUser::where('email', $email)->first();
+        if (! $user) {
+            return null;
+        }
+
+        return $user;
+    }
 }
