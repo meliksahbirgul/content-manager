@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 use Source\Users\Domain\Models\User;
 
 class UserSeeder extends Seeder
@@ -18,6 +19,7 @@ class UserSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@test.com'],
             [
+                'uuid' => Uuid::uuid7()->toString(),
                 'name' => 'Admin user',
                 'password' => Hash::make('Password123'),
                 'email_verified_at' => now(),
