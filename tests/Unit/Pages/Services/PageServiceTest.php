@@ -9,9 +9,12 @@ use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Source\Pages\Application\Contracts\ActivityLogger;
 use Source\Pages\Application\DTOs\CreatePageDTO;
 use Source\Pages\Application\DTOs\UpdatePageDTO;
 use Source\Pages\Application\Services\PageService;
+use Source\Pages\Domain\Enums\PageStatus;
+use Source\Pages\Domain\Entity\PageEntity;
 use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Domain\ValueObjects\CreatePage;
 use Source\Pages\Domain\ValueObjects\UpdatePage;
@@ -21,17 +24,19 @@ class PageServiceTest extends TestCase
     /** @var Repository&Mockery\MockInterface */
     private Mockery\MockInterface $repositoryMock;
 
+    /** @var ActivityLogger&Mockery\MockInterface */
+    private Mockery\MockInterface $activityLoggerMock;
+
     private PageService $pageService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        // Create a mock repository interface
         $this->repositoryMock = Mockery::mock(Repository::class);
+        $this->activityLoggerMock = Mockery::mock(ActivityLogger::class)->shouldIgnoreMissing();
 
-        // Inject the mock repository into the PageService
-        $this->pageService = new PageService($this->repositoryMock);
+        $this->pageService = new PageService($this->repositoryMock, $this->activityLoggerMock);
     }
 
     protected function tearDown(): void
@@ -1036,7 +1041,8 @@ class PageServiceTest extends TestCase
         // Reset mocks for second call
         Mockery::close();
         $this->repositoryMock = Mockery::mock(Repository::class);
-        $this->pageService = new PageService($this->repositoryMock);
+        $this->activityLoggerMock = Mockery::mock(ActivityLogger::class)->shouldIgnoreMissing();
+        $this->pageService = new PageService($this->repositoryMock, $this->activityLoggerMock);
 
         // Mock repository expectations for second call
         $this->repositoryMock
@@ -1107,6 +1113,126 @@ class PageServiceTest extends TestCase
 
         // THEN: Verify all calls happened in correct order
         $this->assertInstanceOf(CreatePage::class, $result);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogPageCreatedAfterSuccessfulCreate(): void
+    {
+        // GIVEN: A valid CreatePageDTO (default status is PASSIVE)
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Test Page'],
+            content: ['en' => 'Test Content'],
+            slug: ['en' => 'test-page'],
+        );
+
+        $this->repositoryMock->shouldReceive('isSlugUnique')->once()->andReturn(true);
+        $this->repositoryMock->shouldReceive('create')->once()->andReturnUsing(fn ($p) => $p);
+
+        $this->activityLoggerMock
+            ->shouldReceive('logPageCreated')
+            ->once()
+            ->with(Mockery::type('string'), PageStatus::PASSIVE->value);
+
+        // WHEN
+        $this->pageService->createPage($dto);
+
+        // THEN: Mockery verifies logPageCreated was called once with correct args
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldNotLogPageCreatedWhenCreationFails(): void
+    {
+        // GIVEN: Slug is taken so creation throws before reaching the logger
+        $dto = new CreatePageDTO(
+            title: ['en' => 'Test Page'],
+            content: ['en' => 'Test Content'],
+            slug: ['en' => 'taken-slug'],
+        );
+
+        $this->repositoryMock->shouldReceive('isSlugUnique')->once()->andReturn(false);
+        $this->activityLoggerMock->shouldNotReceive('logPageCreated');
+
+        $this->expectException(DomainException::class);
+
+        // WHEN
+        $this->pageService->createPage($dto);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldLogStatusChangedWhenStatusDiffers(): void
+    {
+        // GIVEN: Page currently PASSIVE, DTO sets it to ACTIVE
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(id: $pageId, status: PageStatus::ACTIVE->value);
+
+        $existingPage = Mockery::mock(PageEntity::class);
+        $existingPage->shouldReceive('status')->andReturn(PageStatus::PASSIVE);
+
+        $this->repositoryMock->shouldReceive('findByUuid')->once()->with($pageId)->andReturn($existingPage);
+        $this->repositoryMock->shouldReceive('updatePage')->once();
+
+        $this->activityLoggerMock
+            ->shouldReceive('logPageStatusChanged')
+            ->once()
+            ->with($pageId, PageStatus::PASSIVE->value, PageStatus::ACTIVE->value);
+
+        // WHEN
+        $this->pageService->updatePage($dto);
+
+        // THEN: Mockery verifies logPageStatusChanged was called once with correct args
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldNotLogStatusChangedWhenStatusIsUnchanged(): void
+    {
+        // GIVEN: Page already ACTIVE, DTO also sets ACTIVE
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(id: $pageId, status: PageStatus::ACTIVE->value);
+
+        $existingPage = Mockery::mock(PageEntity::class);
+        $existingPage->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
+
+        $this->repositoryMock->shouldReceive('findByUuid')->once()->with($pageId)->andReturn($existingPage);
+        $this->repositoryMock->shouldReceive('updatePage')->once();
+
+        $this->activityLoggerMock->shouldNotReceive('logPageStatusChanged');
+
+        // WHEN
+        $this->pageService->updatePage($dto);
+
+        // THEN: Mockery verifies logPageStatusChanged was not called
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    #[Test]
+    public function shouldNotLogStatusChangedWhenStatusNotInDto(): void
+    {
+        // GIVEN: DTO has no status field (title-only update)
+        $pageId = Uuid::uuid7()->toString();
+        $dto = new UpdatePageDTO(id: $pageId, title: ['en' => 'New Title']);
+
+        $this->repositoryMock
+            ->shouldReceive('findByUuid')
+            ->once()
+            ->with($pageId)
+            ->andReturn(Mockery::mock(PageEntity::class));
+
+        $this->repositoryMock->shouldReceive('updatePage')->once();
+
+        $this->activityLoggerMock->shouldNotReceive('logPageStatusChanged');
+
+        // WHEN
+        $this->pageService->updatePage($dto);
+
+        // THEN: Mockery verifies logPageStatusChanged was not called
+        $this->assertTrue(true);
     }
 
     /** @test */

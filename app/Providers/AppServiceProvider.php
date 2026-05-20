@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Source\Pages\Application\Contracts\ActivityLogger as PageActivityLoggerInterface;
 use Source\Pages\Domain\Repository\Repository as PageInterface;
+use Source\Pages\Infrastructure\Logging\PageActivityLogger;
 use Source\Pages\Infrastructure\Persistence\PageRepository;
 use Source\Roles\Domain\Repository\PermissionRepository;
 use Source\Roles\Domain\Repository\RoleRepository;
@@ -22,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PageInterface::class,
             PageRepository::class,
+        );
+
+        $this->app->bind(
+            PageActivityLoggerInterface::class,
+            PageActivityLogger::class,
         );
 
         $this->app->bind(
