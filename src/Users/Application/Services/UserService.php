@@ -41,6 +41,7 @@ readonly class UserService
         }
 
         return new LoginResponseDTO(
+            uuid: $user->uuid(),
             email: $user->email(),
             name: $user->name(),
             token: $token->accessToken(),
@@ -65,6 +66,7 @@ readonly class UserService
         }
 
         return new LoginResponseDTO(
+            uuid: $user->uuid(),
             email: $user->email(),
             name: $user->name(),
             token: $token->accessToken(),

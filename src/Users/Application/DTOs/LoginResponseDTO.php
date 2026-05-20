@@ -9,6 +9,7 @@ use JsonSerializable;
 class LoginResponseDTO implements JsonSerializable
 {
     public function __construct(
+        private string $uuid,
         private string $email,
         private string $name,
         private string $token,
@@ -19,6 +20,7 @@ class LoginResponseDTO implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
+            'uuid' => $this->uuid,
             'email' => $this->email,
             'name' => $this->name,
             'token' => $this->token,

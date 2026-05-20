@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Ramsey\Uuid\Uuid;
 
 #[Table('users')]
 #[Fillable(['name', 'email', 'password'])]
@@ -14,6 +15,17 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (self $user): void {
+            if (empty($user->uuid)) {
+                $user->uuid = Uuid::uuid7()->toString();
+            }
+        });
+    }
     /**
      * Get the attributes that should be cast.
      *

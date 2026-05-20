@@ -60,6 +60,7 @@ class UserRepository implements Repository
     private function mapToEntity(EloquentUser $user): UserEntity
     {
         return new UserEntity(
+            uuid: $user->uuid,
             name: $user->name,
             email: $user->email,
             password: $user->password,
