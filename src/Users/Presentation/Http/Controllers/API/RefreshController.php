@@ -16,7 +16,7 @@ class RefreshController extends Controller
 {
     public function __invoke(Request $request, UserService $userService): JsonResponse
     {
-        $refreshToken = $request->input('refresh_token', null);
+        $refreshToken = $request->input('refreshToken', null);
         if (! $refreshToken) {
             return response()->json(
                 [
