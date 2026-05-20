@@ -5,6 +5,10 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Source\Pages\Domain\Repository\Repository as PageInterface;
 use Source\Pages\Infrastructure\Persistence\PageRepository;
+use Source\Roles\Domain\Repository\PermissionRepository;
+use Source\Roles\Domain\Repository\RoleRepository;
+use Source\Roles\Infrastructure\Persistence\EloquentPermissionRepository;
+use Source\Roles\Infrastructure\Persistence\EloquentRoleRepository;
 use Source\Users\Domain\Repository\Repository as DomainInterface;
 use Source\Users\Infrastructure\Persistence\UserRepository;
 
@@ -23,6 +27,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DomainInterface::class,
             UserRepository::class,
+        );
+
+        $this->app->bind(
+            RoleRepository::class,
+            EloquentRoleRepository::class,
+        );
+
+        $this->app->bind(
+            PermissionRepository::class,
+            EloquentPermissionRepository::class,
         );
     }
 
