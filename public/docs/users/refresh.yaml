@@ -1,7 +1,7 @@
 post:
   tags:
     - Authentication
-  operationId: authLogin
+  operationId: authRefresh
   description: Login to the panel page.
   summary: Get credentials.
   requestBody:

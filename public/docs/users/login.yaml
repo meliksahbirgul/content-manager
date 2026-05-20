@@ -27,6 +27,9 @@ post:
           schema:
             type: object
             properties:
+              uuid:
+                type: string
+                format: uuid
               email:
                 type: string
               name:
