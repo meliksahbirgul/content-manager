@@ -6,6 +6,7 @@ namespace Tests\Unit\Users\DTOs;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Source\Users\Application\DTOs\LoginResponseDTO;
 
 class LoginResponseDTOTest extends TestCase
@@ -15,14 +16,16 @@ class LoginResponseDTOTest extends TestCase
     public function shouldCreateInstanceWithAllParameters(): void
     {
         // GIVEN: Valid login response data
-        $email = 'user@example.com';
-        $name = 'John Doe';
-        $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+        $uuid         = Uuid::uuid7()->toString();
+        $email        = 'user@example.com';
+        $name         = 'John Doe';
+        $token        = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
         $refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...refresh';
-        $expireTime = 3600;
+        $expireTime   = 3600;
 
         // WHEN: Creating LoginResponseDTO
         $dto = new LoginResponseDTO(
+            uuid: $uuid,
             email: $email,
             name: $name,
             token: $token,
@@ -39,13 +42,15 @@ class LoginResponseDTOTest extends TestCase
     public function shouldSerializeToJsonCorrectly(): void
     {
         // GIVEN: Valid login response data
-        $email = 'user@example.com';
-        $name = 'John Doe';
-        $token = 'token123';
+        $uuid         = Uuid::uuid7()->toString();
+        $email        = 'user@example.com';
+        $name         = 'John Doe';
+        $token        = 'token123';
         $refreshToken = 'refreshToken123';
-        $expireTime = 7200;
+        $expireTime   = 7200;
 
         $dto = new LoginResponseDTO(
+            uuid: $uuid,
             email: $email,
             name: $name,
             token: $token,
@@ -57,6 +62,7 @@ class LoginResponseDTOTest extends TestCase
         $json = json_decode(json_encode($dto), true);
 
         // THEN: Should contain all required fields
+        $this->assertEquals($uuid, $json['uuid']);
         $this->assertEquals($email, $json['email']);
         $this->assertEquals($name, $json['name']);
         $this->assertEquals($token, $json['token']);
@@ -70,6 +76,7 @@ class LoginResponseDTOTest extends TestCase
     {
         // GIVEN: Multiple LoginResponseDTO instances
         $dto1 = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user1@example.com',
             name: 'User One',
             token: 'token1',
@@ -78,6 +85,7 @@ class LoginResponseDTOTest extends TestCase
         );
 
         $dto2 = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user2@example.com',
             name: 'User Two',
             token: 'token2',
@@ -92,6 +100,7 @@ class LoginResponseDTOTest extends TestCase
         // THEN: Should have different data
         $this->assertNotEquals($json1['email'], $json2['email']);
         $this->assertNotEquals($json1['token'], $json2['token']);
+        $this->assertNotEquals($json1['uuid'], $json2['uuid']);
         $this->assertEquals(3600, $json1['expire']);
         $this->assertEquals(7200, $json2['expire']);
     }
@@ -102,6 +111,7 @@ class LoginResponseDTOTest extends TestCase
     {
         // GIVEN: Name with special characters
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'José María Pérez',
             token: 'token123',
@@ -121,10 +131,11 @@ class LoginResponseDTOTest extends TestCase
     public function shouldHandleLongTokens(): void
     {
         // GIVEN: Very long tokens
-        $longToken = str_repeat('a', 5000);
+        $longToken        = str_repeat('a', 5000);
         $longRefreshToken = str_repeat('b', 5000);
 
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'Test User',
             token: $longToken,
@@ -145,17 +156,11 @@ class LoginResponseDTOTest extends TestCase
     public function shouldHandleVariousExpireTimeValues(): void
     {
         // GIVEN: Different expire time values
-        $testCases = [
-            1,
-            60,
-            3600,
-            86400,
-            2592000,
-            0,
-        ];
+        $testCases = [1, 60, 3600, 86400, 2592000, 0];
 
         foreach ($testCases as $expireTime) {
             $dto = new LoginResponseDTO(
+                uuid: Uuid::uuid7()->toString(),
                 email: 'user@example.com',
                 name: 'Test User',
                 token: 'token',
@@ -177,6 +182,7 @@ class LoginResponseDTOTest extends TestCase
     {
         // GIVEN: LoginResponseDTO instance
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'Test User',
             token: 'token123',

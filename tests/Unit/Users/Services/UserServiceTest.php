@@ -9,6 +9,7 @@ use Illuminate\Contracts\Hashing\Hasher;
 use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Application\DTOs\LogoutDTO;
 use Source\Users\Application\DTOs\RefreshDTO;
@@ -62,6 +63,7 @@ class UserServiceTest extends TestCase
     public function shouldLoginSuccessfully(): void
     {
         // GIVEN: Valid login credentials
+        $uuid = Uuid::uuid7()->toString();
         $email = 'user@example.com';
         $password = 'password123';
         $hashedPassword = $this->hashPassword($password);
@@ -73,6 +75,7 @@ class UserServiceTest extends TestCase
 
         // Mock user entity
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+        $userEntity->shouldReceive('uuid')->andReturn($uuid);
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('name')->andReturn('John Doe');
         $userEntity->shouldReceive('password')->andReturn($hashedPassword);
@@ -107,6 +110,7 @@ class UserServiceTest extends TestCase
         // THEN: Should return LoginResponseDTO
         $this->assertNotNull($result);
         $json = json_decode(json_encode($result), true);
+        $this->assertEquals($uuid, $json['uuid']);
         $this->assertEquals($email, $json['email']);
         $this->assertEquals('John Doe', $json['name']);
         $this->assertEquals($token, $json['token']);
@@ -235,6 +239,7 @@ class UserServiceTest extends TestCase
 
         // Mock user entity
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+        $userEntity->shouldReceive('uuid')->andReturn(Uuid::uuid7()->toString());
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('name')->andReturn('John Doe');
         $userEntity->shouldReceive('password')->andReturn($hashedPassword);
@@ -287,6 +292,7 @@ class UserServiceTest extends TestCase
 
         // Mock user entity
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+        $userEntity->shouldReceive('uuid')->andReturn(Uuid::uuid7()->toString());
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('name')->andReturn('John Doe');
 
@@ -405,6 +411,7 @@ class UserServiceTest extends TestCase
 
         // Mock user entity
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+        $userEntity->shouldReceive('uuid')->andReturn(Uuid::uuid7()->toString());
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('name')->andReturn('John Doe');
 
@@ -462,6 +469,7 @@ class UserServiceTest extends TestCase
 
             // Mock user entity
             $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+            $userEntity->shouldReceive('uuid')->andReturn(Uuid::uuid7()->toString());
             $userEntity->shouldReceive('email')->andReturn($user['email']);
             $userEntity->shouldReceive('name')->andReturn($user['name']);
             $userEntity->shouldReceive('password')->andReturn($hashedPassword);
@@ -511,6 +519,7 @@ class UserServiceTest extends TestCase
 
             // Mock user entity
             $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+            $userEntity->shouldReceive('uuid')->andReturn(Uuid::uuid7()->toString());
             $userEntity->shouldReceive('email')->andReturn($tokenData['email']);
             $userEntity->shouldReceive('name')->andReturn($tokenData['name']);
 
@@ -619,6 +628,7 @@ class UserServiceTest extends TestCase
 
         // Mock user entity
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+        $userEntity->shouldReceive('uuid')->andReturn(Uuid::uuid7()->toString());
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('name')->andReturn($name);
         $userEntity->shouldReceive('password')->andReturn($hashedPassword);

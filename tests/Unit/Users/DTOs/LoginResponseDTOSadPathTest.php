@@ -6,6 +6,7 @@ namespace Tests\Unit\Users\DTOs;
 
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 use Source\Users\Application\DTOs\LoginResponseDTO;
 
 class LoginResponseDTOSadPathTest extends TestCase
@@ -16,6 +17,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Empty email
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: '',
             name: 'User',
             token: 'token123',
@@ -33,6 +35,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Empty name
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: '',
             token: 'token123',
@@ -50,6 +53,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Empty token
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'User',
             token: '',
@@ -67,6 +71,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Empty refresh token
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'User',
             token: 'token123',
@@ -84,6 +89,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Zero expire time
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'User',
             token: 'token123',
@@ -101,6 +107,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Negative expire time (edge case)
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'User',
             token: 'token123',
@@ -118,7 +125,8 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Very large expire time
         $largeTime = PHP_INT_MAX;
-        $dto = new LoginResponseDTO(
+        $dto       = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'User',
             token: 'token123',
@@ -136,7 +144,8 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Very long email
         $longEmail = str_repeat('a', 500) . '@example.com';
-        $dto = new LoginResponseDTO(
+        $dto       = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: $longEmail,
             name: 'User',
             token: 'token123',
@@ -155,7 +164,8 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Very long name
         $longName = str_repeat('A', 1000);
-        $dto = new LoginResponseDTO(
+        $dto      = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: $longName,
             token: 'token123',
@@ -174,6 +184,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Special characters in all fields
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user+tag@example.co.uk',
             name: 'John Doe\'s "Official" Name',
             token: 'token!@#$%^&*()',
@@ -195,6 +206,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Unicode characters
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@例え.jp',
             name: '佐藤 太郎',
             token: 'токен123',
@@ -216,6 +228,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: LoginResponseDTO with specific values
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'John Doe',
             token: 'token123',
@@ -228,6 +241,7 @@ class LoginResponseDTOSadPathTest extends TestCase
         $data = json_decode($json, true);
 
         // THEN: Should have correct key names (note: expireTime becomes 'expire')
+        $this->assertArrayHasKey('uuid', $data);
         $this->assertArrayHasKey('email', $data);
         $this->assertArrayHasKey('name', $data);
         $this->assertArrayHasKey('token', $data);
@@ -244,6 +258,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Whitespace in all fields
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: '   spaces@example.com   ',
             name: '   Name With Spaces   ',
             token: '   token   ',
@@ -263,6 +278,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Newlines in text fields
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: "John\nDoe",
             token: "token\nwith\nnewlines",
@@ -281,6 +297,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Tabs in fields
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: "John\tDoe",
             token: "token\twith\ttabs",
@@ -299,6 +316,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Quotes in name
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'O\'Brien "The Great"',
             token: 'token123',
@@ -318,6 +336,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Multiple instances
         $dto1 = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user1@example.com',
             name: 'User 1',
             token: 'token1',
@@ -326,6 +345,7 @@ class LoginResponseDTOSadPathTest extends TestCase
         );
 
         $dto2 = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user2@example.com',
             name: 'User 2',
             token: 'token2',
@@ -348,6 +368,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: LoginResponseDTO instance
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'John Doe',
             token: 'token123',
@@ -371,6 +392,7 @@ class LoginResponseDTOSadPathTest extends TestCase
     {
         // GIVEN: Null byte injection attempt
         $dto = new LoginResponseDTO(
+            uuid: Uuid::uuid7()->toString(),
             email: "user@example.com\0admin",
             name: "John\0Doe",
             token: "token\0injection",

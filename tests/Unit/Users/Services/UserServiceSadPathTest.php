@@ -286,6 +286,7 @@ class UserServiceSadPathTest extends TestCase
 
         // Mock user entity
         $userEntity = Mockery::mock('Source\Users\Domain\Entity\UserEntity');
+        $userEntity->shouldReceive('uuid')->andReturn(\Ramsey\Uuid\Uuid::uuid7()->toString());
         $userEntity->shouldReceive('email')->andReturn($email);
         $userEntity->shouldReceive('password')->andReturn($hashedPassword);
         $userEntity->shouldReceive('name')->andReturn('User');
