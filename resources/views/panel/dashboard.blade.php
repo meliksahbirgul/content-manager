@@ -36,7 +36,7 @@
             <div class="mt-6 p-4 bg-orange-100/50 rounded-xl border border-orange-200">
                 <h3 class="text-sm font-bold text-orange-800 uppercase tracking-wider">Oturum Bilgileri:</h3>
                 <pre class="mt-2 text-xs text-orange-900 bg-white/50 p-3 rounded">
-User ID: {{ Auth::id() }}
+User ID: {{ Auth::user()->uuid }}
 E-posta: {{ Auth::user()->email }}
 Guard: Web (Session)
                 </pre>
