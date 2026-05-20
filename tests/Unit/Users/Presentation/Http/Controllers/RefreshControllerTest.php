@@ -51,7 +51,7 @@ class RefreshControllerTest extends TestCase
 
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens['refreshToken'],
+            'refreshToken' => $tokens['refreshToken'],
         ]);
 
         // Assert
@@ -83,7 +83,7 @@ class RefreshControllerTest extends TestCase
 
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $originalTokens['refreshToken'],
+            'refreshToken' => $originalTokens['refreshToken'],
         ]);
 
         // Assert
@@ -117,7 +117,7 @@ class RefreshControllerTest extends TestCase
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => null,
+            'refreshToken' => null,
         ]);
 
         // Assert
@@ -134,7 +134,7 @@ class RefreshControllerTest extends TestCase
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => 'invalid_token_that_does_not_exist',
+            'refreshToken' => 'invalid_token_that_does_not_exist',
         ]);
 
         // Assert
@@ -151,7 +151,7 @@ class RefreshControllerTest extends TestCase
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => 'nonexistent_refresh_token',
+            'refreshToken' => 'nonexistent_refreshToken',
         ]);
 
         // Assert
@@ -177,13 +177,13 @@ class RefreshControllerTest extends TestCase
 
         // Act - First refresh should succeed
         $firstRefresh = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens['refreshToken'],
+            'refreshToken' => $tokens['refreshToken'],
         ]);
         $firstRefresh->assertStatus(Response::HTTP_CREATED);
 
         // Act - Reusing the same old refresh token should fail
         $secondRefresh = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens['refreshToken'],
+            'refreshToken' => $tokens['refreshToken'],
         ]);
 
         // Assert - Old token is deleted, so it should fail
@@ -204,7 +204,7 @@ class RefreshControllerTest extends TestCase
 
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens['refreshToken'],
+            'refreshToken' => $tokens['refreshToken'],
         ]);
 
         // Assert
@@ -236,10 +236,10 @@ class RefreshControllerTest extends TestCase
 
         // Act
         $response1 = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens1['refreshToken'],
+            'refreshToken' => $tokens1['refreshToken'],
         ]);
         $response2 = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens2['refreshToken'],
+            'refreshToken' => $tokens2['refreshToken'],
         ]);
 
         // Assert
@@ -263,17 +263,17 @@ class RefreshControllerTest extends TestCase
 
         // Act - Chain refreshes: use new refresh token from each response
         $response1 = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens['refreshToken'],
+            'refreshToken' => $tokens['refreshToken'],
         ]);
         $response1->assertStatus(Response::HTTP_CREATED);
 
         $response2 = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $response1->json('refreshToken'),
+            'refreshToken' => $response1->json('refreshToken'),
         ]);
         $response2->assertStatus(Response::HTTP_CREATED);
 
         $response3 = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $response2->json('refreshToken'),
+            'refreshToken' => $response2->json('refreshToken'),
         ]);
 
         // Assert - All three refreshes should succeed
@@ -298,7 +298,7 @@ class RefreshControllerTest extends TestCase
 
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
-            'refresh_token' => $tokens['refreshToken'],
+            'refreshToken' => $tokens['refreshToken'],
         ]);
 
         // Assert
