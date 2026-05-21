@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 return [
+    'title' => 'Panel',
     'dashboard' => 'Kontrol Paneli',
     'hello' => 'Merhaba, ',
     'logout' => 'Çıkış yap',
