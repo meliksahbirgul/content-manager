@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Source\Dashboard\Presentation\Http\Controllers\View\DashboardController;
 use Source\Users\Presentation\Http\Controllers\View\LogoutController;
 use Source\Users\Presentation\Http\Controllers\View\LoginController;
 
@@ -24,9 +25,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/panel/dashboard', function () {
-        return view('panel.dashboard');
-    })->name('panel.dashboard');
+    Route::get('/panel/dashboard', DashboardController::class)->name('panel.dashboard');
 
     Route::post('/logout', LogoutController::class)->name('logout');
 });
