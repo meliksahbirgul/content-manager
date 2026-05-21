@@ -30,7 +30,7 @@ class LoginController extends Controller
             return redirect()->intended(route('panel.dashboard'));
         } catch (Throwable $exception) {
             return back()
-                ->withErrors(['error' => 'Invalid credentials'])
+                ->withErrors(['error' => __('auth.failed')])
                 ->withInput($request->only('email', 'remember'));
         }
     }

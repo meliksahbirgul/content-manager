@@ -15,8 +15,8 @@
 
         <!-- Logo veya Başlık -->
         <div class="text-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-800">Hoş Geldiniz</h2>
-            <p class="text-gray-500 mt-2">Lütfen panel bilgilerinizle giriş yapın.</p>
+            <h2 class="text-3xl font-bold text-gray-800">{{ __('panel/login.welcome') }}</h2>
+            <p class="text-gray-500 mt-2">{{ __('panel/login.login_label') }}</p>
         </div>
 
         <!-- Form -->
@@ -34,7 +34,8 @@
 
             <!-- Email -->
             <div class="mb-5">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">E-posta Adresi</label>
+                <label for="email"
+                    class="block text-sm font-medium text-gray-700 mb-2">{{ __('panel/login.email') }}</label>
                 <input type="email" id="email" name="email" required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition duration-200"
                     placeholder="ornek@mail.com">
@@ -42,7 +43,8 @@
 
             <!-- Şifre -->
             <div class="mb-6">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Şifre</label>
+                <label for="password"
+                    class="block text-sm font-medium text-gray-700 mb-2">{{ __('panel/login.password') }}</label>
                 <input type="password" id="password" name="password" required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400 focus:border-orange-400 outline-none transition duration-200"
                     placeholder="••••••••">
@@ -51,13 +53,14 @@
             <!-- Giriş Yap Butonu -->
             <button type="submit"
                 class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 transform active:scale-95">
-                Giriş Yap
+                {{ __('panel/login.login') }}
             </button>
         </form>
 
         <!-- Alt Linkler -->
         <div class="mt-6 text-center">
-            <a href="#" class="text-sm text-orange-600 hover:underline">Şifremi unuttum?</a>
+            <a href="#"
+                class="text-sm text-orange-600 hover:underline">{{ __('panel/login.forgot_password') }}</a>
         </div>
     </div>
 
