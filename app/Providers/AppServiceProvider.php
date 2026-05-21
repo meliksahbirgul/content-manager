@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Source\Dashboard\Domain\Repository\DashboardRepository;
+use Source\Dashboard\Infrastructure\Persistence\EloquentDashboardRepository;
 use Source\Pages\Application\Contracts\ActivityLogger as PageActivityLoggerInterface;
 use Source\Pages\Domain\Repository\Repository as PageInterface;
 use Source\Pages\Infrastructure\Logging\PageActivityLogger;
@@ -29,6 +31,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PageActivityLoggerInterface::class,
             PageActivityLogger::class,
+        );
+
+        $this->app->bind(
+            DashboardRepository::class,
+            EloquentDashboardRepository::class,
         );
 
         $this->app->bind(
