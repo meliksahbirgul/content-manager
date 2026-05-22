@@ -7,6 +7,7 @@ use Source\Pages\Presentation\Http\Controllers\View\EditPageViewController;
 use Source\Pages\Presentation\Http\Controllers\View\StorePageController;
 use Source\Pages\Presentation\Http\Controllers\View\UpdatePageController;
 use Source\Pages\Presentation\Http\Controllers\View\ListPagesController;
+use Source\Languages\Presentation\Http\Controllers\View\SwitchLanguageController;
 use Source\Users\Presentation\Http\Controllers\View\LogoutController;
 use Source\Users\Presentation\Http\Controllers\View\LoginController;
 
@@ -37,5 +38,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/panel/pages/{pageId}/edit', EditPageViewController::class)->name('panel.pages.edit');
     Route::put('/panel/pages/{pageId}', UpdatePageController::class)->name('panel.pages.update');
 
+    Route::post('/panel/language', SwitchLanguageController::class)->name('panel.language.switch');
     Route::post('/logout', LogoutController::class)->name('logout');
 });
