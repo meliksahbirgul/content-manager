@@ -8,6 +8,7 @@ use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Source\Pages\Application\DTOs\ListPageDTO;
 use Source\Pages\Application\DTOs\PageTreeResponseDTO;
 use Source\Pages\Application\Queries\GetPageTree;
 use Source\Pages\Domain\Repository\Repository;
@@ -43,7 +44,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn([]);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Should return empty array
         $this->assertIsArray($result);
@@ -72,7 +74,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Should return array with one item
         $this->assertIsArray($result);
@@ -121,7 +124,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Should build tree structure correctly
         $this->assertCount(1, $result);
@@ -179,7 +183,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Should build multi-level tree correctly
         $this->assertCount(1, $result);
@@ -246,7 +251,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Children should be sorted by order
         $parent = $result[0];
@@ -290,7 +296,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Should return multiple root pages sorted by order
         $this->assertCount(2, $result);
@@ -320,7 +327,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: All page data should be preserved
         $page = $result[0];
@@ -361,7 +369,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Should include both active and passive pages
         $this->assertCount(2, $result);
@@ -391,7 +400,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Children should be empty array
         $page = $result[0];
@@ -410,7 +420,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn([]);
 
         // WHEN: Executing query
-        $this->getPageTree->execute();
+        $dto = new ListPageDTO(null, null);
+        $this->getPageTree->execute($dto);
 
         // THEN: Repository method was called exactly once
         $this->assertTrue(true);
@@ -437,7 +448,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Result should be array
         $this->assertIsArray($result);
@@ -496,7 +508,8 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $result = $this->getPageTree->execute();
+        $dto    = new ListPageDTO(null, null);
+        $result = $this->getPageTree->execute($dto);
 
         // THEN: Children should be sorted correctly
         $parent = $result[0];
