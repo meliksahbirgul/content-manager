@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Pages\Application\DTOs;
 
+use Carbon\Carbon;
 use JsonSerializable;
 
 readonly class PageTreeResponseDTO implements JsonSerializable
@@ -18,6 +19,7 @@ readonly class PageTreeResponseDTO implements JsonSerializable
         private string $status,
         private int $order,
         private array $children = [],
+        private Carbon|null $updatedAt = null,
     ) {}
 
     /** 
@@ -31,7 +33,8 @@ readonly class PageTreeResponseDTO implements JsonSerializable
             title: $data['title'],
             status: $data['status'],
             order: $data['order'],
-            children: $children
+            children: $children,
+            updatedAt: $data['updatedAt'] ?? null,
         );
     }
 
@@ -60,6 +63,11 @@ readonly class PageTreeResponseDTO implements JsonSerializable
     public function order(): int
     {
         return $this->order;
+    }
+
+    public function updatedAt(): Carbon|null
+    {
+        return $this->updatedAt;
     }
 
     /** @return array<string, mixed> */

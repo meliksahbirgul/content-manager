@@ -6,16 +6,18 @@ namespace Source\Pages\Presentation\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Source\Pages\Application\DTOs\ListPageDTO;
 use Source\Pages\Application\Queries\GetPageTree;
 use Throwable;
 
 class ListPagesController extends Controller
 {
-    public function __invoke(GetPageTree $getPageTree): JsonResponse
+    public function __invoke(Request $request, GetPageTree $getPageTree): JsonResponse
     {
         try {
-            $pages = $getPageTree->execute();
+            $pages = $getPageTree->execute(ListPageDTO::fromRequest($request->all()));
 
             return response()->json(
                 [

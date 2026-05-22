@@ -104,15 +104,17 @@ class PageRepository implements Repository
                 'is_active',
                 'order',
                 'parent_id',
+                'updated_at',
             ])
             ->orderBy('order')
             ->get()
             ->map(fn(EloquentPage $page) => [
-                'id'       => $page->uuid,
-                'title'    => $page->title,
-                'status'   => $page->is_active,
-                'order'    => $page->order,
-                'parentId' => $page->parentPage?->uuid,
+                'id'        => $page->uuid,
+                'title'     => $page->title,
+                'status'    => $page->is_active,
+                'order'     => $page->order,
+                'parentId'  => $page->parentPage?->uuid,
+                'updatedAt' => $page->updated_at,
             ])
             ->toArray();
     }
