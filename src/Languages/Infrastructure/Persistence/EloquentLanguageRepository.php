@@ -31,6 +31,11 @@ class EloquentLanguageRepository implements LanguageRepository
         );
     }
 
+    public function codeExists(string $code): bool
+    {
+        return Language::where('code', $code)->exists();
+    }
+
     private function mapToEntity(Language $language): LanguageEntity
     {
         return new LanguageEntity(

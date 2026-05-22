@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Source\Pages\Application\Services;
 
 use DomainException;
+use Source\Languages\Domain\Repository\LanguageRepository;
 use Source\Pages\Application\Contracts\ActivityLogger;
 use Source\Pages\Application\DTOs\CreatePageDTO;
 use Source\Pages\Application\DTOs\UpdatePageDTO;
@@ -17,10 +18,13 @@ readonly class PageService
     public function __construct(
         private Repository $repository,
         private ActivityLogger $activityLogger,
+        private LanguageRepository $languageRepository,
     ) {}
 
     public function createPage(CreatePageDTO $dto): CreatePage
     {
+        $this->assertValidLanguageCodes($dto->title(), $dto->content(), $dto->slug());
+
         $pagePayload = CreatePage::createFromArray($dto->toArray());
 
         if (! $this->repository->isSlugUnique($pagePayload->slug())) {
@@ -44,6 +48,8 @@ readonly class PageService
 
     public function updatePage(UpdatePageDTO $dto): void
     {
+        $this->assertValidLanguageCodes($dto->title(), $dto->content(), $dto->slug());
+
         $payload = UpdatePage::createFromArray($dto->toArray());
         $page = $this->repository->findByUuid($payload->id());
         if (! $page) {
@@ -64,6 +70,22 @@ readonly class PageService
                     $oldStatus->value,
                     $payload->status()->value,
                 );
+            }
+        }
+    }
+
+    /** @param array<string, string>|null ...$payloads */
+    private function assertValidLanguageCodes(array|null ...$payloads): void
+    {
+        foreach ($payloads as $payload) {
+            if ($payload === null) {
+                continue;
+            }
+
+            foreach (array_keys($payload) as $code) {
+                if (! $this->languageRepository->codeExists($code)) {
+                    throw new DomainException("Invalid language code: \"{$code}\".");
+                }
             }
         }
     }

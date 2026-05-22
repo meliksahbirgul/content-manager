@@ -46,4 +46,22 @@ readonly class CreatePageDTO
             'status' => $this->status,
         ];
     }
+
+    /** @return array<string,mixed> */
+    public function title(): array
+    {
+        return $this->title;
+    }
+
+    /** @return array<string,mixed> */
+    public function content(): array
+    {
+        return $this->content;
+    }
+
+    /** @return array<string,mixed> */
+    public function slug(): array
+    {
+        return $this->slug;
+    }
 }

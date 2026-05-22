@@ -13,4 +13,6 @@ interface LanguageRepository
 
     /** @return list<LanguageEntity> */
     public function allActive(): array;
+
+    public function codeExists(string $code): bool;
 }

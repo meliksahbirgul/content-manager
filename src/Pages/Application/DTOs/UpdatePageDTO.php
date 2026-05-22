@@ -12,10 +12,10 @@ readonly class UpdatePageDTO
      * @param array<string, string>|null $slug
      */
     public function __construct(
-        public readonly string $id,
-        public readonly array|null $title = null,
-        public readonly array|null $content = null,
-        public readonly array|null $slug = null,
+        private readonly string $id,
+        private readonly array|null $title = null,
+        private readonly array|null $content = null,
+        private readonly array|null $slug = null,
         private readonly int|null $order = null,
         private readonly string|null $status = null,
     ) {}
@@ -44,5 +44,28 @@ readonly class UpdatePageDTO
             'order' => $this->order,
             'status' => $this->status,
         ];
+    }
+
+    public function id(): string
+    {
+        return $this->id;
+    }
+
+    /** @return array<string,mixed>|null */
+    public function title(): array|null
+    {
+        return $this->title;
+    }
+
+    /** @return array<string,mixed>|null */
+    public function content(): array|null
+    {
+        return $this->content;
+    }
+
+    /** @return array<string,mixed>|null */
+    public function slug(): array|null
+    {
+        return $this->slug;
     }
 }
