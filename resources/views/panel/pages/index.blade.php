@@ -10,25 +10,17 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-2xl shadow-sm border border-orange-100 p-6">
+    <div class="bg-white rounded-2xl shadow-sm border border-orange-200 p-6">
 
         {{-- Search + Filter --}}
         <div class="flex gap-3 mb-6">
             <form method="GET" action="{{ route('panel.pages') }}" class="flex flex-1 gap-3">
-                <input
-                    type="text"
-                    id="search-input"
-                    name="search"
-                    value="{{ request('search') }}"
+                <input type="text" id="search-input" name="search" value="{{ request('search') }}"
                     placeholder="{{ __('panel/pages.search_placeholder') }}"
                     class="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 placeholder-gray-400"
-                    autocomplete="off"
-                >
-                <select
-                    name="status"
-                    onchange="this.form.submit()"
-                    class="border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-200"
-                >
+                    autocomplete="off">
+                <select name="status" onchange="this.form.submit()"
+                    class="border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-200">
                     <option value="">{{ __('panel/pages.all_statuses') }}</option>
                     <option value="active" @selected(request('status') === 'active')>
                         {{ __('panel/pages.status_published') }}
@@ -38,7 +30,8 @@
                     </option>
                 </select>
             </form>
-            <a href="{{ route('panel.pages.create') }}" class="inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition whitespace-nowrap">
+            <a href="{{ route('panel.pages.create') }}"
+                class="inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition whitespace-nowrap">
                 + {{ __('panel/pages.new_page') }}
             </a>
         </div>
@@ -69,18 +62,19 @@
                 @endphp
                 @forelse($flatPages as $row)
                     @php
-                        $page  = $row['item'];
+                        $page = $row['item'];
                         $depth = $row['depth'];
-                        $title = $page->title()[$locale] ?? $page->title()['en'] ?? array_values($page->title())[0] ?? '-';
+                        $title =
+                            $page->title()[$locale] ??
+                            ($page->title()['en'] ?? (array_values($page->title())[0] ?? '-'));
 
-                        [$badgeClass, $statusLabel] = match($page->status()) {
+                        [$badgeClass, $statusLabel] = match ($page->status()) {
                             'active' => ['bg-orange-100 text-orange-700', __('panel/pages.status_published')],
-                            default  => ['bg-yellow-100 text-yellow-700', __('panel/pages.status_draft')],
+                            default => ['bg-yellow-100 text-yellow-700', __('panel/pages.status_draft')],
                         };
                     @endphp
                     <tr class="hover:bg-gray-50 transition">
-                        <td class="py-4 text-sm font-medium text-gray-800"
-                            style="padding-left: {{ 16 + $depth * 24 }}px">
+                        <td class="py-4 text-sm font-medium text-gray-800" style="padding-left: {{ 16 + $depth * 24 }}px">
                             @if ($depth > 0)
                                 <span class="text-gray-300 mr-1">{{ str_repeat('—', $depth) }}</span>
                             @endif
@@ -95,7 +89,8 @@
                             {{ $page->updatedAt()?->diffForHumans() ?? '—' }}
                         </td>
                         <td class="py-4 text-sm">
-                            <a href="#" class="text-orange-600 hover:underline">{{ __('panel/pages.action_edit') }}</a>
+                            <a href="{{ route('panel.pages.edit', $page->id()) }}"
+                                class="text-orange-600 hover:underline">{{ __('panel/pages.action_edit') }}</a>
                         </td>
                     </tr>
                 @empty
@@ -112,9 +107,9 @@
 
     <script>
         let searchTimer;
-        document.getElementById('search-input').addEventListener('input', function () {
+        document.getElementById('search-input').addEventListener('input', function() {
             clearTimeout(searchTimer);
-            searchTimer = setTimeout(function () {
+            searchTimer = setTimeout(function() {
                 document.getElementById('search-input').closest('form').submit();
             }, 350);
         });
