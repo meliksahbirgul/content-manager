@@ -31,7 +31,7 @@ class UpdatePageDTOTest extends TestCase
 
         // THEN: Should create instance successfully
         $this->assertInstanceOf(UpdatePageDTO::class, $dto);
-        $this->assertEquals($id, $dto->id);
+        $this->assertEquals($id, $dto->id());
     }
 
     /** @test */
@@ -58,10 +58,10 @@ class UpdatePageDTOTest extends TestCase
 
         // THEN: Should create instance successfully
         $this->assertInstanceOf(UpdatePageDTO::class, $dto);
-        $this->assertEquals($id, $dto->id);
-        $this->assertEquals($title, $dto->title);
-        $this->assertEquals($content, $dto->content);
-        $this->assertEquals($slug, $dto->slug);
+        $this->assertEquals($id, $dto->id());
+        $this->assertEquals($title, $dto->title());
+        $this->assertEquals($content, $dto->content());
+        $this->assertEquals($slug, $dto->slug());
     }
 
     /** @test */
@@ -77,7 +77,7 @@ class UpdatePageDTOTest extends TestCase
 
         // THEN: Should create instance successfully
         $this->assertInstanceOf(UpdatePageDTO::class, $dto);
-        $this->assertEquals($id, $dto->id);
+        $this->assertEquals($id, $dto->id());
     }
 
     /** @test */
@@ -105,10 +105,10 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should create instance with all data
-        $this->assertEquals($id, $dto->id);
-        $this->assertEquals($title, $dto->title);
-        $this->assertEquals($content, $dto->content);
-        $this->assertEquals($slug, $dto->slug);
+        $this->assertEquals($id, $dto->id());
+        $this->assertEquals($title, $dto->title());
+        $this->assertEquals($content, $dto->content());
+        $this->assertEquals($slug, $dto->slug());
     }
 
     /** @test */
@@ -123,9 +123,9 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Optional fields should be null
-        $this->assertNull($dto->title);
-        $this->assertNull($dto->content);
-        $this->assertNull($dto->slug);
+        $this->assertNull($dto->title());
+        $this->assertNull($dto->content());
+        $this->assertNull($dto->slug());
     }
 
     /** @test */
@@ -145,10 +145,10 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should have title but content and slug null
-        $this->assertEquals($id, $dto->id);
-        $this->assertEquals($title, $dto->title);
-        $this->assertNull($dto->content);
-        $this->assertNull($dto->slug);
+        $this->assertEquals($id, $dto->id());
+        $this->assertEquals($title, $dto->title());
+        $this->assertNull($dto->content());
+        $this->assertNull($dto->slug());
     }
 
     /** @test */
@@ -192,11 +192,11 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should preserve all languages
-        $this->assertCount(3, $dto->title);
-        $this->assertCount(3, $dto->content);
-        $this->assertCount(3, $dto->slug);
-        $this->assertEquals('English', $dto->title['en']);
-        $this->assertEquals('Turkish', $dto->title['tr']);
+        $this->assertCount(3, $dto->title());
+        $this->assertCount(3, $dto->content());
+        $this->assertCount(3, $dto->slug());
+        $this->assertEquals('English', $dto->title()['en']);
+        $this->assertEquals('Turkish', $dto->title()['tr']);
     }
 
     /** @test */
@@ -238,7 +238,7 @@ class UpdatePageDTOTest extends TestCase
         $dto = new UpdatePageDTO(id: $id);
 
         // THEN: id should be public readonly property
-        $this->assertEquals($id, $dto->id);
+        $this->assertEquals($id, $dto->id());
     }
 
     /** @test */
@@ -250,7 +250,7 @@ class UpdatePageDTOTest extends TestCase
         $dto = new UpdatePageDTO(id: $this->validUuid, title: $title);
 
         // THEN: title should be public readonly property
-        $this->assertEquals($title, $dto->title);
+        $this->assertEquals($title, $dto->title());
     }
 
     /** @test */
@@ -344,9 +344,9 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should update only title
-        $this->assertEquals($newTitle, $dto->title);
-        $this->assertNull($dto->content);
-        $this->assertNull($dto->slug);
+        $this->assertEquals($newTitle, $dto->title());
+        $this->assertNull($dto->content());
+        $this->assertNull($dto->slug());
     }
 
     /** @test */
@@ -365,9 +365,9 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should update only content
-        $this->assertNull($dto->title);
-        $this->assertEquals($newContent, $dto->content);
-        $this->assertNull($dto->slug);
+        $this->assertNull($dto->title());
+        $this->assertEquals($newContent, $dto->content());
+        $this->assertNull($dto->slug());
     }
 
     /** @test */
@@ -386,9 +386,9 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should update only slug
-        $this->assertNull($dto->title);
-        $this->assertNull($dto->content);
-        $this->assertEquals($newSlug, $dto->slug);
+        $this->assertNull($dto->title());
+        $this->assertNull($dto->content());
+        $this->assertEquals($newSlug, $dto->slug());
     }
 
     /** @test */
@@ -438,9 +438,9 @@ class UpdatePageDTOTest extends TestCase
         $dto = UpdatePageDTO::fromRequest($data);
 
         // THEN: Should handle missing optional fields gracefully
-        $this->assertEquals($id, $dto->id);
-        $this->assertNotNull($dto->title);
-        $this->assertNull($dto->content);
-        $this->assertNull($dto->slug);
+        $this->assertEquals($id, $dto->id());
+        $this->assertNotNull($dto->title());
+        $this->assertNull($dto->content());
+        $this->assertNull($dto->slug());
     }
 }
