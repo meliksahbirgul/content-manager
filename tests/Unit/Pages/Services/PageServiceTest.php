@@ -9,6 +9,7 @@ use Mockery;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
+use Source\Languages\Domain\Repository\LanguageRepository;
 use Source\Pages\Application\Contracts\ActivityLogger;
 use Source\Pages\Application\DTOs\CreatePageDTO;
 use Source\Pages\Application\DTOs\UpdatePageDTO;
@@ -27,16 +28,21 @@ class PageServiceTest extends TestCase
     /** @var ActivityLogger&Mockery\MockInterface */
     private Mockery\MockInterface $activityLoggerMock;
 
+    /** @var LanguageRepository&Mockery\MockInterface */
+    private Mockery\MockInterface $languageRepository;
+
     private PageService $pageService;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->repositoryMock = Mockery::mock(Repository::class);
+        $this->repositoryMock     = Mockery::mock(Repository::class);
         $this->activityLoggerMock = Mockery::mock(ActivityLogger::class)->shouldIgnoreMissing();
+        $this->languageRepository = Mockery::mock(LanguageRepository::class);
+        $this->languageRepository->allows('codeExists')->andReturn(true)->byDefault();
 
-        $this->pageService = new PageService($this->repositoryMock, $this->activityLoggerMock);
+        $this->pageService = new PageService($this->repositoryMock, $this->activityLoggerMock, $this->languageRepository);
     }
 
     protected function tearDown(): void
@@ -1042,7 +1048,9 @@ class PageServiceTest extends TestCase
         Mockery::close();
         $this->repositoryMock = Mockery::mock(Repository::class);
         $this->activityLoggerMock = Mockery::mock(ActivityLogger::class)->shouldIgnoreMissing();
-        $this->pageService = new PageService($this->repositoryMock, $this->activityLoggerMock);
+        $this->languageRepository = Mockery::mock(LanguageRepository::class);
+        $this->languageRepository->allows('codeExists')->andReturn(true)->byDefault();
+        $this->pageService = new PageService($this->repositoryMock, $this->activityLoggerMock, $this->languageRepository);
 
         // Mock repository expectations for second call
         $this->repositoryMock
@@ -1127,7 +1135,7 @@ class PageServiceTest extends TestCase
         );
 
         $this->repositoryMock->shouldReceive('isSlugUnique')->once()->andReturn(true);
-        $this->repositoryMock->shouldReceive('create')->once()->andReturnUsing(fn ($p) => $p);
+        $this->repositoryMock->shouldReceive('create')->once()->andReturnUsing(fn($p) => $p);
 
         $this->activityLoggerMock
             ->shouldReceive('logPageCreated')
