@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Source\Dashboard\Domain\Repository\DashboardRepository;
+use Source\Languages\Domain\Repository\LanguageRepository;
+use Source\Languages\Infrastructure\Persistence\EloquentLanguageRepository;
 use Source\Dashboard\Infrastructure\Persistence\EloquentDashboardRepository;
 use Source\Pages\Application\Contracts\ActivityLogger as PageActivityLoggerInterface;
 use Source\Pages\Domain\Repository\Repository as PageInterface;
@@ -51,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             PermissionRepository::class,
             EloquentPermissionRepository::class,
+        );
+
+        $this->app->bind(
+            LanguageRepository::class,
+            EloquentLanguageRepository::class,
         );
     }
 
