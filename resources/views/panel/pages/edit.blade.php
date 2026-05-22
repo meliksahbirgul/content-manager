@@ -53,7 +53,7 @@
                 <div class="bg-white border border-gray-200 rounded-xl p-4">
                     <label class="block text-sm text-gray-500 mb-1.5">{{ __('panel/pages.content') }}</label>
                     <div class="border border-orange-200 rounded-xl overflow-hidden bg-white">
-                        <div class="border-b border-gray-100 bg-gray-50 px-3 py-2 flex items-center gap-2">
+                        <div class="border-b border-gray-100 bg-gray-50 px-3 py-2 flex gap-4">
                             <button type="button" onclick="fmt('bold')"
                                 class="text-sm font-bold text-gray-600 hover:text-gray-900 w-6 text-center">B</button>
                             <span class="w-px h-4 bg-gray-300"></span>

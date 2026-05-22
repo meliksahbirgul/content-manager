@@ -38,25 +38,32 @@
             <div class="col-span-2 space-y-5">
 
                 {{-- Page title --}}
-                <div>
+                <div class="bg-white border border-gray-200 rounded-xl p-4">
                     <label class="block text-sm text-gray-500 mb-1.5">{{ __('panel/pages.page_title') }}</label>
                     <input type="text" id="title-input" autocomplete="off"
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+                        class="w-full border border-orange-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
                 </div>
 
                 {{-- Content editor --}}
-                <div>
+                <div class="bg-white border border-gray-200 rounded-xl p-4">
                     <label class="block text-sm text-gray-500 mb-1.5">{{ __('panel/pages.content') }}</label>
-                    <div class="border border-gray-200 rounded-xl overflow-hidden bg-white">
+                    <div class="border border-orange-200 rounded-xl overflow-hidden bg-white">
                         <div class="border-b border-gray-100 bg-gray-50 px-3 py-2 flex gap-4">
                             <button type="button" onclick="fmt('bold')"
-                                class="text-sm font-bold text-gray-600 hover:text-gray-900 w-5 text-center">B</button>
+                                class="text-sm font-bold text-gray-600 hover:text-gray-900 w-6 text-center">B
+                            </button>
+                            <span class="w-px h-4 bg-gray-300"></span>
                             <button type="button" onclick="fmt('italic')"
-                                class="text-sm italic text-gray-600 hover:text-gray-900 w-5 text-center">/</button>
+                                class="text-sm italic text-gray-600 hover:text-gray-900 w-6 text-center">/
+                            </button>
+                            <span class="w-px h-4 bg-gray-300"></span>
                             <button type="button" onclick="fmt('h2')"
-                                class="text-sm font-semibold text-gray-600 hover:text-gray-900">H2</button>
+                                class="text-sm font-semibold text-gray-600 hover:text-gray-900 w-6 text-center">H2
+                            </button>
+                            <span class="w-px h-4 bg-gray-300"></span>
                             <button type="button" onclick="fmt('h3')"
-                                class="text-sm font-semibold text-gray-600 hover:text-gray-900">H3</button>
+                                class="text-sm font-semibold text-gray-600 hover:text-gray-900 w-6 text-center">H3
+                            </button>
                         </div>
                         <div id="content-editor" contenteditable="true"
                             class="min-h-52 p-4 text-sm text-gray-700 focus:outline-none empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400"
@@ -75,7 +82,7 @@
                         {{ __('panel/pages.slug') }}
                     </p>
                     <input type="text" id="slug-input" autocomplete="off" placeholder="/page-slug"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+                        class="w-full border border-orange-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
                 </div>
 
                 {{-- Language --}}
@@ -102,12 +109,12 @@
                         {{ __('panel/pages.parent_page') }}
                     </p>
                     <select name="parent_id"
-                        class="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-200">
+                        class="w-full border border-orange-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-200">
                         <option value="">{{ __('panel/pages.no_parent') }}</option>
                         @php
-                            $locale   = app()->getLocale();
+                            $locale = app()->getLocale();
                             $flatTree = [];
-                            $stack    = array_map(fn($p) => [$p, 0], array_reverse($pages));
+                            $stack = array_map(fn($p) => [$p, 0], array_reverse($pages));
                             while (!empty($stack)) {
                                 [$node, $depth] = array_pop($stack);
                                 $flatTree[] = ['item' => $node, 'depth' => $depth];
@@ -118,8 +125,10 @@
                         @endphp
                         @foreach ($flatTree as $row)
                             @php
-                                $p     = $row['item'];
-                                $label = $p->title()[$locale] ?? $p->title()['en'] ?? array_values($p->title())[0] ?? $p->id();
+                                $p = $row['item'];
+                                $label =
+                                    $p->title()[$locale] ??
+                                    ($p->title()['en'] ?? (array_values($p->title())[0] ?? $p->id()));
                                 $prefix = str_repeat('— ', $row['depth']);
                             @endphp
                             <option value="{{ $p->id() }}">{{ $prefix }}{{ $label }}</option>
@@ -208,7 +217,7 @@
                 const btn = document.getElementById('lang-btn-' + l);
                 if (l === lang) {
                     btn.className =
-                    'px-4 py-1.5 rounded-lg text-sm font-medium bg-orange-500 text-white transition';
+                        'px-4 py-1.5 rounded-lg text-sm font-medium bg-orange-500 text-white transition';
                 } else {
                     btn.className =
                         'px-4 py-1.5 rounded-lg text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition';
