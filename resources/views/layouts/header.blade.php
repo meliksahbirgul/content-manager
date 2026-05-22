@@ -10,7 +10,7 @@
 
 <body class="bg-orange-50 min-h-screen">
 
-    <nav class="bg-white shadow-sm border-b border-orange-100 px-6 py-4">
+    <nav class="bg-white border-b border-orange-100 px-6 py-4">
         <div class="flex justify-between items-center">
             <h1 class="text-xl font-bold text-orange-600">@yield('page-title')</h1>
             <div class="flex items-center gap-4">
@@ -72,7 +72,7 @@
         </aside>
 
         {{-- Main content --}}
-        <main class="flex-1 p-8">
+        <main class="flex-1 py-2 px-4">
             @yield('content')
         </main>
 

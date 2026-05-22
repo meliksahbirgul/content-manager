@@ -4,22 +4,23 @@
 @section('page-title', __('panel/dashboard.dashboard'))
 
 @section('content')
-    <div class="bg-white rounded-2xl shadow-sm border border-orange-100 p-8">
-        <!-- Page Status Counts -->
-        <div class="mt-8">
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                @foreach ($dashboard->pageStatusCounts() as $statusCount)
-                    <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 text-center">
-                        <p class="text-2xl font-bold text-orange-600">{{ $statusCount->count() }}</p>
-                        <p class="text-sm text-gray-500 mt-1 capitalize">{{ $statusCount->status() }}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
 
-        <!-- Recent Activity Logs -->
-        <div class="mt-8">
-            <h3 class="text-lg font-semibold text-gray-700 mb-4">{{ __('panel/dashboard.recent_activities') }}</h3>
+    <!-- Page Status Counts -->
+    <div class="py-4">
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            @foreach ($dashboard->pageStatusCounts() as $statusCount)
+                <div class="bg-white border border-orange-200 rounded-xl p-4 text-center">
+                    <p class="text-2xl font-bold text-orange-600">{{ $statusCount->count() }}</p>
+                    <p class="text-sm text-gray-500 mt-1 capitalize">{{ $statusCount->status() }}</p>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    <div class="bg-white rounded-2xl shadow-sm border border-orange-200 p-2">
+        <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4 border-b border-solid border-orange-200">
+                {{ __('panel/dashboard.recent_activities') }}
+            </h3>
             <ul class="divide-y divide-orange-100">
                 @forelse($dashboard->recentActivityLogs() as $log)
                     <li class="py-3 flex justify-between items-start gap-4">
@@ -39,4 +40,5 @@
             </ul>
         </div>
     </div>
+    <!-- Recent Activity Logs -->
 @endsection
