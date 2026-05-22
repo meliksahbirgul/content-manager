@@ -21,4 +21,13 @@ class LanguageService
             $this->repository->all(),
         );
     }
+
+    /** @return list<LanguageResponseDTO> */
+    public function listActive(): array
+    {
+        return array_map(
+            fn($entity) => LanguageResponseDTO::fromEntity($entity),
+            $this->repository->allActive(),
+        );
+    }
 }

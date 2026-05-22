@@ -10,4 +10,7 @@ interface LanguageRepository
 {
     /** @return list<LanguageEntity> */
     public function all(): array;
+
+    /** @return list<LanguageEntity> */
+    public function allActive(): array;
 }

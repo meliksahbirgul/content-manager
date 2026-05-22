@@ -20,6 +20,17 @@ class EloquentLanguageRepository implements LanguageRepository
         );
     }
 
+    /** @return list<LanguageEntity> */
+    public function allActive(): array
+    {
+        return array_values(
+            Language::where('status', 'active')
+                ->get()
+                ->map(fn(Language $l) => $this->mapToEntity($l))
+                ->all()
+        );
+    }
+
     private function mapToEntity(Language $language): LanguageEntity
     {
         return new LanguageEntity(
