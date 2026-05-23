@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('panel.login');
-})->name('panel.login');
-
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', function () {
         return view('panel.login');
