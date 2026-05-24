@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use Ramsey\Uuid\Uuid;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
@@ -23,10 +24,10 @@ class PageDetailsControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldGetPageDetailsSuccessfully(): void
+    public function should_get_page_details_successfully(): void
     {
         // Arrange
-        $uuid = \Ramsey\Uuid\Uuid::uuid7()->toString();
+        $uuid = Uuid::uuid7()->toString();
         Page::create([
             'uuid' => $uuid,
             'title' => ['en' => 'Test Page'],
@@ -66,10 +67,10 @@ class PageDetailsControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenPageNotFound(): void
+    public function should_return_bad_request_when_page_not_found(): void
     {
         // Act
-        $response = $this->getJson($this->getEndpoint(\Ramsey\Uuid\Uuid::uuid7()->toString()));
+        $response = $this->getJson($this->getEndpoint(Uuid::uuid7()->toString()));
 
         // Assert
         $response->assertStatus(Response::HTTP_BAD_REQUEST);

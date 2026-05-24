@@ -13,11 +13,11 @@ class RoleEntityTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllFields(): void
+    public function should_create_instance_with_all_fields(): void
     {
         // GIVEN: Valid role data
-        $uuid        = Uuid::uuid7()->toString();
-        $name        = 'admin';
+        $uuid = Uuid::uuid7()->toString();
+        $name = 'admin';
         $displayName = 'Administrator';
         $description = 'Full access to all resources.';
 
@@ -34,11 +34,11 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithNullDescription(): void
+    public function should_create_instance_with_null_description(): void
     {
         // GIVEN: Role data without description
-        $uuid        = Uuid::uuid7()->toString();
-        $name        = 'viewer';
+        $uuid = Uuid::uuid7()->toString();
+        $name = 'viewer';
         $displayName = 'Viewer';
 
         // WHEN: Creating RoleEntity with null description
@@ -51,7 +51,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnUuidCorrectly(): void
+    public function should_return_uuid_correctly(): void
     {
         // GIVEN: A specific uuid
         $uuid = Uuid::uuid7()->toString();
@@ -67,7 +67,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNameCorrectly(): void
+    public function should_return_name_correctly(): void
     {
         // GIVEN: A specific name slug
         $name = 'editor';
@@ -83,11 +83,11 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDisplayNameCorrectly(): void
+    public function should_return_display_name_correctly(): void
     {
         // GIVEN: A specific display name
         $displayName = 'Content Editor';
-        $role        = new RoleEntity(Uuid::uuid7()->toString(), 'editor', $displayName, null);
+        $role = new RoleEntity(Uuid::uuid7()->toString(), 'editor', $displayName, null);
 
         // WHEN: Calling displayName()
         $result = $role->displayName();
@@ -99,11 +99,11 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDescriptionCorrectly(): void
+    public function should_return_description_correctly(): void
     {
         // GIVEN: A specific description
         $description = 'Can create and edit pages.';
-        $role        = new RoleEntity(Uuid::uuid7()->toString(), 'editor', 'Editor', $description);
+        $role = new RoleEntity(Uuid::uuid7()->toString(), 'editor', 'Editor', $description);
 
         // WHEN: Calling description()
         $result = $role->description();
@@ -115,7 +115,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringName(): void
+    public function should_handle_empty_string_name(): void
     {
         // GIVEN: Role with empty name
         $role = new RoleEntity(Uuid::uuid7()->toString(), '', 'Display', null);
@@ -130,7 +130,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringDisplayName(): void
+    public function should_handle_empty_string_display_name(): void
     {
         // GIVEN: Role with empty display name
         $role = new RoleEntity(Uuid::uuid7()->toString(), 'slug', '', null);
@@ -145,11 +145,11 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInDisplayName(): void
+    public function should_handle_unicode_in_display_name(): void
     {
         // GIVEN: Display name with unicode characters
         $displayName = 'Yönetici';
-        $role        = new RoleEntity(Uuid::uuid7()->toString(), 'admin', $displayName, null);
+        $role = new RoleEntity(Uuid::uuid7()->toString(), 'admin', $displayName, null);
 
         // WHEN: Calling displayName()
         $result = $role->displayName();
@@ -161,7 +161,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMaintainImmutabilityAcrossMultipleCalls(): void
+    public function should_maintain_immutability_across_multiple_calls(): void
     {
         // GIVEN: A RoleEntity instance
         $role = new RoleEntity(Uuid::uuid7()->toString(), 'admin', 'Administrator', 'Full access.');
@@ -179,7 +179,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotShareStateBetweenInstances(): void
+    public function should_not_share_state_between_instances(): void
     {
         // GIVEN: Two separate RoleEntity instances
         $role1 = new RoleEntity(Uuid::uuid7()->toString(), 'admin', 'Administrator', null);
@@ -197,7 +197,7 @@ class RoleEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveExactCasingInName(): void
+    public function should_preserve_exact_casing_in_name(): void
     {
         // GIVEN: Name with mixed casing (unusual but entity should not alter it)
         $name = 'Super_Admin_V2';

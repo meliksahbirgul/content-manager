@@ -12,11 +12,11 @@ class PageStatusCountEntityTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithRequiredParameters(): void
+    public function should_create_instance_with_required_parameters(): void
     {
         // GIVEN: Valid status and count
         $status = 'active';
-        $count  = 10;
+        $count = 10;
 
         // WHEN: Creating PageStatusCountEntity
         $entity = new PageStatusCountEntity(status: $status, count: $count);
@@ -29,7 +29,7 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectStatus(): void
+    public function should_return_correct_status(): void
     {
         // GIVEN: A PageStatusCountEntity with status "passive"
         $entity = new PageStatusCountEntity(status: 'passive', count: 3);
@@ -44,7 +44,7 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectCount(): void
+    public function should_return_correct_count(): void
     {
         // GIVEN: A PageStatusCountEntity with count 42
         $entity = new PageStatusCountEntity(status: 'active', count: 42);
@@ -59,7 +59,7 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleZeroCount(): void
+    public function should_handle_zero_count(): void
     {
         // GIVEN: A status with zero pages
         $entity = new PageStatusCountEntity(status: 'draft', count: 0);
@@ -73,7 +73,7 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLargeCount(): void
+    public function should_handle_large_count(): void
     {
         // GIVEN: A status with a very large number of pages
         $entity = new PageStatusCountEntity(status: 'active', count: PHP_INT_MAX);
@@ -84,7 +84,7 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTypesForAllProperties(): void
+    public function should_return_correct_types_for_all_properties(): void
     {
         // GIVEN: A PageStatusCountEntity instance
         $entity = new PageStatusCountEntity(status: 'active', count: 5);
@@ -96,16 +96,16 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeImmutableAfterConstruction(): void
+    public function should_be_immutable_after_construction(): void
     {
         // GIVEN: A PageStatusCountEntity instance
         $entity = new PageStatusCountEntity(status: 'active', count: 7);
 
         // WHEN: Accessing properties multiple times
-        $firstStatus  = $entity->status();
+        $firstStatus = $entity->status();
         $secondStatus = $entity->status();
-        $firstCount   = $entity->count();
-        $secondCount  = $entity->count();
+        $firstCount = $entity->count();
+        $secondCount = $entity->count();
 
         // THEN: Both calls should return the same values
         $this->assertSame($firstStatus, $secondStatus);
@@ -114,7 +114,7 @@ class PageStatusCountEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateMultipleIndependentInstances(): void
+    public function should_create_multiple_independent_instances(): void
     {
         // GIVEN: Two PageStatusCountEntity instances with different data
         $entity1 = new PageStatusCountEntity(status: 'active', count: 10);

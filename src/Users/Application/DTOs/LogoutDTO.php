@@ -8,7 +8,7 @@ readonly class LogoutDTO
 {
     public function __construct(
         private string $accessToken,
-        private string|null $refreshToken = null,
+        private ?string $refreshToken = null,
     ) {}
 
     public function accessToken(): string
@@ -16,7 +16,7 @@ readonly class LogoutDTO
         return $this->accessToken;
     }
 
-    public function refreshToken(): string|null
+    public function refreshToken(): ?string
     {
         return $this->refreshToken;
     }

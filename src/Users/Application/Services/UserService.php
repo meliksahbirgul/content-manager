@@ -6,12 +6,12 @@ namespace Source\Users\Application\Services;
 
 use DomainException;
 use Illuminate\Contracts\Hashing\Hasher;
-use Source\Users\Domain\Repository\Repository;
 use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Application\DTOs\LoginResponseDTO;
 use Source\Users\Application\DTOs\LogoutDTO;
 use Source\Users\Application\DTOs\RefreshDTO;
 use Source\Users\Domain\Models\User as EloquentUser;
+use Source\Users\Domain\Repository\Repository;
 use Source\Users\Domain\ValueObjects\LoginUser;
 use Source\Users\Domain\ValueObjects\RefreshUser;
 
@@ -53,7 +53,7 @@ readonly class UserService
     public function refresh(RefreshDTO $dto): LoginResponseDTO
     {
         $payload = new RefreshUser($dto->refreshToken());
-        $user    = $this->repository->findUserByRefreshToken($payload->token());
+        $user = $this->repository->findUserByRefreshToken($payload->token());
         if (! $user) {
             throw new DomainException('User not found.');
         }

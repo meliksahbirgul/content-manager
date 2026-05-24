@@ -12,7 +12,7 @@ class LoginDTOTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithValidCredentials(): void
+    public function should_create_instance_with_valid_credentials(): void
     {
         // GIVEN: Valid email and password
         $email = 'user@example.com';
@@ -29,7 +29,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromRequest(): void
+    public function should_create_from_request(): void
     {
         // GIVEN: Request data array
         $data = [
@@ -48,7 +48,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectEmail(): void
+    public function should_return_correct_email(): void
     {
         // GIVEN: LoginDTO with specific email
         $email = 'test@example.com';
@@ -63,7 +63,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectPassword(): void
+    public function should_return_correct_password(): void
     {
         // GIVEN: LoginDTO with specific password
         $password = 'securePassword123!@#';
@@ -78,7 +78,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousEmailFormats(): void
+    public function should_handle_various_email_formats(): void
     {
         // GIVEN: Various valid email formats
         $validEmails = [
@@ -100,7 +100,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousPasswordLengths(): void
+    public function should_handle_various_password_lengths(): void
     {
         // GIVEN: Passwords of different lengths
         $passwords = [
@@ -122,7 +122,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInPassword(): void
+    public function should_handle_special_characters_in_password(): void
     {
         // GIVEN: Password with special characters
         $specialPasswords = [
@@ -144,7 +144,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonly(): void
+    public function should_be_readonly(): void
     {
         // GIVEN: LoginDTO instance
         $dto = new LoginDTO(email: 'user@example.com', password: 'password123');
@@ -157,7 +157,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmailWithLeadingTrailingSpaces(): void
+    public function should_handle_email_with_leading_trailing_spaces(): void
     {
         // GIVEN: Email with whitespace
         $emailWithSpaces = '  user@example.com  ';
@@ -171,7 +171,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyPassword(): void
+    public function should_handle_empty_password(): void
     {
         // GIVEN: Empty password string
         $emptyPassword = '';
@@ -185,7 +185,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithExtraData(): void
+    public function should_handle_from_request_with_extra_data(): void
     {
         // GIVEN: Request data with extra fields
         $data = [
@@ -205,7 +205,7 @@ class LoginDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMultipleInstancesBeIndependent(): void
+    public function should_multiple_instances_be_independent(): void
     {
         // GIVEN: Two different LoginDTO instances
         $dto1 = new LoginDTO(email: 'user1@example.com', password: 'password1');

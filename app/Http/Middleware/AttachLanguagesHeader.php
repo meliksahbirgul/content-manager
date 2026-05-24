@@ -20,7 +20,7 @@ class AttachLanguagesHeader
         $response = $next($request);
 
         $languages = array_map(
-            fn($dto) => $dto->jsonSerialize(),
+            fn ($dto) => $dto->jsonSerialize(),
             $this->languageService->listActive(),
         );
 

@@ -13,7 +13,7 @@ class PageTreeResponseDTOTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithRequiredParameters(): void
+    public function should_create_instance_with_required_parameters(): void
     {
         // GIVEN: Required parameters
         $id = Uuid::uuid7()->toString();
@@ -39,7 +39,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithChildren(): void
+    public function should_create_instance_with_children(): void
     {
         // GIVEN: Parent and children DTOs
         $parentId = Uuid::uuid7()->toString();
@@ -77,7 +77,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromArrayWithMinimalData(): void
+    public function should_create_from_array_with_minimal_data(): void
     {
         // GIVEN: Minimal data array
         $id = Uuid::uuid7()->toString();
@@ -98,7 +98,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromArrayWithChildren(): void
+    public function should_create_from_array_with_children(): void
     {
         // GIVEN: Data with children
         $parentId = Uuid::uuid7()->toString();
@@ -129,7 +129,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeWithoutChildren(): void
+    public function should_json_serialize_without_children(): void
     {
         // GIVEN: PageTreeResponseDTO without children
         $id = Uuid::uuid7()->toString();
@@ -158,7 +158,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeWithChildren(): void
+    public function should_json_serialize_with_children(): void
     {
         // GIVEN: PageTreeResponseDTO with children
         $parentId = Uuid::uuid7()->toString();
@@ -202,7 +202,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeNestedChildren(): void
+    public function should_json_serialize_nested_children(): void
     {
         // GIVEN: Multi-level page hierarchy
         $rootId = Uuid::uuid7()->toString();
@@ -244,7 +244,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeJsonSerializable(): void
+    public function should_be_json_serializable(): void
     {
         // GIVEN: PageTreeResponseDTO
         $dto = new PageTreeResponseDTO(
@@ -266,7 +266,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeMultilingualData(): void
+    public function should_json_serialize_multilingual_data(): void
     {
         // GIVEN: PageTreeResponseDTO with multilingual title
         $title = ['en' => 'English', 'tr' => 'Turkish', 'es' => 'Spanish'];
@@ -289,7 +289,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeContainAllKeys(): void
+    public function should_json_serialize_contain_all_keys(): void
     {
         // GIVEN: PageTreeResponseDTO
         $dto = new PageTreeResponseDTO(
@@ -312,7 +312,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePassiveStatus(): void
+    public function should_handle_passive_status(): void
     {
         // GIVEN: PageTreeResponseDTO with passive status
         $dto = new PageTreeResponseDTO(
@@ -331,7 +331,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousOrderValues(): void
+    public function should_handle_various_order_values(): void
     {
         // GIVEN: Various order values
         $orderValues = [0, 1, 10, 100, 999];
@@ -354,7 +354,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeEmptyChildrenArray(): void
+    public function should_json_serialize_empty_children_array(): void
     {
         // GIVEN: PageTreeResponseDTO without children
         $dto = new PageTreeResponseDTO(
@@ -374,7 +374,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializePreservesOrder(): void
+    public function should_json_serialize_preserves_order(): void
     {
         // GIVEN: Multiple children with different orders
         $parent = new PageTreeResponseDTO(
@@ -415,7 +415,7 @@ class PageTreeResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonEncodingProduceValidJson(): void
+    public function should_json_encoding_produce_valid_json(): void
     {
         // GIVEN: Complex PageTreeResponseDTO structure
         $child = new PageTreeResponseDTO(

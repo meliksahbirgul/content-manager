@@ -11,17 +11,17 @@ use Source\Pages\Domain\Enums\PageStatus;
 readonly class UpdatePage
 {
     /**
-     * @param array<string,string>|null $title
-     * @param array<string,string>|null $content
-     * @param array<string,string>|null $slug
+     * @param  array<string,string>|null  $title
+     * @param  array<string,string>|null  $content
+     * @param  array<string,string>|null  $slug
      */
     public function __construct(
         private string $id,
-        private array|null $title = null,
-        private array|null $content = null,
-        private array|null $slug = null,
-        private int|null $order = null,
-        private PageStatus|null $status = null
+        private ?array $title = null,
+        private ?array $content = null,
+        private ?array $slug = null,
+        private ?int $order = null,
+        private ?PageStatus $status = null
     ) {
         if (! Uuid::isValid($this->id)) {
             throw new InvalidArgumentException('Invalid UUID format for id.');
@@ -51,29 +51,29 @@ readonly class UpdatePage
     }
 
     /** @return array<string, string>|null */
-    public function title(): array|null
+    public function title(): ?array
     {
         return $this->title;
     }
 
     /** @return array<string, string>|null */
-    public function content(): array|null
+    public function content(): ?array
     {
         return $this->content;
     }
 
     /** @return array<string, string>|null */
-    public function slug(): array|null
+    public function slug(): ?array
     {
         return $this->slug;
     }
 
-    public function order(): int|null
+    public function order(): ?int
     {
         return $this->order;
     }
 
-    public function status(): PageStatus|null
+    public function status(): ?PageStatus
     {
         return $this->status;
     }

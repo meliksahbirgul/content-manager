@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Source\Users\Domain\ValueObjects;
 
+use const FILTER_VALIDATE_EMAIL;
+
 use InvalidArgumentException;
 use Source\Users\Application\DTOs\LoginDTO;
 
 use function strlen;
-
-use const FILTER_VALIDATE_EMAIL;
 
 class LoginUser
 {

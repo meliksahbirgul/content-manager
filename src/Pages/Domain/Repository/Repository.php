@@ -13,14 +13,14 @@ interface Repository
     public function create(CreatePage $payload): CreatePage;
 
     /** @param array<string> $slugs */
-    public function isSlugUnique(array $slugs, string|null $pageId = null): bool;
+    public function isSlugUnique(array $slugs, ?string $pageId = null): bool;
 
-    public function findByUuid(string $uuid, bool $withImages = false): PageEntity|null;
+    public function findByUuid(string $uuid, bool $withImages = false): ?PageEntity;
 
     public function updatePage(UpdatePage $payload): void;
 
     /** @return array<string, mixed> */
     public function listPages(): array;
 
-    public function findOriginalIdByUuid(string $uuid): int|null;
+    public function findOriginalIdByUuid(string $uuid): ?int;
 }

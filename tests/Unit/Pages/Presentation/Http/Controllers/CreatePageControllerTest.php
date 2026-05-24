@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use Ramsey\Uuid\Uuid;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
@@ -20,7 +21,7 @@ class CreatePageControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreatePageSuccessfully(): void
+    public function should_create_page_successfully(): void
     {
         // Arrange
         $payload = [
@@ -56,7 +57,7 @@ class CreatePageControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldFailValidationWhenTitleIsMissing(): void
+    public function should_fail_validation_when_title_is_missing(): void
     {
         // Arrange
         $payload = [
@@ -74,7 +75,7 @@ class CreatePageControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldFailValidationWhenSlugIsMissing(): void
+    public function should_fail_validation_when_slug_is_missing(): void
     {
         // Arrange
         $payload = [
@@ -92,12 +93,12 @@ class CreatePageControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestOnServiceException(): void
+    public function should_return_bad_request_on_service_exception(): void
     {
         // Arrange
         // Create an existing page to cause slug collision
         Page::create([
-            'uuid' => \Ramsey\Uuid\Uuid::uuid7()->toString(),
+            'uuid' => Uuid::uuid7()->toString(),
             'title' => ['en' => 'Existing'],
             'content' => ['en' => 'Content'],
             'slug' => ['en' => 'duplicate-slug'],

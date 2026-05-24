@@ -20,7 +20,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLoginSuccessfullyWithValidCredentials(): void
+    public function should_login_successfully_with_valid_credentials(): void
     {
         // Arrange
         $password = 'password123';
@@ -53,7 +53,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnTokenAndRefreshTokenOnLogin(): void
+    public function should_return_token_and_refresh_token_on_login(): void
     {
         // Arrange
         $password = 'securePassword456';
@@ -79,7 +79,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenEmailIsMissing(): void
+    public function should_return_bad_request_when_email_is_missing(): void
     {
         // Act
         $response = $this->postJson(self::LOGIN_ENDPOINT, [
@@ -96,7 +96,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenPasswordIsMissing(): void
+    public function should_return_bad_request_when_password_is_missing(): void
     {
         // Act
         $response = $this->postJson(self::LOGIN_ENDPOINT, [
@@ -113,7 +113,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenBothFieldsAreMissing(): void
+    public function should_return_bad_request_when_both_fields_are_missing(): void
     {
         // Act
         $response = $this->postJson(self::LOGIN_ENDPOINT, []);
@@ -128,7 +128,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenUserNotFound(): void
+    public function should_return_bad_request_when_user_not_found(): void
     {
         // Act
         $response = $this->postJson(self::LOGIN_ENDPOINT, [
@@ -149,7 +149,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenPasswordIsWrong(): void
+    public function should_return_bad_request_when_password_is_wrong(): void
     {
         // Arrange
         User::create([
@@ -177,7 +177,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectUserDataOnLogin(): void
+    public function should_return_correct_user_data_on_login(): void
     {
         // Arrange
         $password = 'password123';
@@ -203,7 +203,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWithDetailsOnException(): void
+    public function should_return_bad_request_with_details_on_exception(): void
     {
         // Act
         $response = $this->postJson(self::LOGIN_ENDPOINT, [
@@ -222,7 +222,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowMultipleLoginsForSameUser(): void
+    public function should_allow_multiple_logins_for_same_user(): void
     {
         // Arrange
         $password = 'password123';
@@ -255,7 +255,7 @@ class LoginControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLoginDifferentUsersIndependently(): void
+    public function should_login_different_users_independently(): void
     {
         // Arrange
         $password = 'password123';

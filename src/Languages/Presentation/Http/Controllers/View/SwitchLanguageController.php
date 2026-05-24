@@ -17,7 +17,7 @@ class SwitchLanguageController
         $code = (string) $request->input('code', '');
 
         $validCodes = array_map(
-            fn($dto) => $dto->code(),
+            fn ($dto) => $dto->code(),
             $this->languageService->listActive(),
         );
 

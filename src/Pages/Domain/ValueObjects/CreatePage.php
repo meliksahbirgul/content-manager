@@ -11,17 +11,17 @@ use Source\Pages\Domain\Enums\PageStatus;
 class CreatePage
 {
     /**
-     * @param array<string,string> $title
-     * @param array<string,string> $content
-     * @param array<string,string> $slug
+     * @param  array<string,string>  $title
+     * @param  array<string,string>  $content
+     * @param  array<string,string>  $slug
      */
     public function __construct(
         private string $id,
         private array $title,
         private array $content,
         private array $slug,
-        private string|null $parentId = null,
-        public int|null $parentOriginalId = null,
+        private ?string $parentId = null,
+        public ?int $parentOriginalId = null,
         private int $order = 0,
         private PageStatus $status = PageStatus::PASSIVE,
     ) {
@@ -81,7 +81,7 @@ class CreatePage
         return $this->slug;
     }
 
-    public function parentId(): string|null
+    public function parentId(): ?string
     {
         return $this->parentId;
     }
@@ -96,7 +96,7 @@ class CreatePage
         return $this->status;
     }
 
-    public function parentOriginalId(): int|null
+    public function parentOriginalId(): ?int
     {
         return $this->parentOriginalId;
     }

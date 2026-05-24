@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Users\ValueObjects;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
 use Source\Users\Domain\ValueObjects\RefreshUser;
 
 class RefreshUserSadPathTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForEmptyToken(): void
+    public function should_throw_exception_for_empty_token(): void
     {
         // GIVEN: Empty token
         // THEN: Should throw exception
@@ -26,7 +26,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptWhitespaceOnlyToken(): void
+    public function should_accept_whitespace_only_token(): void
     {
         // GIVEN: Whitespace-only token
         // Note: PHP's empty() doesn't treat whitespace strings as empty
@@ -41,7 +41,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptTabsOnlyToken(): void
+    public function should_accept_tabs_only_token(): void
     {
         // GIVEN: Tabs-only token
         // Note: PHP's empty() doesn't treat tab strings as empty
@@ -56,7 +56,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptNewlinesOnlyToken(): void
+    public function should_accept_newlines_only_token(): void
     {
         // GIVEN: Newlines-only token
         // Note: PHP's empty() doesn't treat newline strings as empty
@@ -71,7 +71,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptCRLFOnlyToken(): void
+    public function should_accept_crlf_only_token(): void
     {
         // GIVEN: CRLF-only token
         // Note: PHP's empty() doesn't treat CRLF strings as empty
@@ -86,7 +86,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptMixedWhitespaceToken(): void
+    public function should_accept_mixed_whitespace_token(): void
     {
         // GIVEN: Mixed whitespace token
         // Note: PHP's empty() doesn't treat whitespace strings as empty
@@ -101,7 +101,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptTokenWithLeadingTrailingWhitespace(): void
+    public function should_accept_token_with_leading_trailing_whitespace(): void
     {
         // GIVEN: Token with leading/trailing whitespace but not only whitespace
         $token = '   real_token_123   ';
@@ -115,7 +115,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptValidJWTToken(): void
+    public function should_accept_valid_jwt_token(): void
     {
         // GIVEN: Valid JWT token
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -129,7 +129,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptSimpleToken(): void
+    public function should_accept_simple_token(): void
     {
         // GIVEN: Simple alphanumeric token
         $token = 'token123abc';
@@ -143,7 +143,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptVeryLongToken(): void
+    public function should_accept_very_long_token(): void
     {
         // GIVEN: Very long token
         $token = str_repeat('a', 10000);
@@ -157,7 +157,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptSingleCharacterToken(): void
+    public function should_accept_single_character_token(): void
     {
         // GIVEN: Single character token
         $token = 'a';
@@ -171,7 +171,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptNumericToken(): void
+    public function should_accept_numeric_token(): void
     {
         // GIVEN: Pure numeric token
         $token = '123456789';
@@ -185,7 +185,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptSpecialCharactersInToken(): void
+    public function should_accept_special_characters_in_token(): void
     {
         // GIVEN: Token with special characters
         $token = '!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -199,7 +199,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptUnicodeInToken(): void
+    public function should_accept_unicode_in_token(): void
     {
         // GIVEN: Token with unicode characters
         $token = 'token_トークン_🔐';
@@ -213,7 +213,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptNullByteInToken(): void
+    public function should_accept_null_byte_in_token(): void
     {
         // GIVEN: Token with null byte (edge case, shouldn't normally happen)
         $token = "token\0injection";
@@ -228,7 +228,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveTokenExactly(): void
+    public function should_preserve_token_exactly(): void
     {
         // GIVEN: Token with mixed case and special formatting
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U';
@@ -242,7 +242,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokenWithNewlines(): void
+    public function should_handle_token_with_newlines(): void
     {
         // GIVEN: Token with newlines but not only newlines
         $token = "token\nwith\nnewlines";
@@ -256,7 +256,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokenWithTabs(): void
+    public function should_handle_token_with_tabs(): void
     {
         // GIVEN: Token with tabs but not only tabs
         $token = "token\twith\ttabs";
@@ -270,7 +270,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleInstances(): void
+    public function should_handle_multiple_instances(): void
     {
         // GIVEN: Multiple RefreshUser instances
         $tokens = ['token1', 'token2', 'token3'];
@@ -289,7 +289,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokenWithConsecutiveWhitespace(): void
+    public function should_handle_token_with_consecutive_whitespace(): void
     {
         // GIVEN: Token with multiple spaces between content
         $token = 'token    with    spaces';
@@ -303,7 +303,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokenWithHtmlContent(): void
+    public function should_handle_token_with_html_content(): void
     {
         // GIVEN: Token that looks like HTML
         $token = '<script>alert("xss")</script>';
@@ -317,7 +317,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokenWithSqlContent(): void
+    public function should_handle_token_with_sql_content(): void
     {
         // GIVEN: Token that looks like SQL
         $token = "'; DROP TABLE users; --";
@@ -331,7 +331,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWithCorrectMessage(): void
+    public function should_throw_exception_with_correct_message(): void
     {
         // GIVEN: Empty token
         // THEN: Should throw with specific message
@@ -344,7 +344,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldValidateUponInstantiation(): void
+    public function should_validate_upon_instantiation(): void
     {
         // GIVEN: Invalid token (only empty string is truly invalid)
         // THEN: Should throw immediately for empty string
@@ -356,7 +356,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleZeroWidthCharacters(): void
+    public function should_handle_zero_width_characters(): void
     {
         // GIVEN: Token with zero-width characters (not truly empty)
         // U+200B is zero-width space
@@ -376,7 +376,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForNullCharacterAlone(): void
+    public function should_throw_exception_for_null_character_alone(): void
     {
         // GIVEN: Just a null character
         $token = "\0";
@@ -391,7 +391,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleCasePreservation(): void
+    public function should_handle_case_preservation(): void
     {
         // GIVEN: Token with mixed case
         $token = 'ToKeN_WiTh_MiXeD_CaSe';
@@ -405,7 +405,7 @@ class RefreshUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleDotNotationInToken(): void
+    public function should_handle_dot_notation_in_token(): void
     {
         // GIVEN: Token with dot notation (like JWT parts)
         $token = 'header.payload.signature';

@@ -13,11 +13,11 @@ class PermissionEntityTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllFields(): void
+    public function should_create_instance_with_all_fields(): void
     {
         // GIVEN: Valid permission data
-        $uuid        = Uuid::uuid7()->toString();
-        $name        = 'pages.create';
+        $uuid = Uuid::uuid7()->toString();
+        $name = 'pages.create';
         $displayName = 'Create Pages';
         $description = 'Allows creating new pages.';
 
@@ -34,11 +34,11 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithNullDescription(): void
+    public function should_create_instance_with_null_description(): void
     {
         // GIVEN: Permission data without description
-        $uuid        = Uuid::uuid7()->toString();
-        $name        = 'pages.view';
+        $uuid = Uuid::uuid7()->toString();
+        $name = 'pages.view';
         $displayName = 'View Pages';
 
         // WHEN: Creating PermissionEntity with null description
@@ -51,10 +51,10 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnUuidCorrectly(): void
+    public function should_return_uuid_correctly(): void
     {
         // GIVEN: A specific uuid
-        $uuid       = Uuid::uuid7()->toString();
+        $uuid = Uuid::uuid7()->toString();
         $permission = new PermissionEntity($uuid, 'pages.view', 'View Pages', null);
 
         // WHEN: Calling uuid()
@@ -67,10 +67,10 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNameWithDotNotationCorrectly(): void
+    public function should_return_name_with_dot_notation_correctly(): void
     {
         // GIVEN: A permission name using resource.action format
-        $name       = 'pages.delete';
+        $name = 'pages.delete';
         $permission = new PermissionEntity(Uuid::uuid7()->toString(), $name, 'Delete Pages', null);
 
         // WHEN: Calling name()
@@ -83,11 +83,11 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDisplayNameCorrectly(): void
+    public function should_return_display_name_correctly(): void
     {
         // GIVEN: A specific display name
         $displayName = 'Update Pages';
-        $permission  = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.update', $displayName, null);
+        $permission = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.update', $displayName, null);
 
         // WHEN: Calling displayName()
         $result = $permission->displayName();
@@ -99,11 +99,11 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDescriptionCorrectly(): void
+    public function should_return_description_correctly(): void
     {
         // GIVEN: A specific description
         $description = 'Allows updating existing pages.';
-        $permission  = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.update', 'Update Pages', $description);
+        $permission = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.update', 'Update Pages', $description);
 
         // WHEN: Calling description()
         $result = $permission->description();
@@ -115,7 +115,7 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringName(): void
+    public function should_handle_empty_string_name(): void
     {
         // GIVEN: Permission with empty name
         $permission = new PermissionEntity(Uuid::uuid7()->toString(), '', 'Display', null);
@@ -130,7 +130,7 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringDisplayName(): void
+    public function should_handle_empty_string_display_name(): void
     {
         // GIVEN: Permission with empty display name
         $permission = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.view', '', null);
@@ -145,11 +145,11 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInDescription(): void
+    public function should_handle_unicode_in_description(): void
     {
         // GIVEN: Description with unicode characters
         $description = 'Sayfaları görüntüleme izni.';
-        $permission  = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.view', 'View Pages', $description);
+        $permission = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.view', 'View Pages', $description);
 
         // WHEN: Calling description()
         $result = $permission->description();
@@ -161,7 +161,7 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMaintainImmutabilityAcrossMultipleCalls(): void
+    public function should_maintain_immutability_across_multiple_calls(): void
     {
         // GIVEN: A PermissionEntity instance
         $permission = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.create', 'Create Pages', 'Desc.');
@@ -179,7 +179,7 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotShareStateBetweenInstances(): void
+    public function should_not_share_state_between_instances(): void
     {
         // GIVEN: Two separate PermissionEntity instances
         $perm1 = new PermissionEntity(Uuid::uuid7()->toString(), 'pages.create', 'Create Pages', null);
@@ -197,7 +197,7 @@ class PermissionEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveExactDotNotationName(): void
+    public function should_preserve_exact_dot_notation_name(): void
     {
         // GIVEN: All four standard page permission names
         $names = ['pages.view', 'pages.create', 'pages.update', 'pages.delete'];

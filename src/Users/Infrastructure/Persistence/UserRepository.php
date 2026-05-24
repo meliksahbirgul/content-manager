@@ -15,7 +15,7 @@ use function config;
 
 class UserRepository implements Repository
 {
-    public function findByEmail(string $email): UserEntity|null
+    public function findByEmail(string $email): ?UserEntity
     {
         $user = EloquentUser::where('email', $email)->first();
         if (! $user) {
@@ -25,26 +25,26 @@ class UserRepository implements Repository
         return $this->mapToEntity($user);
     }
 
-    public function createTokenForUser(string $email): UserTokenEntity|null
+    public function createTokenForUser(string $email): ?UserTokenEntity
     {
         $user = EloquentUser::where('email', $email)->first();
         if (! $user) {
             return null;
         }
 
-        $now = new DateTimeImmutable();
+        $now = new DateTimeImmutable;
 
-        $accessSeconds   = config('sanctum.expiration');
+        $accessSeconds = config('sanctum.expiration');
         $accessExpiresAt = $now->modify("+{$accessSeconds} seconds");
-        $accessToken     = $user->createToken(
+        $accessToken = $user->createToken(
             name: 'access-token',
             abilities: ['access-panel'],
             expiresAt: $accessExpiresAt
         );
 
-        $refreshSeconds  = config('sanctum.rt_expiration');
+        $refreshSeconds = config('sanctum.rt_expiration');
         $refreshExpireAt = $now->modify("+{$refreshSeconds} seconds");
-        $refreshToken    = $user->createToken(
+        $refreshToken = $user->createToken(
             name: 'refresh-token',
             abilities: ['issue-access-token'],
             expiresAt: $refreshExpireAt,
@@ -67,7 +67,7 @@ class UserRepository implements Repository
         );
     }
 
-    public function findUserByRefreshToken(string $token): UserEntity|null
+    public function findUserByRefreshToken(string $token): ?UserEntity
     {
         $tokenModel = PersonalAccessToken::findToken($token);
         if (! $tokenModel || ! $tokenModel->can('issue-access-token')) {
@@ -100,7 +100,7 @@ class UserRepository implements Repository
         $tokenModel->delete();
     }
 
-    public function getUserModelWithEmail(string $email): EloquentUser|null
+    public function getUserModelWithEmail(string $email): ?EloquentUser
     {
         $user = EloquentUser::where('email', $email)->first();
         if (! $user) {

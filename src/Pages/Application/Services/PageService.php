@@ -75,7 +75,7 @@ readonly class PageService
     }
 
     /** @param array<string, string>|null ...$payloads */
-    private function assertValidLanguageCodes(array|null ...$payloads): void
+    private function assertValidLanguageCodes(?array ...$payloads): void
     {
         foreach ($payloads as $payload) {
             if ($payload === null) {

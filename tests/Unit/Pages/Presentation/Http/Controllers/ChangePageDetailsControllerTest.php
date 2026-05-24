@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use Ramsey\Uuid\Uuid;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
@@ -23,10 +24,10 @@ class ChangePageDetailsControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldUpdatePageSuccessfully(): void
+    public function should_update_page_successfully(): void
     {
         // Arrange
-        $uuid = \Ramsey\Uuid\Uuid::uuid7()->toString();
+        $uuid = Uuid::uuid7()->toString();
         Page::create([
             'uuid' => $uuid,
             'title' => ['en' => 'Old Title'],
@@ -55,10 +56,10 @@ class ChangePageDetailsControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestOnServiceException(): void
+    public function should_return_bad_request_on_service_exception(): void
     {
         // Arrange
-        $uuid1 = \Ramsey\Uuid\Uuid::uuid7()->toString();
+        $uuid1 = Uuid::uuid7()->toString();
         Page::create([
             'uuid' => $uuid1,
             'title' => ['en' => 'Page 1'],
@@ -68,7 +69,7 @@ class ChangePageDetailsControllerTest extends TestCase
             'is_active' => 'active',
         ]);
 
-        $uuid2 = \Ramsey\Uuid\Uuid::uuid7()->toString();
+        $uuid2 = Uuid::uuid7()->toString();
         Page::create([
             'uuid' => $uuid2,
             'title' => ['en' => 'Page 2'],
@@ -96,7 +97,7 @@ class ChangePageDetailsControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenPageNotFound(): void
+    public function should_return_bad_request_when_page_not_found(): void
     {
         // Arrange
         $payload = [
@@ -104,7 +105,7 @@ class ChangePageDetailsControllerTest extends TestCase
         ];
 
         // Act
-        $response = $this->patchJson($this->getEndpoint(\Ramsey\Uuid\Uuid::uuid7()->toString()), $payload);
+        $response = $this->patchJson($this->getEndpoint(Uuid::uuid7()->toString()), $payload);
 
         // Assert
         $response->assertStatus(Response::HTTP_BAD_REQUEST);

@@ -11,10 +11,10 @@ use Source\Pages\Domain\Entity\PageEntity;
 readonly class PageEditResponseDTO implements JsonSerializable
 {
     /**
-     * @param array<string, string> $title
-     * @param array<string, string> $content
-     * @param array<string, string> $slug
-     * @param list<MediaResponseDTO> $images
+     * @param  array<string, string>  $title
+     * @param  array<string, string>  $content
+     * @param  array<string, string>  $slug
+     * @param  list<MediaResponseDTO>  $images
      */
     public function __construct(
         private string $id,
@@ -23,7 +23,7 @@ readonly class PageEditResponseDTO implements JsonSerializable
         private array $slug,
         private string $status,
         private int $order,
-        private string|null $parentId = null,
+        private ?string $parentId = null,
         private array $images = [],
     ) {}
 
@@ -38,7 +38,7 @@ readonly class PageEditResponseDTO implements JsonSerializable
             parentId: $entity->parentId(),
             order: $entity->order(),
             images: array_map(
-                fn($image) => MediaResponseDTO::fromEntity($image),
+                fn ($image) => MediaResponseDTO::fromEntity($image),
                 $entity->images()
             ),
         );
@@ -77,7 +77,7 @@ readonly class PageEditResponseDTO implements JsonSerializable
         return $this->order;
     }
 
-    public function parentId(): string|null
+    public function parentId(): ?string
     {
         return $this->parentId;
     }

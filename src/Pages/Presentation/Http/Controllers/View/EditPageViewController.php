@@ -22,11 +22,11 @@ class EditPageViewController extends Controller
     public function __invoke(string $pageId): View|RedirectResponse
     {
         try {
-            $page  = $this->getPageForEdit->execute($pageId);
+            $page = $this->getPageForEdit->execute($pageId);
             $pages = $this->getPageTree->execute(new ListPageDTO(null, null));
 
             return view('panel.pages.edit', [
-                'page'  => $page,
+                'page' => $page,
                 'pages' => $pages,
             ]);
         } catch (DomainException) {

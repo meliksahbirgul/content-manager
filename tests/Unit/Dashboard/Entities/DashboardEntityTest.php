@@ -14,14 +14,16 @@ use Source\Dashboard\Domain\Entity\PageStatusCountEntity;
 class DashboardEntityTest extends TestCase
 {
     private PageStatusCountEntity $activeCount;
+
     private PageStatusCountEntity $passiveCount;
+
     private ActivityLogEntity $activityLog;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->activeCount  = new PageStatusCountEntity(status: 'active', count: 5);
+        $this->activeCount = new PageStatusCountEntity(status: 'active', count: 5);
         $this->passiveCount = new PageStatusCountEntity(status: 'passive', count: 2);
 
         $this->activityLog = new ActivityLogEntity(
@@ -37,11 +39,11 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithPageStatusCountsAndActivityLogs(): void
+    public function should_create_instance_with_page_status_counts_and_activity_logs(): void
     {
         // GIVEN: Arrays of status counts and activity logs
-        $statusCounts  = [$this->activeCount, $this->passiveCount];
-        $activityLogs  = [$this->activityLog];
+        $statusCounts = [$this->activeCount, $this->passiveCount];
+        $activityLogs = [$this->activityLog];
 
         // WHEN: Creating DashboardEntity
         $entity = new DashboardEntity(
@@ -57,7 +59,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectPageStatusCounts(): void
+    public function should_return_correct_page_status_counts(): void
     {
         // GIVEN: Two PageStatusCountEntity instances
         $statusCounts = [$this->activeCount, $this->passiveCount];
@@ -77,7 +79,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectRecentActivityLogs(): void
+    public function should_return_correct_recent_activity_logs(): void
     {
         // GIVEN: One activity log entry
         $activityLogs = [$this->activityLog];
@@ -96,7 +98,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyPageStatusCounts(): void
+    public function should_handle_empty_page_status_counts(): void
     {
         // GIVEN: No page status counts
         $entity = new DashboardEntity(pageStatusCounts: [], recentActivityLogs: [$this->activityLog]);
@@ -111,7 +113,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyRecentActivityLogs(): void
+    public function should_handle_empty_recent_activity_logs(): void
     {
         // GIVEN: No activity logs
         $entity = new DashboardEntity(
@@ -129,7 +131,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleBothCollectionsEmpty(): void
+    public function should_handle_both_collections_empty(): void
     {
         // GIVEN: No data at all (e.g. fresh install)
         $entity = new DashboardEntity(pageStatusCounts: [], recentActivityLogs: []);
@@ -141,7 +143,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleActivityLogs(): void
+    public function should_handle_multiple_activity_logs(): void
     {
         // GIVEN: Multiple activity log entries
         $log2 = new ActivityLogEntity(
@@ -169,7 +171,7 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTypesForBothCollections(): void
+    public function should_return_correct_types_for_both_collections(): void
     {
         // GIVEN: A populated DashboardEntity
         $entity = new DashboardEntity(
@@ -184,14 +186,14 @@ class DashboardEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeImmutableAfterConstruction(): void
+    public function should_be_immutable_after_construction(): void
     {
         // GIVEN: A DashboardEntity instance
         $statusCounts = [$this->activeCount];
         $entity = new DashboardEntity(pageStatusCounts: $statusCounts, recentActivityLogs: []);
 
         // WHEN: Accessing the collection twice
-        $first  = $entity->pageStatusCounts();
+        $first = $entity->pageStatusCounts();
         $second = $entity->pageStatusCounts();
 
         // THEN: Both calls should return the same array reference

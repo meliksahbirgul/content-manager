@@ -17,9 +17,9 @@ class ChangePageDetailsController extends Controller
     public function __invoke(UpdatePageRequest $request, PageService $pageService, string $pageId): JsonResponse
     {
         try {
-            $data       = $request->validated();
+            $data = $request->validated();
             $data['id'] = $pageId;
-            $dto        = UpdatePageDTO::fromRequest($data);
+            $dto = UpdatePageDTO::fromRequest($data);
             $pageService->updatePage($dto);
 
             return response()->json(null, Response::HTTP_NO_CONTENT);

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         $permissions = [
-            'pages.view'   => 'View Pages',
+            'pages.view' => 'View Pages',
             'pages.create' => 'Create Pages',
             'pages.update' => 'Update Pages',
             'pages.delete' => 'Delete Pages',
@@ -18,7 +18,7 @@ return new class extends Migration
         foreach ($permissions as $name => $displayName) {
             DB::table('permissions')->insertOrIgnore([
                 'uuid' => Uuid::uuid7()->toString(),
-                'name'         => $name,
+                'name' => $name,
                 'display_name' => $displayName,
             ]);
         }
@@ -28,35 +28,35 @@ return new class extends Migration
             ->pluck('id', 'name');
 
         $roles = [
-            'admin'  => [
+            'admin' => [
                 'display_name' => 'Administrator',
-                'description'  => 'Full access to all resources.',
-                'permissions'  => ['pages.view', 'pages.create', 'pages.update', 'pages.delete'],
+                'description' => 'Full access to all resources.',
+                'permissions' => ['pages.view', 'pages.create', 'pages.update', 'pages.delete'],
             ],
             'editor' => [
                 'display_name' => 'Editor',
-                'description'  => 'Can create and edit pages.',
-                'permissions'  => ['pages.view', 'pages.create', 'pages.update'],
+                'description' => 'Can create and edit pages.',
+                'permissions' => ['pages.view', 'pages.create', 'pages.update'],
             ],
             'viewer' => [
                 'display_name' => 'Viewer',
-                'description'  => 'Read-only access to pages.',
-                'permissions'  => ['pages.view'],
+                'description' => 'Read-only access to pages.',
+                'permissions' => ['pages.view'],
             ],
         ];
 
         foreach ($roles as $name => $data) {
             DB::table('roles')->insertOrIgnore([
                 'uuid' => Uuid::uuid7()->toString(),
-                'name'         => $name,
+                'name' => $name,
                 'display_name' => $data['display_name'],
-                'description'  => $data['description'],
+                'description' => $data['description'],
             ]);
 
             $roleId = DB::table('roles')->where('name', $name)->value('id');
 
             $pivotRows = array_map(
-                fn(string $p) => ['role_id' => $roleId, 'permission_id' => $permissionIds[$p]],
+                fn (string $p) => ['role_id' => $roleId, 'permission_id' => $permissionIds[$p]],
                 $data['permissions'],
             );
 

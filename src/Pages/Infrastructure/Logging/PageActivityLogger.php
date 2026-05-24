@@ -19,7 +19,7 @@ class PageActivityLogger implements ActivityLogger
     {
         activity('pages')
             ->withProperties([
-                'uuid'       => $uuid,
+                'uuid' => $uuid,
                 'old_status' => $oldStatus,
                 'new_status' => $newStatus,
             ])

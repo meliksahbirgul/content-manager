@@ -9,9 +9,9 @@ use Source\Roles\Domain\ValueObjects\AssignRole;
 
 interface RoleRepository
 {
-    public function findByUuid(string $uuid): RoleEntity|null;
+    public function findByUuid(string $uuid): ?RoleEntity;
 
-    public function findByName(string $name): RoleEntity|null;
+    public function findByName(string $name): ?RoleEntity;
 
     /** @return list<RoleEntity> */
     public function all(): array;

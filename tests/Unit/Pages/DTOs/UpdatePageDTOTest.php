@@ -21,7 +21,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithRequiredId(): void
+    public function should_create_instance_with_required_id(): void
     {
         // GIVEN: Required id parameter
         $id = $this->validUuid;
@@ -36,7 +36,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllOptionalParameters(): void
+    public function should_create_instance_with_all_optional_parameters(): void
     {
         // GIVEN: All parameters
         $id = $this->validUuid;
@@ -66,7 +66,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromRequestWithRequiredId(): void
+    public function should_create_from_request_with_required_id(): void
     {
         // GIVEN: Request data with only id
         $id = $this->validUuid;
@@ -82,7 +82,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromRequestWithAllData(): void
+    public function should_create_from_request_with_all_data(): void
     {
         // GIVEN: Full request data
         $id = $this->validUuid;
@@ -113,7 +113,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldDefaultToNullForOptionalFields(): void
+    public function should_default_to_null_for_optional_fields(): void
     {
         // GIVEN: Request with only id
         $id = $this->validUuid;
@@ -130,7 +130,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowPartialUpdate(): void
+    public function should_allow_partial_update(): void
     {
         // GIVEN: Request with only title and order
         $id = $this->validUuid;
@@ -153,7 +153,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldIgnoreExtraFieldsInRequest(): void
+    public function should_ignore_extra_fields_in_request(): void
     {
         // GIVEN: Request with extra fields
         $id = $this->validUuid;
@@ -173,7 +173,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveMultilingualData(): void
+    public function should_preserve_multilingual_data(): void
     {
         // GIVEN: Request with multilingual data
         $id = $this->validUuid;
@@ -201,7 +201,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnArrayFromToArray(): void
+    public function should_return_array_from_to_array(): void
     {
         // GIVEN: UpdatePageDTO with data
         $id = $this->validUuid;
@@ -231,7 +231,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHaveIdAsPublicReadonlyProperty(): void
+    public function should_have_id_as_public_readonly_property(): void
     {
         // GIVEN: UpdatePageDTO
         $id = $this->validUuid;
@@ -243,7 +243,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHaveTitleAsPublicReadonlyProperty(): void
+    public function should_have_title_as_public_readonly_property(): void
     {
         // GIVEN: UpdatePageDTO with title
         $title = ['en' => 'Title'];
@@ -255,7 +255,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleActiveStatus(): void
+    public function should_handle_active_status(): void
     {
         // GIVEN: Request with active status
         $data = [
@@ -273,7 +273,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePassiveStatus(): void
+    public function should_handle_passive_status(): void
     {
         // GIVEN: Request with passive status
         $data = [
@@ -291,7 +291,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullStatus(): void
+    public function should_handle_null_status(): void
     {
         // GIVEN: Request without status
         $data = [
@@ -308,7 +308,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousOrderValues(): void
+    public function should_handle_various_order_values(): void
     {
         // GIVEN: Various order values
         $orderValues = [0, 1, 10, 100, 999];
@@ -330,7 +330,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowUpdateOnlyTitle(): void
+    public function should_allow_update_only_title(): void
     {
         // GIVEN: Request with only title update
         $id = $this->validUuid;
@@ -351,7 +351,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowUpdateOnlyContent(): void
+    public function should_allow_update_only_content(): void
     {
         // GIVEN: Request with only content update
         $id = $this->validUuid;
@@ -372,7 +372,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowUpdateOnlySlug(): void
+    public function should_allow_update_only_slug(): void
     {
         // GIVEN: Request with only slug update
         $id = $this->validUuid;
@@ -393,7 +393,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonly(): void
+    public function should_be_readonly(): void
     {
         // THEN: UpdatePageDTO should be readonly
         $dto = new UpdatePageDTO(id: $this->validUuid);
@@ -404,7 +404,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveNullValuesInArray(): void
+    public function should_preserve_null_values_in_array(): void
     {
         // GIVEN: UpdatePageDTO with some null values
         $dto = new UpdatePageDTO(
@@ -424,7 +424,7 @@ class UpdatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromRequestWithMissingOptionalFields(): void
+    public function should_create_from_request_with_missing_optional_fields(): void
     {
         // GIVEN: Request without optional fields
         $id = $this->validUuid;

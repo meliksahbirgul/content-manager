@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
+use Ramsey\Uuid\Uuid;
 use Source\Pages\Domain\Models\Page;
 use Tests\TestCase;
 
@@ -20,10 +21,10 @@ class ListPagesControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldListPagesSuccessfully(): void
+    public function should_list_pages_successfully(): void
     {
         // Arrange
-        $parentUuid = \Ramsey\Uuid\Uuid::uuid7()->toString();
+        $parentUuid = Uuid::uuid7()->toString();
         $parentPage = Page::create([
             'uuid' => $parentUuid,
             'title' => ['en' => 'Parent Page'],
@@ -33,7 +34,7 @@ class ListPagesControllerTest extends TestCase
             'is_active' => 'active',
         ]);
 
-        $childUuid = \Ramsey\Uuid\Uuid::uuid7()->toString();
+        $childUuid = Uuid::uuid7()->toString();
         Page::create([
             'uuid' => $childUuid,
             'title' => ['en' => 'Child Page'],
@@ -57,8 +58,8 @@ class ListPagesControllerTest extends TestCase
                     'title',
                     'status',
                     'order',
-                    'children'
-                ]
+                    'children',
+                ],
             ],
         ]);
 
@@ -75,7 +76,7 @@ class ListPagesControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnEmptyListWhenNoPagesExist(): void
+    public function should_return_empty_list_when_no_pages_exist(): void
     {
         // Act
         $response = $this->getJson(self::ENDPOINT);

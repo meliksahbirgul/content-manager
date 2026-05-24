@@ -12,7 +12,7 @@ class UserTokenEntityTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithValidData(): void
+    public function should_create_instance_with_valid_data(): void
     {
         // GIVEN: Valid token data
         $accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.access';
@@ -35,7 +35,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnAccessTokenCorrectly(): void
+    public function should_return_access_token_correctly(): void
     {
         // GIVEN: UserTokenEntity with specific access token
         $accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.payload.signature';
@@ -55,7 +55,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnRefreshTokenCorrectly(): void
+    public function should_return_refresh_token_correctly(): void
     {
         // GIVEN: UserTokenEntity with specific refresh token
         $refreshToken = 'refresh_token_value_123456789';
@@ -75,7 +75,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnExpiresAtCorrectly(): void
+    public function should_return_expires_at_correctly(): void
     {
         // GIVEN: UserTokenEntity with specific expiration timestamp
         $expiresAt = 1735689600;
@@ -95,7 +95,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyAccessToken(): void
+    public function should_handle_empty_access_token(): void
     {
         // GIVEN: UserTokenEntity with empty access token
         $tokenEntity = new UserTokenEntity(
@@ -114,7 +114,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyRefreshToken(): void
+    public function should_handle_empty_refresh_token(): void
     {
         // GIVEN: UserTokenEntity with empty refresh token
         $tokenEntity = new UserTokenEntity(
@@ -133,7 +133,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleZeroExpiresAt(): void
+    public function should_handle_zero_expires_at(): void
     {
         // GIVEN: UserTokenEntity with zero expiration
         $tokenEntity = new UserTokenEntity(
@@ -152,7 +152,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNegativeExpiresAt(): void
+    public function should_handle_negative_expires_at(): void
     {
         // GIVEN: UserTokenEntity with negative expiration (past timestamp)
         $expiresAt = -1735689600;
@@ -172,7 +172,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLargeExpiresAt(): void
+    public function should_handle_very_large_expires_at(): void
     {
         // GIVEN: UserTokenEntity with very large expiration timestamp
         $expiresAt = PHP_INT_MAX;
@@ -192,7 +192,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongAccessToken(): void
+    public function should_handle_very_long_access_token(): void
     {
         // GIVEN: Very long access token (10000+ characters)
         $longToken = str_repeat('A', 10000);
@@ -213,7 +213,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongRefreshToken(): void
+    public function should_handle_very_long_refresh_token(): void
     {
         // GIVEN: Very long refresh token
         $longToken = str_repeat('B', 10000);
@@ -232,7 +232,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInAccessToken(): void
+    public function should_handle_special_characters_in_access_token(): void
     {
         // GIVEN: Access token with special characters
         $token = '!@#$%^&*()-_=+[]{}|;:,.<>?/~`';
@@ -251,7 +251,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInRefreshToken(): void
+    public function should_handle_special_characters_in_refresh_token(): void
     {
         // GIVEN: Refresh token with special characters
         $token = '!@#$%^&*()-_=+[]{}|;:,.<>?/~`';
@@ -270,7 +270,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInAccessToken(): void
+    public function should_handle_unicode_in_access_token(): void
     {
         // GIVEN: Access token with unicode characters
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.日本語.署名';
@@ -290,7 +290,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInRefreshToken(): void
+    public function should_handle_unicode_in_refresh_token(): void
     {
         // GIVEN: Refresh token with unicode characters
         $token = 'русский_токен_обновления';
@@ -310,7 +310,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteInAccessToken(): void
+    public function should_handle_null_byte_in_access_token(): void
     {
         // GIVEN: Access token with null byte (injection attempt)
         $token = "access\0token";
@@ -330,7 +330,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteInRefreshToken(): void
+    public function should_handle_null_byte_in_refresh_token(): void
     {
         // GIVEN: Refresh token with null byte
         $token = "refresh\0token";
@@ -350,7 +350,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceInAccessToken(): void
+    public function should_handle_whitespace_in_access_token(): void
     {
         // GIVEN: Access token with leading/trailing whitespace
         $token = '  access_token_value  ';
@@ -370,7 +370,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceInRefreshToken(): void
+    public function should_handle_whitespace_in_refresh_token(): void
     {
         // GIVEN: Refresh token with tabs and newlines
         $token = "\t\nrefresh_token\t\n";
@@ -391,7 +391,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSQLInjectionAttemptInAccessToken(): void
+    public function should_handle_sql_injection_attempt_in_access_token(): void
     {
         // GIVEN: Access token containing SQL injection attempt
         $token = "'; DROP TABLE users; --";
@@ -410,7 +410,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleXSSAttemptInRefreshToken(): void
+    public function should_handle_xss_attempt_in_refresh_token(): void
     {
         // GIVEN: Refresh token containing XSS attempt
         $token = '<script>alert("xss")</script>';
@@ -429,7 +429,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMaintainDataImmutabilityAcrossMultipleCalls(): void
+    public function should_maintain_data_immutability_across_multiple_calls(): void
     {
         // GIVEN: UserTokenEntity instance
         $tokenEntity = new UserTokenEntity(
@@ -455,7 +455,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotAffectOtherInstancesWhenCreatingNew(): void
+    public function should_not_affect_other_instances_when_creating_new(): void
     {
         // GIVEN: Multiple UserTokenEntity instances
         $token1 = new UserTokenEntity(
@@ -482,7 +482,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleJWTFormatAccessToken(): void
+    public function should_handle_jwt_format_access_token(): void
     {
         // GIVEN: Properly formatted JWT access token
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -503,7 +503,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleBearerTokenFormatRefreshToken(): void
+    public function should_handle_bearer_token_format_refresh_token(): void
     {
         // GIVEN: Bearer token format (token without "Bearer " prefix)
         $token = '0123456789abcdef0123456789abcdef0123456789';
@@ -523,7 +523,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSingleCharacterTokens(): void
+    public function should_handle_single_character_tokens(): void
     {
         // GIVEN: Single character tokens
         $tokenEntity = new UserTokenEntity(
@@ -543,7 +543,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveExactCasing(): void
+    public function should_preserve_exact_casing(): void
     {
         // GIVEN: Mixed case tokens
         $accessToken = 'eYjAlGcI.pAyLoaD.sIgNaTuRe';
@@ -566,7 +566,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericStringTokens(): void
+    public function should_handle_numeric_string_tokens(): void
     {
         // GIVEN: Numeric string tokens
         $accessToken = '123456789012345678901234567890';
@@ -591,7 +591,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTypes(): void
+    public function should_return_correct_types(): void
     {
         // GIVEN: UserTokenEntity instance
         $tokenEntity = new UserTokenEntity(
@@ -613,7 +613,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNewlineCharactersInTokens(): void
+    public function should_handle_newline_characters_in_tokens(): void
     {
         // GIVEN: Tokens with newline characters
         $accessToken = "access\ntoken\nvalue";
@@ -636,7 +636,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTabCharactersInTokens(): void
+    public function should_handle_tab_characters_in_tokens(): void
     {
         // GIVEN: Tokens with tab characters
         $accessToken = "access\ttoken\tvalue";
@@ -659,7 +659,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSmallestPossibleExpiresAt(): void
+    public function should_handle_smallest_possible_expires_at(): void
     {
         // GIVEN: UserTokenEntity with smallest possible integer
         $expiresAt = PHP_INT_MIN;
@@ -679,7 +679,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleCurrentTimestamp(): void
+    public function should_handle_current_timestamp(): void
     {
         // GIVEN: UserTokenEntity with current timestamp
         $currentTime = time();
@@ -700,7 +700,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFutureTimestamp(): void
+    public function should_handle_future_timestamp(): void
     {
         // GIVEN: UserTokenEntity with future timestamp (1 year from now)
         $futureTime = time() + (365 * 24 * 60 * 60);
@@ -720,7 +720,7 @@ class UserTokenEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePastTimestamp(): void
+    public function should_handle_past_timestamp(): void
     {
         // GIVEN: UserTokenEntity with past timestamp (1 year ago)
         $pastTime = time() - (365 * 24 * 60 * 60);

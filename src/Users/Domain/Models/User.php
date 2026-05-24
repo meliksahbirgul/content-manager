@@ -5,12 +5,13 @@ namespace Source\Users\Domain\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\Table;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Ramsey\Uuid\Uuid;
 use Source\Roles\Domain\Models\Permission;
 use Source\Roles\Domain\Models\Role;
+use Source\Roles\Domain\Models\UserPermissionPivot;
 
 #[Table('users')]
 #[Fillable(['name', 'email', 'password'])]
@@ -29,17 +30,18 @@ class User extends Authenticatable
             }
         });
     }
+
     /** @return BelongsToMany<Role, $this> */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_role');
     }
 
-    /** @return BelongsToMany<Permission, $this, \Source\Roles\Domain\Models\UserPermissionPivot> */
+    /** @return BelongsToMany<Permission, $this, UserPermissionPivot> */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'user_permission')
-            ->using(\Source\Roles\Domain\Models\UserPermissionPivot::class)
+            ->using(UserPermissionPivot::class)
             ->withPivot('granted');
     }
 

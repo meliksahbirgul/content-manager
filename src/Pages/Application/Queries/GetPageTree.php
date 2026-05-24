@@ -24,15 +24,15 @@ readonly class GetPageTree
             $lower = strtolower($search);
             $pages = array_values(array_filter(
                 $pages,
-                fn($page) => is_array($page['title']) &&
-                    array_filter($page['title'], fn($t) => str_contains(strtolower((string) $t), $lower)) !== []
+                fn ($page) => is_array($page['title']) &&
+                    array_filter($page['title'], fn ($t) => str_contains(strtolower((string) $t), $lower)) !== []
             ));
         }
 
         if ($dto->status() !== null) {
             $pages = array_values(array_filter(
                 $pages,
-                fn($page) => $page['status'] === $dto->status()->value,
+                fn ($page) => $page['status'] === $dto->status()->value,
             ));
         }
 
@@ -40,21 +40,21 @@ readonly class GetPageTree
     }
 
     /**
-     * @param array<int<0,max>|string, mixed> $pages
+     * @param  array<int<0,max>|string, mixed>  $pages
      * @return list<PageTreeResponseDTO>
      */
-    private function buildTree(array $pages, string|null $parentId = null): array
+    private function buildTree(array $pages, ?string $parentId = null): array
     {
         $tree = [];
 
         foreach ($pages as $page) {
             if ($page['parentId'] === $parentId) {
                 $children = $this->buildTree($pages, $page['id']);
-                $tree[]   = PageTreeResponseDTO::createFromArray($page, $children);
+                $tree[] = PageTreeResponseDTO::createFromArray($page, $children);
             }
         }
 
-        usort($tree, fn($a, $b) => $a->order() <=> $b->order());
+        usort($tree, fn ($a, $b) => $a->order() <=> $b->order());
 
         return $tree;
     }

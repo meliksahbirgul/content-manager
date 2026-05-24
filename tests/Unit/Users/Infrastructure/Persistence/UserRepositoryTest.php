@@ -24,12 +24,12 @@ class UserRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = new UserRepository();
+        $this->repository = new UserRepository;
     }
 
     /** @test */
     #[Test]
-    public function itFindsUserByEmail(): void
+    public function it_finds_user_by_email(): void
     {
         // Arrange
         $email = 'john@example.com';
@@ -54,7 +54,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenUserNotFound(): void
+    public function it_returns_null_when_user_not_found(): void
     {
         // Arrange
         $email = 'nonexistent@example.com';
@@ -68,7 +68,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itCreatesTokensForUser(): void
+    public function it_creates_tokens_for_user(): void
     {
         // Arrange
         $email = 'jane@example.com';
@@ -101,7 +101,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenCreatingTokenForNonexistentUser(): void
+    public function it_returns_null_when_creating_token_for_nonexistent_user(): void
     {
         // Arrange
         $email = 'nonexistent@example.com';
@@ -115,7 +115,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itCreatesTokensWithCorrectAbilities(): void
+    public function it_creates_tokens_with_correct_abilities(): void
     {
         // Arrange
         $email = 'test@example.com';
@@ -142,7 +142,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsUserByValidRefreshToken(): void
+    public function it_finds_user_by_valid_refresh_token(): void
     {
         // Arrange
         $email = 'user@example.com';
@@ -158,7 +158,7 @@ class UserRepositoryTest extends TestCase
         $token = $user->createToken(
             name: 'refresh-token',
             abilities: ['issue-access-token'],
-            expiresAt: (new DateTimeImmutable())->modify('+1 hour')
+            expiresAt: (new DateTimeImmutable)->modify('+1 hour')
         );
 
         // Act
@@ -173,7 +173,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullForInvalidRefreshToken(): void
+    public function it_returns_null_for_invalid_refresh_token(): void
     {
         // Act
         $user = $this->repository->findUserByRefreshToken('invalid_token');
@@ -184,7 +184,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullForTokenWithWrongAbility(): void
+    public function it_returns_null_for_token_with_wrong_ability(): void
     {
         // Arrange
         $user = User::create([
@@ -196,7 +196,7 @@ class UserRepositoryTest extends TestCase
         $token = $user->createToken(
             name: 'access-token',
             abilities: ['access-panel'],
-            expiresAt: (new DateTimeImmutable())->modify('+1 hour')
+            expiresAt: (new DateTimeImmutable)->modify('+1 hour')
         );
 
         // Act
@@ -208,7 +208,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullForExpiredRefreshToken(): void
+    public function it_returns_null_for_expired_refresh_token(): void
     {
         // Arrange
         $user = User::create([
@@ -220,7 +220,7 @@ class UserRepositoryTest extends TestCase
         $token = $user->createToken(
             name: 'refresh-token',
             abilities: ['issue-access-token'],
-            expiresAt: (new DateTimeImmutable())->modify('-1 hour')
+            expiresAt: (new DateTimeImmutable)->modify('-1 hour')
         );
 
         // Act
@@ -232,7 +232,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenTokenHasNoTokenable(): void
+    public function it_returns_null_when_token_has_no_tokenable(): void
     {
         // Arrange
         $user = User::create([
@@ -244,7 +244,7 @@ class UserRepositoryTest extends TestCase
         $token = $user->createToken(
             name: 'refresh-token',
             abilities: ['issue-access-token'],
-            expiresAt: (new DateTimeImmutable())->modify('+1 hour')
+            expiresAt: (new DateTimeImmutable)->modify('+1 hour')
         );
 
         // Delete the user to orphan the token
@@ -259,7 +259,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itDeletesTokenSuccessfully(): void
+    public function it_deletes_token_successfully(): void
     {
         // Arrange
         $user = User::create([
@@ -287,7 +287,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itHandlesDeletionOfNonexistentToken(): void
+    public function it_handles_deletion_of_nonexistent_token(): void
     {
         // Act & Assert (should not throw exception)
         $this->repository->deleteToken('nonexistent_token');
@@ -297,7 +297,7 @@ class UserRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itMapsEloquentUserToUserEntity(): void
+    public function it_maps_eloquent_user_to_user_entity(): void
     {
         // Arrange
         $name = 'Mapped User';

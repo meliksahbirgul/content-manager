@@ -18,29 +18,29 @@ class UpdatePageController extends Controller
     public function __invoke(Request $request, string $pageId): RedirectResponse
     {
         $validated = $request->validate([
-            'title'     => 'required|array',
-            'title.en'  => 'required|string|max:255',
-            'title.tr'  => 'nullable|string|max:255',
-            'content'   => 'nullable|array',
+            'title' => 'required|array',
+            'title.en' => 'required|string|max:255',
+            'title.tr' => 'nullable|string|max:255',
+            'content' => 'nullable|array',
             'content.*' => 'nullable|string',
-            'slug'      => 'required|array',
-            'slug.en'   => 'required|string|max:255',
-            'slug.tr'   => 'nullable|string|max:255',
+            'slug' => 'required|array',
+            'slug.en' => 'required|string|max:255',
+            'slug.tr' => 'nullable|string|max:255',
             'parent_id' => 'nullable|string|exists:pages,uuid',
-            'status'    => 'required|string|in:active,passive',
+            'status' => 'required|string|in:active,passive',
         ]);
 
-        $title   = array_filter($validated['title'], fn($v) => $v !== null && $v !== '');
-        $slug    = array_filter($validated['slug'], fn($v) => $v !== null && $v !== '');
-        $content = array_filter($validated['content'] ?? [], fn($v) => $v !== null && $v !== '');
+        $title = array_filter($validated['title'], fn ($v) => $v !== null && $v !== '');
+        $slug = array_filter($validated['slug'], fn ($v) => $v !== null && $v !== '');
+        $content = array_filter($validated['content'] ?? [], fn ($v) => $v !== null && $v !== '');
 
         try {
             $dto = UpdatePageDTO::fromRequest([
-                'id'      => $pageId,
-                'title'   => $title,
+                'id' => $pageId,
+                'title' => $title,
                 'content' => $content,
-                'slug'    => $slug,
-                'status'  => $validated['status'],
+                'slug' => $slug,
+                'status' => $validated['status'],
             ]);
 
             $this->pageService->updatePage($dto);

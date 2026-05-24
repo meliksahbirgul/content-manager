@@ -6,18 +6,18 @@ namespace Source\Pages\Application\DTOs;
 
 readonly class UpdatePageDTO
 {
-    /** 
-     * @param array<string, string>|null $title
-     * @param array<string, string>|null $content
-     * @param array<string, string>|null $slug
+    /**
+     * @param  array<string, string>|null  $title
+     * @param  array<string, string>|null  $content
+     * @param  array<string, string>|null  $slug
      */
     public function __construct(
         private readonly string $id,
-        private readonly array|null $title = null,
-        private readonly array|null $content = null,
-        private readonly array|null $slug = null,
-        private readonly int|null $order = null,
-        private readonly string|null $status = null,
+        private readonly ?array $title = null,
+        private readonly ?array $content = null,
+        private readonly ?array $slug = null,
+        private readonly ?int $order = null,
+        private readonly ?string $status = null,
     ) {}
 
     /** @param array<string, mixed> $data */
@@ -52,19 +52,19 @@ readonly class UpdatePageDTO
     }
 
     /** @return array<string,mixed>|null */
-    public function title(): array|null
+    public function title(): ?array
     {
         return $this->title;
     }
 
     /** @return array<string,mixed>|null */
-    public function content(): array|null
+    public function content(): ?array
     {
         return $this->content;
     }
 
     /** @return array<string,mixed>|null */
-    public function slug(): array|null
+    public function slug(): ?array
     {
         return $this->slug;
     }

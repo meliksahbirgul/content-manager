@@ -13,15 +13,15 @@ class LoginResponseDTOTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllParameters(): void
+    public function should_create_instance_with_all_parameters(): void
     {
         // GIVEN: Valid login response data
-        $uuid         = Uuid::uuid7()->toString();
-        $email        = 'user@example.com';
-        $name         = 'John Doe';
-        $token        = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+        $uuid = Uuid::uuid7()->toString();
+        $email = 'user@example.com';
+        $name = 'John Doe';
+        $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
         $refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...refresh';
-        $expireTime   = 3600;
+        $expireTime = 3600;
 
         // WHEN: Creating LoginResponseDTO
         $dto = new LoginResponseDTO(
@@ -39,15 +39,15 @@ class LoginResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSerializeToJsonCorrectly(): void
+    public function should_serialize_to_json_correctly(): void
     {
         // GIVEN: Valid login response data
-        $uuid         = Uuid::uuid7()->toString();
-        $email        = 'user@example.com';
-        $name         = 'John Doe';
-        $token        = 'token123';
+        $uuid = Uuid::uuid7()->toString();
+        $email = 'user@example.com';
+        $name = 'John Doe';
+        $token = 'token123';
         $refreshToken = 'refreshToken123';
-        $expireTime   = 7200;
+        $expireTime = 7200;
 
         $dto = new LoginResponseDTO(
             uuid: $uuid,
@@ -72,7 +72,7 @@ class LoginResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleInstances(): void
+    public function should_handle_multiple_instances(): void
     {
         // GIVEN: Multiple LoginResponseDTO instances
         $dto1 = new LoginResponseDTO(
@@ -107,7 +107,7 @@ class LoginResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInNames(): void
+    public function should_handle_special_characters_in_names(): void
     {
         // GIVEN: Name with special characters
         $dto = new LoginResponseDTO(
@@ -128,10 +128,10 @@ class LoginResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLongTokens(): void
+    public function should_handle_long_tokens(): void
     {
         // GIVEN: Very long tokens
-        $longToken        = str_repeat('a', 5000);
+        $longToken = str_repeat('a', 5000);
         $longRefreshToken = str_repeat('b', 5000);
 
         $dto = new LoginResponseDTO(
@@ -153,7 +153,7 @@ class LoginResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousExpireTimeValues(): void
+    public function should_handle_various_expire_time_values(): void
     {
         // GIVEN: Different expire time values
         $testCases = [1, 60, 3600, 86400, 2592000, 0];
@@ -178,7 +178,7 @@ class LoginResponseDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldImplementJsonSerializable(): void
+    public function should_implement_json_serializable(): void
     {
         // GIVEN: LoginResponseDTO instance
         $dto = new LoginResponseDTO(

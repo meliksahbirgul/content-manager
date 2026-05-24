@@ -17,6 +17,7 @@ class RefreshControllerTest extends TestCase
     use RefreshDatabase;
 
     private const string REFRESH_ENDPOINT = '/api/panel/v1/auth/refresh';
+
     private const string LOGIN_ENDPOINT = '/api/panel/v1/auth/login';
 
     /**
@@ -39,7 +40,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRefreshTokenSuccessfully(): void
+    public function should_refresh_token_successfully(): void
     {
         // Arrange
         User::create([
@@ -71,7 +72,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNewTokensOnRefresh(): void
+    public function should_return_new_tokens_on_refresh(): void
     {
         // Arrange
         User::create([
@@ -98,7 +99,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenRefreshTokenIsMissing(): void
+    public function should_return_bad_request_when_refresh_token_is_missing(): void
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, []);
@@ -113,7 +114,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenRefreshTokenIsNull(): void
+    public function should_return_bad_request_when_refresh_token_is_null(): void
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
@@ -130,7 +131,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWhenRefreshTokenIsInvalid(): void
+    public function should_return_bad_request_when_refresh_token_is_invalid(): void
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
@@ -147,7 +148,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnBadRequestWithDetailsWhenRefreshTokenIsInvalid(): void
+    public function should_return_bad_request_with_details_when_refresh_token_is_invalid(): void
     {
         // Act
         $response = $this->postJson(self::REFRESH_ENDPOINT, [
@@ -165,7 +166,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldInvalidateOldRefreshTokenAfterRefresh(): void
+    public function should_invalidate_old_refresh_token_after_refresh(): void
     {
         // Arrange
         User::create([
@@ -192,7 +193,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectUserDataOnRefresh(): void
+    public function should_return_correct_user_data_on_refresh(): void
     {
         // Arrange
         User::create([
@@ -217,7 +218,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRefreshTokensForDifferentUsersIndependently(): void
+    public function should_refresh_tokens_for_different_users_independently(): void
     {
         // Arrange
         User::create([
@@ -251,7 +252,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowChainedRefreshes(): void
+    public function should_allow_chained_refreshes(): void
     {
         // Arrange
         User::create([
@@ -286,7 +287,7 @@ class RefreshControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnExpireTimeOnRefresh(): void
+    public function should_return_expire_time_on_refresh(): void
     {
         // Arrange
         User::create([

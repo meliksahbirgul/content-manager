@@ -2,16 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Source\Dashboard\Presentation\Http\Controllers\View\DashboardController;
-use Source\Pages\Presentation\Http\Controllers\View\CreatePageViewController;
-use Source\Pages\Presentation\Http\Controllers\View\EditPageViewController;
-use Source\Pages\Presentation\Http\Controllers\View\StorePageController;
-use Source\Pages\Presentation\Http\Controllers\View\UpdatePageController;
-use Source\Pages\Presentation\Http\Controllers\View\ListPagesController;
 use Source\Languages\Presentation\Http\Controllers\View\SwitchLanguageController;
 use Source\Media\Presentation\Http\Controllers\DeleteMediaController;
 use Source\Media\Presentation\Http\Controllers\UploadMediaController;
-use Source\Users\Presentation\Http\Controllers\View\LogoutController;
+use Source\Pages\Presentation\Http\Controllers\View\CreatePageViewController;
+use Source\Pages\Presentation\Http\Controllers\View\EditPageViewController;
+use Source\Pages\Presentation\Http\Controllers\View\ListPagesController;
+use Source\Pages\Presentation\Http\Controllers\View\StorePageController;
+use Source\Pages\Presentation\Http\Controllers\View\UpdatePageController;
 use Source\Users\Presentation\Http\Controllers\View\LoginController;
+use Source\Users\Presentation\Http\Controllers\View\LogoutController;
 
 Route::get('/api-docs', function () {
     return view('docs.api');

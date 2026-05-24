@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Source\Pages\Application\Queries;
 
 use DomainException;
-use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Application\DTOs\PageEditResponseDTO;
+use Source\Pages\Domain\Repository\Repository;
 
 readonly class GetPageForEdit
 {

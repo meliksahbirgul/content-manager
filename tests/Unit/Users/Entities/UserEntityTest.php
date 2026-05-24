@@ -13,12 +13,12 @@ class UserEntityTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithValidData(): void
+    public function should_create_instance_with_valid_data(): void
     {
         // GIVEN: Valid user data
-        $uuid     = Uuid::uuid7()->toString();
-        $name     = 'John Doe';
-        $email    = 'john@example.com';
+        $uuid = Uuid::uuid7()->toString();
+        $name = 'John Doe';
+        $email = 'john@example.com';
         $password = 'hashedpassword123';
 
         // WHEN: Creating UserEntity
@@ -39,7 +39,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnUuidCorrectly(): void
+    public function should_return_uuid_correctly(): void
     {
         // GIVEN: UserEntity with specific uuid
         $uuid = Uuid::uuid7()->toString();
@@ -60,7 +60,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNameCorrectly(): void
+    public function should_return_name_correctly(): void
     {
         // GIVEN: UserEntity with specific name
         $name = 'Jane Smith';
@@ -81,11 +81,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnEmailCorrectly(): void
+    public function should_return_email_correctly(): void
     {
         // GIVEN: UserEntity with specific email
         $email = 'user@example.com';
-        $user  = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: $email,
@@ -102,11 +102,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnPasswordCorrectly(): void
+    public function should_return_password_correctly(): void
     {
         // GIVEN: UserEntity with specific password
         $password = '$2y$10$hashedpasswordstring';
-        $user     = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: 'user@example.com',
@@ -123,7 +123,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringName(): void
+    public function should_handle_empty_string_name(): void
     {
         // GIVEN: UserEntity with empty name
         $user = new UserEntity(
@@ -143,7 +143,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringEmail(): void
+    public function should_handle_empty_string_email(): void
     {
         // GIVEN: UserEntity with empty email
         $user = new UserEntity(
@@ -163,7 +163,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringPassword(): void
+    public function should_handle_empty_string_password(): void
     {
         // GIVEN: UserEntity with empty password
         $user = new UserEntity(
@@ -183,11 +183,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongName(): void
+    public function should_handle_very_long_name(): void
     {
         // GIVEN: UserEntity with very long name (1000+ chars)
         $longName = str_repeat('A', 1000);
-        $user     = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: $longName,
             email: 'user@example.com',
@@ -205,11 +205,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongEmail(): void
+    public function should_handle_very_long_email(): void
     {
         // GIVEN: UserEntity with very long email
-        $longEmail = str_repeat('a', 200) . '@example.com';
-        $user      = new UserEntity(
+        $longEmail = str_repeat('a', 200).'@example.com';
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: $longEmail,
@@ -226,11 +226,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongPassword(): void
+    public function should_handle_very_long_password(): void
     {
         // GIVEN: UserEntity with very long password/hash
         $longPassword = str_repeat('a', 1000);
-        $user         = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: 'user@example.com',
@@ -246,7 +246,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInName(): void
+    public function should_handle_special_characters_in_name(): void
     {
         // GIVEN: Name with special characters
         $name = "O'Brien-Smith, Jr. (PhD)";
@@ -269,11 +269,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInEmail(): void
+    public function should_handle_special_characters_in_email(): void
     {
         // GIVEN: Email with special characters
         $email = 'user+tag.name@sub-domain.co.uk';
-        $user  = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: $email,
@@ -291,7 +291,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInName(): void
+    public function should_handle_unicode_in_name(): void
     {
         // GIVEN: Name with unicode characters
         $name = '佐藤 太郎 (日本)';
@@ -312,11 +312,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInEmail(): void
+    public function should_handle_unicode_in_email(): void
     {
         // GIVEN: Email with unicode domain (IDN)
         $email = 'user@münchen.de';
-        $user  = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: $email,
@@ -333,11 +333,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleBCryptHashPassword(): void
+    public function should_handle_b_crypt_hash_password(): void
     {
         // GIVEN: BCrypt hashed password
         $bcryptHash = '$2y$10$kUD2D1VUx7mqVVYDsuE4be6fI9kFIzMHzMquI.zPNlpPnOEgwJ0lu';
-        $user       = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: 'user@example.com',
@@ -354,11 +354,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleArgon2PasswordHash(): void
+    public function should_handle_argon2_password_hash(): void
     {
         // GIVEN: Argon2 hashed password
         $argon2Hash = '$argon2id$v=19$m=65536,t=4,p=1$hash$1234567890abcdef';
-        $user       = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: 'user@example.com',
@@ -375,7 +375,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceInName(): void
+    public function should_handle_whitespace_in_name(): void
     {
         // GIVEN: Name with various whitespace
         $name = "  John   Doe  \t\n";
@@ -396,11 +396,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceInEmail(): void
+    public function should_handle_whitespace_in_email(): void
     {
         // GIVEN: Email with spaces (invalid but testing preservation)
         $email = '  user@example.com  ';
-        $user  = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: $email,
@@ -417,7 +417,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteInName(): void
+    public function should_handle_null_byte_in_name(): void
     {
         // GIVEN: Name with null byte (injection attempt)
         $name = "John\0Doe";
@@ -438,11 +438,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteInPassword(): void
+    public function should_handle_null_byte_in_password(): void
     {
         // GIVEN: Password with null byte
         $password = "password\0123";
-        $user     = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: 'user@example.com',
@@ -458,7 +458,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMaintainDataImmutabilityAcrossMultipleCalls(): void
+    public function should_maintain_data_immutability_across_multiple_calls(): void
     {
         // GIVEN: UserEntity instance
         $user = new UserEntity(
@@ -469,12 +469,12 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Calling methods multiple times
-        $name1     = $user->name();
-        $email1    = $user->email();
+        $name1 = $user->name();
+        $email1 = $user->email();
         $password1 = $user->password();
 
-        $name2     = $user->name();
-        $email2    = $user->email();
+        $name2 = $user->name();
+        $email2 = $user->email();
         $password2 = $user->password();
 
         // THEN: Values should remain consistent
@@ -485,7 +485,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotAffectOtherInstancesWhenCreatingNew(): void
+    public function should_not_affect_other_instances_when_creating_new(): void
     {
         // GIVEN: Multiple UserEntity instances
         $user1 = new UserEntity(
@@ -514,7 +514,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericStringName(): void
+    public function should_handle_numeric_string_name(): void
     {
         // GIVEN: Numeric string as name
         $name = '123456789';
@@ -535,11 +535,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericStringEmail(): void
+    public function should_handle_numeric_string_email(): void
     {
         // GIVEN: Numeric-like string as email
         $email = '123@456.789';
-        $user  = new UserEntity(
+        $user = new UserEntity(
             uuid: Uuid::uuid7()->toString(),
             name: 'User Name',
             email: $email,
@@ -555,11 +555,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveExactCasing(): void
+    public function should_preserve_exact_casing(): void
     {
         // GIVEN: Mixed case data
-        $name     = 'JoHn DoE';
-        $email    = 'User@Example.COM';
+        $name = 'JoHn DoE';
+        $email = 'User@Example.COM';
         $password = 'PassWord123';
 
         $user = new UserEntity(
@@ -570,8 +570,8 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Getting values
-        $resultName     = $user->name();
-        $resultEmail    = $user->email();
+        $resultName = $user->name();
+        $resultEmail = $user->email();
         $resultPassword = $user->password();
 
         // THEN: Should preserve exact casing
@@ -582,7 +582,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSingleCharacterValues(): void
+    public function should_handle_single_character_values(): void
     {
         // GIVEN: Single character values
         $user = new UserEntity(
@@ -593,8 +593,8 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Calling methods
-        $name     = $user->name();
-        $email    = $user->email();
+        $name = $user->name();
+        $email = $user->email();
         $password = $user->password();
 
         // THEN: Should return single characters
@@ -605,7 +605,7 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnStringType(): void
+    public function should_return_string_type(): void
     {
         // GIVEN: UserEntity instance
         $user = new UserEntity(
@@ -616,8 +616,8 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Getting all values
-        $name     = $user->name();
-        $email    = $user->email();
+        $name = $user->name();
+        $email = $user->email();
         $password = $user->password();
 
         // THEN: All should be strings
@@ -628,11 +628,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNewlineCharacters(): void
+    public function should_handle_newline_characters(): void
     {
         // GIVEN: Data with newline characters
-        $name     = "John\nDoe";
-        $email    = "user\n@example.com";
+        $name = "John\nDoe";
+        $email = "user\n@example.com";
         $password = "pass\nword";
 
         $user = new UserEntity(
@@ -643,8 +643,8 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Getting values
-        $resultName     = $user->name();
-        $resultEmail    = $user->email();
+        $resultName = $user->name();
+        $resultEmail = $user->email();
         $resultPassword = $user->password();
 
         // THEN: Should preserve newlines
@@ -655,11 +655,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTabCharacters(): void
+    public function should_handle_tab_characters(): void
     {
         // GIVEN: Data with tab characters
-        $name     = "John\tDoe";
-        $email    = "user\t@example.com";
+        $name = "John\tDoe";
+        $email = "user\t@example.com";
         $password = "pass\tword";
 
         $user = new UserEntity(
@@ -670,8 +670,8 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Getting values
-        $resultName     = $user->name();
-        $resultEmail    = $user->email();
+        $resultName = $user->name();
+        $resultEmail = $user->email();
         $resultPassword = $user->password();
 
         // THEN: Should preserve tabs
@@ -682,11 +682,11 @@ class UserEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleCarriageReturnCharacters(): void
+    public function should_handle_carriage_return_characters(): void
     {
         // GIVEN: Data with carriage return characters
-        $name     = "John\rDoe";
-        $email    = "user\r@example.com";
+        $name = "John\rDoe";
+        $email = "user\r@example.com";
         $password = "pass\rword";
 
         $user = new UserEntity(
@@ -697,8 +697,8 @@ class UserEntityTest extends TestCase
         );
 
         // WHEN: Getting values
-        $resultName     = $user->name();
-        $resultEmail    = $user->email();
+        $resultName = $user->name();
+        $resultEmail = $user->email();
         $resultPassword = $user->password();
 
         // THEN: Should preserve carriage returns

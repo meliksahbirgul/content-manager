@@ -10,9 +10,13 @@ use Source\Users\Domain\Models\User;
 
 interface Repository
 {
-    public function findByEmail(string $email): UserEntity|null;
-    public function createTokenForUser(string $email): UserTokenEntity|null;
-    public function findUserByRefreshToken(string $token): UserEntity|null;
+    public function findByEmail(string $email): ?UserEntity;
+
+    public function createTokenForUser(string $email): ?UserTokenEntity;
+
+    public function findUserByRefreshToken(string $token): ?UserEntity;
+
     public function deleteToken(string $token): void;
-    public function getUserModelWithEmail(string $email): User|null;
+
+    public function getUserModelWithEmail(string $email): ?User;
 }

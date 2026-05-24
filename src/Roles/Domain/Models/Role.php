@@ -15,7 +15,6 @@ use Source\Users\Domain\Models\User;
 #[Fillable(['uuid', 'name', 'display_name', 'description'])]
 class Role extends Model
 {
-
     protected static function boot(): void
     {
         parent::boot();

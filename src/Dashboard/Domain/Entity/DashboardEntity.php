@@ -7,8 +7,8 @@ namespace Source\Dashboard\Domain\Entity;
 class DashboardEntity
 {
     /**
-     * @param array<int, PageStatusCountEntity> $pageStatusCounts
-     * @param array<int, ActivityLogEntity>     $recentActivityLogs
+     * @param  array<int, PageStatusCountEntity>  $pageStatusCounts
+     * @param  array<int, ActivityLogEntity>  $recentActivityLogs
      */
     public function __construct(
         private array $pageStatusCounts,

@@ -40,7 +40,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnPageEditResponseDTOForValidUuid(): void
+    public function should_return_page_edit_response_dto_for_valid_uuid(): void
     {
         // GIVEN: Valid UUID and mock page entity
         $uuid = $this->validUuid;
@@ -74,7 +74,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenPageNotFound(): void
+    public function should_throw_exception_when_page_not_found(): void
     {
         // GIVEN: UUID that doesn't exist
         $uuid = $this->validUuid;
@@ -94,7 +94,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCallRepositoryFindByUuidWithCorrectUuid(): void
+    public function should_call_repository_find_by_uuid_with_correct_uuid(): void
     {
         // GIVEN: Valid UUID
         $uuid = $this->validUuid;
@@ -123,7 +123,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDTOWithAllPageAttributes(): void
+    public function should_return_dto_with_all_page_attributes(): void
     {
         // GIVEN: Page entity with all attributes
         $uuid = $this->validUuid;
@@ -164,7 +164,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDTOWithPassiveStatus(): void
+    public function should_return_dto_with_passive_status(): void
     {
         // GIVEN: Page entity with PASSIVE status
         $uuid = $this->validUuid;
@@ -192,7 +192,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDTOWithNullParentId(): void
+    public function should_return_dto_with_null_parent_id(): void
     {
         // GIVEN: Page entity without parent
         $uuid = $this->validUuid;
@@ -220,7 +220,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultilingualPageData(): void
+    public function should_handle_multilingual_page_data(): void
     {
         // GIVEN: Page entity with multilingual data
         $uuid = $this->validUuid;
@@ -268,7 +268,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousOrderValues(): void
+    public function should_handle_various_order_values(): void
     {
         // GIVEN: Page entities with different order values
         $orderValues = [0, 1, 10, 100];
@@ -283,7 +283,7 @@ class GetPageForEditTest extends TestCase
             $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
             $pageEntity->shouldReceive('order')->andReturn($order);
             $pageEntity->shouldReceive('parentId')->andReturn(null);
-        $pageEntity->shouldReceive('images')->andReturn([]);
+            $pageEntity->shouldReceive('images')->andReturn([]);
 
             $this->repositoryMock
                 ->shouldReceive('findByUuid')
@@ -300,7 +300,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldConvertPageEntityToDTO(): void
+    public function should_convert_page_entity_to_dto(): void
     {
         // GIVEN: Page entity
         $uuid = $this->validUuid;
@@ -329,7 +329,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotThrowExceptionForValidUuids(): void
+    public function should_not_throw_exception_for_valid_uuids(): void
     {
         // GIVEN: Valid UUID
         $uuid = $this->validUuid;
@@ -357,7 +357,7 @@ class GetPageForEditTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonlyClass(): void
+    public function should_be_readonly_class(): void
     {
         // THEN: GetPageForEdit should be readonly
         $this->assertInstanceOf(GetPageForEdit::class, $this->getPageForEdit);

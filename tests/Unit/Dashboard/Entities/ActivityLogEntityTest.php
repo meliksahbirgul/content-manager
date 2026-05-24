@@ -21,15 +21,15 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllParameters(): void
+    public function should_create_instance_with_all_parameters(): void
     {
         // GIVEN: All parameters
-        $id         = 1;
-        $logName    = 'default';
+        $id = 1;
+        $logName = 'default';
         $description = 'Page created';
-        $event      = 'created';
+        $event = 'created';
         $properties = ['title' => 'My Page', 'status' => 'active'];
-        $causerId   = 42;
+        $causerId = 42;
 
         // WHEN: Creating ActivityLogEntity
         $entity = new ActivityLogEntity(
@@ -55,7 +55,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithNullableFieldsAsNull(): void
+    public function should_create_instance_with_nullable_fields_as_null(): void
     {
         // GIVEN: Nullable fields set to null
         $entity = new ActivityLogEntity(
@@ -76,7 +76,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectId(): void
+    public function should_return_correct_id(): void
     {
         // GIVEN: ActivityLogEntity with a specific id
         $entity = new ActivityLogEntity(
@@ -99,7 +99,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectDescription(): void
+    public function should_return_correct_description(): void
     {
         // GIVEN: ActivityLogEntity with specific description
         $description = 'User updated a page title';
@@ -123,7 +123,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectProperties(): void
+    public function should_return_correct_properties(): void
     {
         // GIVEN: Properties with nested data
         $properties = [
@@ -155,7 +155,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnEmptyProperties(): void
+    public function should_return_empty_properties(): void
     {
         // GIVEN: ActivityLogEntity with no properties
         $entity = new ActivityLogEntity(
@@ -178,7 +178,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectCreatedAt(): void
+    public function should_return_correct_created_at(): void
     {
         // GIVEN: A specific DateTimeImmutable
         $createdAt = new DateTimeImmutable('2025-06-01 12:00:00');
@@ -203,7 +203,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTypesForAllProperties(): void
+    public function should_return_correct_types_for_all_properties(): void
     {
         // GIVEN: A fully populated ActivityLogEntity
         $entity = new ActivityLogEntity(
@@ -228,7 +228,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeImmutableAfterConstruction(): void
+    public function should_be_immutable_after_construction(): void
     {
         // GIVEN: An ActivityLogEntity instance
         $entity = new ActivityLogEntity(
@@ -242,7 +242,7 @@ class ActivityLogEntityTest extends TestCase
         );
 
         // WHEN: Accessing the same property twice
-        $firstCall  = $entity->description();
+        $firstCall = $entity->description();
         $secondCall = $entity->description();
 
         // THEN: Both calls should return the same value (immutability)
@@ -253,7 +253,7 @@ class ActivityLogEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateMultipleIndependentInstances(): void
+    public function should_create_multiple_independent_instances(): void
     {
         // GIVEN: Two separate ActivityLogEntity instances
         $entity1 = new ActivityLogEntity(

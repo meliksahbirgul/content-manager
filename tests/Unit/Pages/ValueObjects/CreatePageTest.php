@@ -26,7 +26,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function createInstanceWithAllRequiredParameters(): void
+    public function create_instance_with_all_required_parameters(): void
     {
         $title = ['en' => 'Test Title'];
         $content = ['en' => 'Test Content'];
@@ -48,7 +48,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function createInstanceWithOptionalParameters(): void
+    public function create_instance_with_optional_parameters(): void
     {
         $title = ['en' => 'Test Title'];
         $content = ['en' => 'Test Content'];
@@ -72,7 +72,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function defaultsToPassiveStatusWhenNotSpecified(): void
+    public function defaults_to_passive_status_when_not_specified(): void
     {
         $title = ['en' => 'Test Title'];
         $content = ['en' => 'Test Content'];
@@ -90,7 +90,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function defaultsToZeroOrderWhenNotSpecified(): void
+    public function defaults_to_zero_order_when_not_specified(): void
     {
         $title = ['en' => 'Test Title'];
         $content = ['en' => 'Test Content'];
@@ -108,7 +108,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function defaultsToNullParentIdWhenNotSpecified(): void
+    public function defaults_to_null_parent_id_when_not_specified(): void
     {
         $title = ['en' => 'Test Title'];
         $content = ['en' => 'Test Content'];
@@ -126,7 +126,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function throwsExceptionWithEmptyTitle(): void
+    public function throws_exception_with_empty_title(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Title cannot be empty.');
@@ -141,7 +141,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function throwsExceptionWithEmptyContent(): void
+    public function throws_exception_with_empty_content(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Title cannot be empty.');
@@ -156,7 +156,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function throwsExceptionWithEmptySlug(): void
+    public function throws_exception_with_empty_slug(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Title cannot be empty.');
@@ -171,7 +171,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function throwsExceptionWithInvalidUuid(): void
+    public function throws_exception_with_invalid_uuid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid UUID format for id.');
@@ -186,7 +186,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function throwsExceptionWithInvalidParentUuid(): void
+    public function throws_exception_with_invalid_parent_uuid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid UUID format for parentId.');
@@ -202,7 +202,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function allowsNullParentId(): void
+    public function allows_null_parent_id(): void
     {
         $createPage = new CreatePage(
             id: $this->validUuid,
@@ -217,7 +217,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function createsInstanceFromArrayWithMinimalData(): void
+    public function creates_instance_from_array_with_minimal_data(): void
     {
         $data = [
             'title' => ['en' => 'Test Title'],
@@ -236,7 +236,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function createsInstanceFromArrayWithCustomId(): void
+    public function creates_instance_from_array_with_custom_id(): void
     {
         $data = [
             'id' => $this->validUuid,
@@ -252,7 +252,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function createsInstanceFromArrayWithParentId(): void
+    public function creates_instance_from_array_with_parent_id(): void
     {
         $data = [
             'title' => ['en' => 'Test Title'],
@@ -268,7 +268,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function generatesUuidWhenNotProvidedInArray(): void
+    public function generates_uuid_when_not_provided_in_array(): void
     {
         $data = [
             'title' => ['en' => 'Test Title'],
@@ -284,7 +284,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function throwsExceptionWhenCreatingFromArrayWithEmptyTitle(): void
+    public function throws_exception_when_creating_from_array_with_empty_title(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Title cannot be empty.');
@@ -298,7 +298,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function returnsAllGettersCorrectly(): void
+    public function returns_all_getters_correctly(): void
     {
         $title = ['en' => 'Test Title', 'tr' => 'Test Başlığı'];
         $content = ['en' => 'Test Content', 'tr' => 'Test İçeriği'];
@@ -326,7 +326,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function supportsMultilingualData(): void
+    public function supports_multilingual_data(): void
     {
         $title = [
             'en' => 'English Title',
@@ -358,7 +358,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function isReadonly(): void
+    public function is_readonly(): void
     {
         $createPage = new CreatePage(
             id: $this->validUuid,
@@ -374,7 +374,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function defaultsToNullParentOriginalIdWhenNotSpecified(): void
+    public function defaults_to_null_parent_original_id_when_not_specified(): void
     {
         // GIVEN: CreatePage without parentOriginalId
         $createPage = new CreatePage(
@@ -390,7 +390,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function returnsCorrectParentOriginalIdWhenProvided(): void
+    public function returns_correct_parent_original_id_when_provided(): void
     {
         // GIVEN: CreatePage with parentOriginalId
         $parentOriginalId = 42;
@@ -409,7 +409,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function setParentOriginalIdUpdatesTheValue(): void
+    public function set_parent_original_id_updates_the_value(): void
     {
         // GIVEN: CreatePage instance
         $createPage = new CreatePage(
@@ -429,7 +429,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function setParentOriginalIdCanOverwriteExistingValue(): void
+    public function set_parent_original_id_can_overwrite_existing_value(): void
     {
         // GIVEN: CreatePage with initial parentOriginalId
         $initialId = 10;
@@ -452,7 +452,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function handleVariousParentOriginalIdValues(): void
+    public function handle_various_parent_original_id_values(): void
     {
         // GIVEN: Various parentOriginalId values
         $testValues = [
@@ -481,7 +481,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function setParentOriginalIdWithZero(): void
+    public function set_parent_original_id_with_zero(): void
     {
         // GIVEN: CreatePage instance
         $createPage = new CreatePage(
@@ -500,7 +500,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function setParentOriginalIdWithLargeNumber(): void
+    public function set_parent_original_id_with_large_number(): void
     {
         // GIVEN: CreatePage instance
         $createPage = new CreatePage(
@@ -520,7 +520,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function parentOriginalIdIsIndependentFromParentId(): void
+    public function parent_original_id_is_independent_from_parent_id(): void
     {
         // GIVEN: CreatePage with both parentId and parentOriginalId
         $parentId = $this->validParentUuid;
@@ -543,7 +543,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function setParentOriginalIdMultipleTimes(): void
+    public function set_parent_original_id_multiple_times(): void
     {
         // GIVEN: CreatePage instance
         $createPage = new CreatePage(
@@ -567,7 +567,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function parentOriginalIdCanBeNullAfterCreation(): void
+    public function parent_original_id_can_be_null_after_creation(): void
     {
         // GIVEN: CreatePage with parentOriginalId
         $createPage = new CreatePage(
@@ -589,7 +589,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function parentOriginalIdWithCreateFromArray(): void
+    public function parent_original_id_with_create_from_array(): void
     {
         // GIVEN: Array data without parentOriginalId
         $data = [
@@ -607,7 +607,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function parentOriginalIdCanBeSetAfterCreationFromArray(): void
+    public function parent_original_id_can_be_set_after_creation_from_array(): void
     {
         // GIVEN: CreatePage created from array
         $data = [
@@ -626,7 +626,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function parentOriginalIdIsPublicProperty(): void
+    public function parent_original_id_is_public_property(): void
     {
         // GIVEN: CreatePage instance
         $createPage = new CreatePage(
@@ -644,7 +644,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function parentOriginalIdWithAllParameters(): void
+    public function parent_original_id_with_all_parameters(): void
     {
         // GIVEN: CreatePage with all parameters including parentOriginalId
         $title = ['en' => 'Test Title', 'tr' => 'Test Başlığı'];
@@ -677,7 +677,7 @@ class CreatePageTest extends TestCase
 
     /** @test */
     #[Test]
-    public function setParentOriginalIdReturnsVoid(): void
+    public function set_parent_original_id_returns_void(): void
     {
         // GIVEN: CreatePage instance
         $createPage = new CreatePage(

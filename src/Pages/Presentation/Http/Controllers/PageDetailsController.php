@@ -16,6 +16,7 @@ class PageDetailsController extends Controller
     {
         try {
             $page = $getPageForEdit->execute($pageId);
+
             return response()->json(
                 [
                     'status' => 'success',

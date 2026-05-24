@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Ramsey\Uuid\Uuid;
-use Source\Users\Domain\Models\User;
 
 class DatabaseSeeder extends Seeder
 {

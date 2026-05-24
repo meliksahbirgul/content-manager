@@ -35,7 +35,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnEmptyArrayWhenNoPagesExist(): void
+    public function should_return_empty_array_when_no_pages_exist(): void
     {
         // GIVEN: Empty page list
         $this->repositoryMock
@@ -44,7 +44,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn([]);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Should return empty array
@@ -54,7 +54,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnArrayOfPageTreeResponseDTO(): void
+    public function should_return_array_of_page_tree_response_dto(): void
     {
         // GIVEN: Single page without children
         $pageId = Uuid::uuid7()->toString();
@@ -74,7 +74,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Should return array with one item
@@ -87,7 +87,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBuildTreeWithChildren(): void
+    public function should_build_tree_with_children(): void
     {
         // GIVEN: Parent and child pages
         $parentId = Uuid::uuid7()->toString();
@@ -124,7 +124,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Should build tree structure correctly
@@ -138,7 +138,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBuildNestedTreeMultipleLevels(): void
+    public function should_build_nested_tree_multiple_levels(): void
     {
         // GIVEN: Multi-level page hierarchy
         $rootId = Uuid::uuid7()->toString();
@@ -183,7 +183,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Should build multi-level tree correctly
@@ -206,7 +206,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSortChildrenByOrder(): void
+    public function should_sort_children_by_order(): void
     {
         // GIVEN: Pages with different order values
         $parentId = Uuid::uuid7()->toString();
@@ -251,7 +251,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Children should be sorted by order
@@ -267,7 +267,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleRootPages(): void
+    public function should_handle_multiple_root_pages(): void
     {
         // GIVEN: Multiple root level pages
         $root1Id = Uuid::uuid7()->toString();
@@ -296,7 +296,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Should return multiple root pages sorted by order
@@ -307,7 +307,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreservePageData(): void
+    public function should_preserve_page_data(): void
     {
         // GIVEN: Page with all attributes
         $pageId = Uuid::uuid7()->toString();
@@ -327,7 +327,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: All page data should be preserved
@@ -340,7 +340,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePassivePages(): void
+    public function should_handle_passive_pages(): void
     {
         // GIVEN: Mix of active and passive pages
         $activePage = Uuid::uuid7()->toString();
@@ -369,7 +369,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Should include both active and passive pages
@@ -380,7 +380,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldEmptyChildrenArrayWhenNoChildren(): void
+    public function should_empty_children_array_when_no_children(): void
     {
         // GIVEN: Page without children
         $pageId = Uuid::uuid7()->toString();
@@ -400,7 +400,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Children should be empty array
@@ -411,7 +411,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCallRepositoryListPagesOnce(): void
+    public function should_call_repository_list_pages_once(): void
     {
         // GIVEN: Empty page list
         $this->repositoryMock
@@ -429,7 +429,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnArrayType(): void
+    public function should_return_array_type(): void
     {
         // GIVEN: Pages
         $pages = [
@@ -448,7 +448,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Result should be array
@@ -457,7 +457,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonlyClass(): void
+    public function should_be_readonly_class(): void
     {
         // THEN: GetPageTree should be readonly
         $this->assertInstanceOf(GetPageTree::class, $this->getPageTree);
@@ -467,7 +467,7 @@ class GetPageTreeTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMixedOrderWithSiblings(): void
+    public function should_handle_mixed_order_with_siblings(): void
     {
         // GIVEN: Siblings with various order values
         $parentId = Uuid::uuid7()->toString();
@@ -508,7 +508,7 @@ class GetPageTreeTest extends TestCase
             ->andReturn($pages);
 
         // WHEN: Executing query
-        $dto    = new ListPageDTO(null, null);
+        $dto = new ListPageDTO(null, null);
         $result = $this->getPageTree->execute($dto);
 
         // THEN: Children should be sorted correctly

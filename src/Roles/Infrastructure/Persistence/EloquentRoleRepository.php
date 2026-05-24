@@ -12,7 +12,7 @@ use Source\Users\Domain\Models\User;
 
 class EloquentRoleRepository implements RoleRepository
 {
-    public function findByUuid(string $uuid): RoleEntity|null
+    public function findByUuid(string $uuid): ?RoleEntity
     {
         $role = Role::where('uuid', $uuid)->first();
 
@@ -20,11 +20,10 @@ class EloquentRoleRepository implements RoleRepository
             return null;
         }
 
-
         return $this->mapToEntity($role);
     }
 
-    public function findByName(string $name): RoleEntity|null
+    public function findByName(string $name): ?RoleEntity
     {
         $role = Role::where('name', $name)->first();
         if (! $role) {
@@ -39,7 +38,7 @@ class EloquentRoleRepository implements RoleRepository
     {
         return array_values(
             Role::all()
-                ->map(fn(Role $r) => $this->mapToEntity($r))
+                ->map(fn (Role $r) => $this->mapToEntity($r))
                 ->all()
         );
     }
@@ -68,7 +67,7 @@ class EloquentRoleRepository implements RoleRepository
         return array_values(
             $user->roles()
                 ->get()
-                ->map(fn(Role $r) => $this->mapToEntity($r))
+                ->map(fn (Role $r) => $this->mapToEntity($r))
                 ->all()
         );
     }

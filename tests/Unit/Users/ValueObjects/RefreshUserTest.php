@@ -13,7 +13,7 @@ class RefreshUserTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithValidToken(): void
+    public function should_create_instance_with_valid_token(): void
     {
         // GIVEN: Valid refresh token
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
@@ -28,7 +28,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenTokenIsEmpty(): void
+    public function should_throw_exception_when_token_is_empty(): void
     {
         // GIVEN: Empty token
         $emptyToken = '';
@@ -43,7 +43,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldValidateUponInstantiation(): void
+    public function should_validate_upon_instantiation(): void
     {
         // GIVEN: Empty token string
         $emptyToken = '';
@@ -58,7 +58,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectToken(): void
+    public function should_return_correct_token(): void
     {
         // GIVEN: RefreshUser with specific token
         $token = 'refresh_token_abc123xyz';
@@ -73,7 +73,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleJWTTokenFormat(): void
+    public function should_handle_jwt_token_format(): void
     {
         // GIVEN: JWT format token
         $jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -87,7 +87,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSimpleTokenFormat(): void
+    public function should_handle_simple_token_format(): void
     {
         // GIVEN: Simple token format
         $simpleToken = 'simple_token_123456';
@@ -101,7 +101,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongTokens(): void
+    public function should_handle_very_long_tokens(): void
     {
         // GIVEN: Very long token
         $longToken = str_repeat('a', 10000);
@@ -115,7 +115,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithSpecialCharacters(): void
+    public function should_handle_tokens_with_special_characters(): void
     {
         // GIVEN: Tokens with special characters
         $specialTokens = [
@@ -138,7 +138,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleInstances(): void
+    public function should_handle_multiple_instances(): void
     {
         // GIVEN: Multiple RefreshUser instances
         $user1 = new RefreshUser(token: 'token_1');
@@ -161,7 +161,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithWhitespace(): void
+    public function should_handle_tokens_with_whitespace(): void
     {
         // GIVEN: Token with internal whitespace (not leading/trailing empty)
         $tokenWithSpaces = 'token with spaces inside';
@@ -175,7 +175,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRejectOnlyWhitespaceAsEmpty(): void
+    public function should_reject_only_whitespace_as_empty(): void
     {
         // GIVEN: Token with only whitespace
         // Note: The validation uses empty() which treats whitespace-only strings differently
@@ -191,7 +191,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForNullConvertedToEmpty(): void
+    public function should_throw_exception_for_null_converted_to_empty(): void
     {
         // GIVEN: Empty string (which would come from null in type coercion)
         $emptyToken = '';
@@ -206,7 +206,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeCharactersInToken(): void
+    public function should_handle_unicode_characters_in_token(): void
     {
         // GIVEN: Token with unicode characters
         $unicodeToken = 'token_with_émojis_🔐_and_ñ_and_中文';
@@ -220,7 +220,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericTokens(): void
+    public function should_handle_numeric_tokens(): void
     {
         // GIVEN: Token that looks numeric but is a string
         $numericToken = '123456789';
@@ -234,7 +234,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptSingleCharacterToken(): void
+    public function should_accept_single_character_token(): void
     {
         // GIVEN: Token with single character
         $singleCharToken = 'a';
@@ -248,7 +248,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithNewlines(): void
+    public function should_handle_tokens_with_newlines(): void
     {
         // GIVEN: Token with newlines (not leading/trailing empty)
         $tokenWithNewlines = "token\nwith\nmultiple\nlines";
@@ -262,7 +262,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithTabs(): void
+    public function should_handle_tokens_with_tabs(): void
     {
         // GIVEN: Token with tabs
         $tokenWithTabs = "token\twith\ttabs";
@@ -276,7 +276,7 @@ class RefreshUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveTokenAsIs(): void
+    public function should_preserve_token_as_is(): void
     {
         // GIVEN: Token with mixed content
         $complexToken = 'abc123-DEF_456.ghi+jkl/mno=pqr';

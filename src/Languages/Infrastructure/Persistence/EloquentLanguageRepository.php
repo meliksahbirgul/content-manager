@@ -15,7 +15,7 @@ class EloquentLanguageRepository implements LanguageRepository
     {
         return array_values(
             Language::all()
-                ->map(fn(Language $l) => $this->mapToEntity($l))
+                ->map(fn (Language $l) => $this->mapToEntity($l))
                 ->all()
         );
     }
@@ -26,7 +26,7 @@ class EloquentLanguageRepository implements LanguageRepository
         return array_values(
             Language::where('status', 'active')
                 ->get()
-                ->map(fn(Language $l) => $this->mapToEntity($l))
+                ->map(fn (Language $l) => $this->mapToEntity($l))
                 ->all()
         );
     }

@@ -26,7 +26,7 @@ class DashboardServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->repositoryMock   = Mockery::mock(DashboardRepository::class);
+        $this->repositoryMock = Mockery::mock(DashboardRepository::class);
         $this->dashboardService = new DashboardService($this->repositoryMock);
     }
 
@@ -38,7 +38,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDashboardEntityWithDefaultActivityLimit(): void
+    public function should_return_dashboard_entity_with_default_activity_limit(): void
     {
         // GIVEN: Repository returns status counts and activity logs
         $statusCounts = [
@@ -53,7 +53,7 @@ class DashboardServiceTest extends TestCase
                 event: 'created',
                 properties: [],
                 causerId: 10,
-                createdAt: new DateTimeImmutable(),
+                createdAt: new DateTimeImmutable,
             ),
         ];
 
@@ -79,7 +79,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPassCustomActivityLimitToRepository(): void
+    public function should_pass_custom_activity_limit_to_repository(): void
     {
         // GIVEN: A custom activity limit
         $customLimit = 25;
@@ -104,7 +104,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDashboardEntityWithEmptyCollections(): void
+    public function should_return_dashboard_entity_with_empty_collections(): void
     {
         // GIVEN: Repository returns empty arrays (no pages, no activity)
         $this->repositoryMock
@@ -129,7 +129,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCallBothRepositoryMethodsOnEachInvocation(): void
+    public function should_call_both_repository_methods_on_each_invocation(): void
     {
         // GIVEN: Two separate getDashboard calls
         $this->repositoryMock
@@ -153,7 +153,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCallOrder(): void
+    public function should_verify_repository_call_order(): void
     {
         // GIVEN: Ordered mock expectations
         $this->repositoryMock
@@ -178,7 +178,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPropagateRepositoryExceptionFromGetPageStatusCounts(): void
+    public function should_propagate_repository_exception_from_get_page_status_counts(): void
     {
         // GIVEN: Repository throws during getPageStatusCounts
         $this->repositoryMock
@@ -199,7 +199,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPropagateRepositoryExceptionFromGetRecentActivityLogs(): void
+    public function should_propagate_repository_exception_from_get_recent_activity_logs(): void
     {
         // GIVEN: getPageStatusCounts succeeds but getRecentActivityLogs throws
         $this->repositoryMock
@@ -222,7 +222,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDashboardWithMultipleStatusCounts(): void
+    public function should_return_dashboard_with_multiple_status_counts(): void
     {
         // GIVEN: Multiple page status counts from the repository
         $statusCounts = [
@@ -254,18 +254,18 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnDashboardWithMaxActivityLogs(): void
+    public function should_return_dashboard_with_max_activity_logs(): void
     {
         // GIVEN: 10 activity log entries (the default limit)
         $activityLogs = array_map(
-            fn(int $i) => new ActivityLogEntity(
+            fn (int $i) => new ActivityLogEntity(
                 id: $i,
                 logName: 'default',
                 description: "Event $i",
                 event: 'updated',
                 properties: [],
                 causerId: 1,
-                createdAt: new DateTimeImmutable(),
+                createdAt: new DateTimeImmutable,
             ),
             range(1, 10),
         );
@@ -290,7 +290,7 @@ class DashboardServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPassLimitOneToRepository(): void
+    public function should_pass_limit_one_to_repository(): void
     {
         // GIVEN: A limit of 1 (minimum meaningful value)
         $this->repositoryMock

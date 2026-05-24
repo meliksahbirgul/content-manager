@@ -25,11 +25,11 @@ class LinkSlugResolutionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = new EloquentMediaRepository();
+        $this->repository = new EloquentMediaRepository;
     }
 
     #[Test]
-    public function findForModelResolvesLinkSlugsForLinkedPage(): void
+    public function find_for_model_resolves_link_slugs_for_linked_page(): void
     {
         // GIVEN: A page that media links to, and an owner page with a media row
         $linkedPage = $this->createPage(['en' => 'products', 'tr' => 'urunlerimiz']);
@@ -46,7 +46,7 @@ class LinkSlugResolutionTest extends TestCase
     }
 
     #[Test]
-    public function findForModelReturnsNullLinkSlugsWhenNoLinkPageUuid(): void
+    public function find_for_model_returns_null_link_slugs_when_no_link_page_uuid(): void
     {
         // GIVEN: A page with a media row that has no link
         $ownerPage = $this->createPage(['en' => 'home']);
@@ -62,7 +62,7 @@ class LinkSlugResolutionTest extends TestCase
     }
 
     #[Test]
-    public function findForModelReturnsNullLinkSlugsWhenLinkedPageIsSoftDeleted(): void
+    public function find_for_model_returns_null_link_slugs_when_linked_page_is_soft_deleted(): void
     {
         // GIVEN: A soft-deleted linked page
         $linkedPage = $this->createPage(['en' => 'old-page']);
@@ -81,7 +81,7 @@ class LinkSlugResolutionTest extends TestCase
     }
 
     #[Test]
-    public function findForModelBatchResolvesSlugsSingleQuery(): void
+    public function find_for_model_batch_resolves_slugs_single_query(): void
     {
         // GIVEN: Multiple media rows each linking to different pages
         $pageA = $this->createPage(['en' => 'about']);
@@ -107,7 +107,7 @@ class LinkSlugResolutionTest extends TestCase
     }
 
     #[Test]
-    public function findForModelFiltersCollectionCorrectly(): void
+    public function find_for_model_filters_collection_correctly(): void
     {
         // GIVEN: Two media rows on the same page in different collections
         $ownerPage = $this->createPage(['en' => 'home']);
@@ -129,33 +129,33 @@ class LinkSlugResolutionTest extends TestCase
     private function createPage(array $slug): Page
     {
         return Page::create([
-            'uuid'      => Uuid::uuid7()->toString(),
-            'title'     => ['en' => 'Test Page'],
-            'content'   => ['en' => ''],
-            'slug'      => $slug,
-            'order'     => 0,
+            'uuid' => Uuid::uuid7()->toString(),
+            'title' => ['en' => 'Test Page'],
+            'content' => ['en' => ''],
+            'slug' => $slug,
+            'order' => 0,
             'is_active' => 'active',
         ]);
     }
 
     private function createMedia(
         int $mediableId,
-        string|null $linkPageUuid,
+        ?string $linkPageUuid,
         MediaCollection $collection = MediaCollection::Images,
     ): Media {
         return Media::create([
-            'uuid'           => Uuid::uuid7()->toString(),
-            'mediable_type'  => Page::class,
-            'mediable_id'    => $mediableId,
-            'collection'     => $collection->value,
-            'disk'           => MediaDisk::Public->value,
-            'path'           => 'page/' . $mediableId . '/images/test.jpg',
-            'url'            => '/storage/page/' . $mediableId . '/images/test.jpg',
-            'original_name'  => 'test.jpg',
-            'mime_type'      => 'image/jpeg',
-            'size'           => 1024,
+            'uuid' => Uuid::uuid7()->toString(),
+            'mediable_type' => Page::class,
+            'mediable_id' => $mediableId,
+            'collection' => $collection->value,
+            'disk' => MediaDisk::Public->value,
+            'path' => 'page/'.$mediableId.'/images/test.jpg',
+            'url' => '/storage/page/'.$mediableId.'/images/test.jpg',
+            'original_name' => 'test.jpg',
+            'mime_type' => 'image/jpeg',
+            'size' => 1024,
             'link_page_uuid' => $linkPageUuid,
-            'order'          => 0,
+            'order' => 0,
         ]);
     }
 }

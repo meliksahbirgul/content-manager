@@ -19,29 +19,29 @@ class StorePageController extends Controller
     public function __invoke(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'title'     => 'required|array',
-            'title.en'  => 'required|string|max:255',
-            'title.tr'  => 'nullable|string|max:255',
-            'content'   => 'nullable|array',
+            'title' => 'required|array',
+            'title.en' => 'required|string|max:255',
+            'title.tr' => 'nullable|string|max:255',
+            'content' => 'nullable|array',
             'content.*' => 'nullable|string',
-            'slug'      => 'required|array',
-            'slug.en'   => 'required|string|max:255',
-            'slug.tr'   => 'nullable|string|max:255',
+            'slug' => 'required|array',
+            'slug.en' => 'required|string|max:255',
+            'slug.tr' => 'nullable|string|max:255',
             'parent_id' => 'nullable|string|exists:pages,uuid',
         ]);
 
         // Strip empty strings so they are not stored as blank translations
-        $title   = array_filter($validated['title'], fn($v) => $v !== null && $v !== '');
-        $slug    = array_filter($validated['slug'], fn($v) => $v !== null && $v !== '');
-        $content = array_filter($validated['content'] ?? [], fn($v) => $v !== null && $v !== '');
+        $title = array_filter($validated['title'], fn ($v) => $v !== null && $v !== '');
+        $slug = array_filter($validated['slug'], fn ($v) => $v !== null && $v !== '');
+        $content = array_filter($validated['content'] ?? [], fn ($v) => $v !== null && $v !== '');
 
         try {
             $dto = CreatePageDTO::fromRequest([
-                'title'    => $title,
-                'content'  => $content,
-                'slug'     => $slug,
+                'title' => $title,
+                'content' => $content,
+                'slug' => $slug,
                 'parentId' => $validated['parent_id'] ?? null,
-                'status'   => PageStatus::PASSIVE->value,
+                'status' => PageStatus::PASSIVE->value,
             ]);
 
             $this->pageService->createPage($dto);

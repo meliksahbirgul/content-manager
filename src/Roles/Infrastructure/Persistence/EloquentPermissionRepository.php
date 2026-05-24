@@ -14,14 +14,14 @@ use Source\Users\Domain\Models\User;
 
 class EloquentPermissionRepository implements PermissionRepository
 {
-    public function findByUuid(string $uuid): PermissionEntity|null
+    public function findByUuid(string $uuid): ?PermissionEntity
     {
         $permission = Permission::where('uuid', $uuid)->first();
 
         return $permission ? $this->mapToEntity($permission) : null;
     }
 
-    public function findByName(string $name): PermissionEntity|null
+    public function findByName(string $name): ?PermissionEntity
     {
         $permission = Permission::where('name', $name)->first();
 
@@ -33,14 +33,14 @@ class EloquentPermissionRepository implements PermissionRepository
     {
         return array_values(
             Permission::all()
-                ->map(fn(Permission $p) => $this->mapToEntity($p))
+                ->map(fn (Permission $p) => $this->mapToEntity($p))
                 ->all()
         );
     }
 
     public function assignToUser(AssignPermission $payload): void
     {
-        $user       = User::where('uuid', $payload->userUuid())->firstOrFail();
+        $user = User::where('uuid', $payload->userUuid())->firstOrFail();
         $permission = Permission::where('uuid', $payload->permissionUuid())->firstOrFail();
 
         $user->permissions()->syncWithoutDetaching([
@@ -50,7 +50,7 @@ class EloquentPermissionRepository implements PermissionRepository
 
     public function removeFromUser(RemovePermission $payload): void
     {
-        $user       = User::where('uuid', $payload->userUuid())->firstOrFail();
+        $user = User::where('uuid', $payload->userUuid())->firstOrFail();
         $permission = Permission::where('uuid', $payload->permissionUuid())->firstOrFail();
 
         $user->permissions()->detach($permission->id);
@@ -65,7 +65,7 @@ class EloquentPermissionRepository implements PermissionRepository
             $user->permissions()
                 ->wherePivot('granted', true)
                 ->get()
-                ->map(fn(Permission $p) => $this->mapToEntity($p))
+                ->map(fn (Permission $p) => $this->mapToEntity($p))
                 ->all()
         );
     }
@@ -78,7 +78,7 @@ class EloquentPermissionRepository implements PermissionRepository
         $fromRolePermissionIds = $user->roles()
             ->with('permissions')
             ->get()
-            ->flatMap(fn($role) => $role->permissions->pluck('id'))
+            ->flatMap(fn ($role) => $role->permissions->pluck('id'))
             ->unique();
 
         $directRows = DB::table('user_permission')
@@ -86,11 +86,11 @@ class EloquentPermissionRepository implements PermissionRepository
             ->get()
             ->keyBy('permission_id');
 
-        $deniedIds  = $directRows->filter(fn($row) => ! $row->granted)->keys();
-        $grantedIds = $directRows->filter(fn($row) => $row->granted)->keys();
+        $deniedIds = $directRows->filter(fn ($row) => ! $row->granted)->keys();
+        $grantedIds = $directRows->filter(fn ($row) => $row->granted)->keys();
 
         $permissionIds = $fromRolePermissionIds
-            ->reject(fn($id) => $deniedIds->contains($id))
+            ->reject(fn ($id) => $deniedIds->contains($id))
             ->merge($grantedIds)
             ->unique()
             ->values();
@@ -98,7 +98,7 @@ class EloquentPermissionRepository implements PermissionRepository
         return array_values(
             Permission::whereIn('id', $permissionIds->all())
                 ->get()
-                ->map(fn(Permission $p) => $this->mapToEntity($p))
+                ->map(fn (Permission $p) => $this->mapToEntity($p))
                 ->all()
         );
     }

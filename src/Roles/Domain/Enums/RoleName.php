@@ -6,7 +6,7 @@ namespace Source\Roles\Domain\Enums;
 
 enum RoleName: string
 {
-    case Admin  = 'admin';
+    case Admin = 'admin';
     case Editor = 'editor';
     case Viewer = 'viewer';
 }

@@ -9,8 +9,8 @@ use Source\Pages\Domain\Enums\PageStatus;
 readonly class ListPageDTO
 {
     public function __construct(
-        private string|null $search,
-        private PageStatus|null $status,
+        private ?string $search,
+        private ?PageStatus $status,
     ) {}
 
     /** @param array<string,mixed> $data */
@@ -27,12 +27,12 @@ readonly class ListPageDTO
         );
     }
 
-    public function search(): string|null
+    public function search(): ?string
     {
         return $this->search;
     }
 
-    public function status(): PageStatus|null
+    public function status(): ?PageStatus
     {
         return $this->status;
     }

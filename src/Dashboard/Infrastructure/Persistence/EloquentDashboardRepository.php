@@ -25,7 +25,7 @@ class EloquentDashboardRepository implements DashboardRepository
             ->all();
 
         return array_map(
-            fn(PageStatus $status) => new PageStatusCountEntity(
+            fn (PageStatus $status) => new PageStatusCountEntity(
                 status: $status->value,
                 count: (int) ($counts[$status->value] ?? 0),
             ),
@@ -40,7 +40,7 @@ class EloquentDashboardRepository implements DashboardRepository
             ->orderByDesc('created_at')
             ->limit($limit)
             ->get()
-            ->map(fn(Activity $activity) => new ActivityLogEntity(
+            ->map(fn (Activity $activity) => new ActivityLogEntity(
                 id: $activity->id,
                 logName: $activity->log_name,
                 description: $activity->description,

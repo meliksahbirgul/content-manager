@@ -7,13 +7,10 @@ namespace Source\Users\Presentation\Http\Controllers\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Application\Services\UserService;
 use Throwable;
-
-use function response;
 
 class LoginController extends Controller
 {

@@ -14,7 +14,7 @@ use Source\Pages\Domain\ValueObjects\UpdatePage;
 class UpdatePageTest extends TestCase
 {
     #[Test]
-    public function shouldCreateInstanceWithAllOptionalParameters(): void
+    public function should_create_instance_with_all_optional_parameters(): void
     {
         $id = Uuid::uuid7()->toString();
         $title = ['en' => 'Updated Title', 'tr' => 'Güncellenmiş Başlık'];
@@ -42,7 +42,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithOnlyTitle(): void
+    public function should_create_instance_with_only_title(): void
     {
         $id = Uuid::uuid7()->toString();
         $title = ['en' => 'New Title'];
@@ -58,7 +58,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithOnlyContent(): void
+    public function should_create_instance_with_only_content(): void
     {
         $id = Uuid::uuid7()->toString();
         $content = ['en' => 'New Content'];
@@ -74,7 +74,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithOnlySlug(): void
+    public function should_create_instance_with_only_slug(): void
     {
         $id = Uuid::uuid7()->toString();
         $slug = ['en' => 'new-slug'];
@@ -90,7 +90,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithOnlyOrder(): void
+    public function should_create_instance_with_only_order(): void
     {
         $id = Uuid::uuid7()->toString();
         $order = 10;
@@ -106,7 +106,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithOnlyStatus(): void
+    public function should_create_instance_with_only_status(): void
     {
         $id = Uuid::uuid7()->toString();
         $status = PageStatus::PASSIVE;
@@ -122,7 +122,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithOnlyId(): void
+    public function should_create_instance_with_only_id(): void
     {
         $id = Uuid::uuid7()->toString();
 
@@ -137,7 +137,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateInstanceWithMultipleFields(): void
+    public function should_create_instance_with_multiple_fields(): void
     {
         $id = Uuid::uuid7()->toString();
         $title = ['en' => 'Title', 'tr' => 'Başlık'];
@@ -160,7 +160,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldThrowExceptionWithInvalidUuid(): void
+    public function should_throw_exception_with_invalid_uuid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid UUID format for id.');
@@ -169,7 +169,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldThrowExceptionWithMalformedUuid(): void
+    public function should_throw_exception_with_malformed_uuid(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid UUID format for id.');
@@ -178,7 +178,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldThrowExceptionWithEmptyString(): void
+    public function should_throw_exception_with_empty_string(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -186,7 +186,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateFromArrayWithAllFields(): void
+    public function should_create_from_array_with_all_fields(): void
     {
         $id = Uuid::uuid7()->toString();
         $data = [
@@ -209,7 +209,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateFromArrayWithPartialFields(): void
+    public function should_create_from_array_with_partial_fields(): void
     {
         $id = Uuid::uuid7()->toString();
         $data = [
@@ -229,7 +229,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldThrowExceptionWhenCreatingFromArrayWithoutId(): void
+    public function should_throw_exception_when_creating_from_array_without_id(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -239,7 +239,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldThrowExceptionWhenCreatingFromArrayWithInvalidId(): void
+    public function should_throw_exception_when_creating_from_array_with_invalid_id(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid UUID format for id.');
@@ -251,7 +251,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleMultilingualTitleData(): void
+    public function should_handle_multilingual_title_data(): void
     {
         $id = Uuid::uuid7()->toString();
         $title = [
@@ -270,7 +270,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleMultilingualContentData(): void
+    public function should_handle_multilingual_content_data(): void
     {
         $id = Uuid::uuid7()->toString();
         $content = [
@@ -287,7 +287,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleMultilingualSlugData(): void
+    public function should_handle_multilingual_slug_data(): void
     {
         $id = Uuid::uuid7()->toString();
         $slug = [
@@ -303,7 +303,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleActivePageStatus(): void
+    public function should_handle_active_page_status(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(id: $id, status: PageStatus::ACTIVE);
@@ -313,7 +313,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandlePassivePageStatus(): void
+    public function should_handle_passive_page_status(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(id: $id, status: PageStatus::PASSIVE);
@@ -323,7 +323,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleVariousOrderValues(): void
+    public function should_handle_various_order_values(): void
     {
         $id = Uuid::uuid7()->toString();
         $orders = [0, 1, 5, 10, 100, 999];
@@ -335,7 +335,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldReturnNullForUnsetOrder(): void
+    public function should_return_null_for_unset_order(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(id: $id, order: null);
@@ -344,7 +344,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldPreserveImmutability(): void
+    public function should_preserve_immutability(): void
     {
         $id = Uuid::uuid7()->toString();
         $title = ['en' => 'Original'];
@@ -358,7 +358,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateFromArrayWithActiveStatus(): void
+    public function should_create_from_array_with_active_status(): void
     {
         $id = Uuid::uuid7()->toString();
         $data = [
@@ -373,7 +373,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateFromArrayWithPassiveStatus(): void
+    public function should_create_from_array_with_passive_status(): void
     {
         $id = Uuid::uuid7()->toString();
         $data = [
@@ -388,7 +388,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleComplexUpdateScenario(): void
+    public function should_handle_complex_update_scenario(): void
     {
         $id = Uuid::uuid7()->toString();
         $updateData = [
@@ -410,7 +410,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandlePartialUpdateWithNullValues(): void
+    public function should_handle_partial_update_with_null_values(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(
@@ -431,7 +431,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldCreateFromArrayWithMissingOptionalFields(): void
+    public function should_create_from_array_with_missing_optional_fields(): void
     {
         $id = Uuid::uuid7()->toString();
         $data = [
@@ -450,7 +450,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleZeroOrder(): void
+    public function should_handle_zero_order(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(id: $id, order: 0);
@@ -460,7 +460,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldHandleSingleLanguageUpdate(): void
+    public function should_handle_single_language_update(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(
@@ -476,7 +476,7 @@ class UpdatePageTest extends TestCase
     }
 
     #[Test]
-    public function shouldReturnValidUuid(): void
+    public function should_return_valid_uuid(): void
     {
         $id = Uuid::uuid7()->toString();
         $updatePage = new UpdatePage(id: $id);

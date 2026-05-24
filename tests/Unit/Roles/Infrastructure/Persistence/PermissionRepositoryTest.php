@@ -28,7 +28,7 @@ class PermissionRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = new EloquentPermissionRepository();
+        $this->repository = new EloquentPermissionRepository;
     }
 
     // -------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsPermissionByUuid(): void
+    public function it_finds_permission_by_uuid(): void
     {
         // Arrange
         $permission = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
@@ -55,7 +55,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenPermissionNotFoundByUuid(): void
+    public function it_returns_null_when_permission_not_found_by_uuid(): void
     {
         // Arrange
         $nonExistentUuid = Uuid::uuid7()->toString();
@@ -73,7 +73,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsPermissionByName(): void
+    public function it_finds_permission_by_name(): void
     {
         // Arrange
         Permission::create(['name' => 'sections.create', 'display_name' => 'Create Pages', 'description' => 'Allows creating sections.']);
@@ -90,7 +90,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenPermissionNotFoundByName(): void
+    public function it_returns_null_when_permission_not_found_by_name(): void
     {
         // Act
         $result = $this->repository->findByName('nonexistent.permission');
@@ -105,7 +105,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsAllPermissions(): void
+    public function it_returns_all_permissions(): void
     {
         // Arrange
         Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
@@ -115,7 +115,7 @@ class PermissionRepositoryTest extends TestCase
 
         // Act
         $results = $this->repository->all();
-        $data    = [];
+        $data = [];
         foreach ($results as $result) {
             if (! str_contains($result->name(), 'sections')) {
                 continue;
@@ -128,14 +128,14 @@ class PermissionRepositoryTest extends TestCase
         $this->assertCount(4, $data);
         $this->assertContainsOnlyInstancesOf(PermissionEntity::class, $data);
 
-        $names = array_map(fn(PermissionEntity $p) => $p->name(), $data);
+        $names = array_map(fn (PermissionEntity $p) => $p->name(), $data);
         $this->assertContains('sections.view', $names);
         $this->assertContains('sections.delete', $names);
     }
 
     /** @test */
     #[Test]
-    public function itReturnsEmptyArrayWhenNoPermissionsExist(): void
+    public function it_returns_empty_array_when_no_permissions_exist(): void
     {
         // Act
         $results = $this->repository->all();
@@ -150,72 +150,72 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itAssignsPermissionToUserAsGranted(): void
+    public function it_assigns_permission_to_user_as_granted(): void
     {
         // Arrange
-        $user       = User::create(['name' => 'Alice', 'email' => 'alice@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Alice', 'email' => 'alice@example.com', 'password' => bcrypt('pass')]);
         $permission = Permission::create(['name' => 'sections.create', 'display_name' => 'Create Pages']);
-        $vo         = new AssignPermission($user->uuid, $permission->uuid, true);
+        $vo = new AssignPermission($user->uuid, $permission->uuid, true);
 
         // Act
         $this->repository->assignToUser($vo);
 
         // Assert
         $this->assertDatabaseHas('user_permission', [
-            'user_id'       => $user->id,
+            'user_id' => $user->id,
             'permission_id' => $permission->id,
-            'granted'       => true,
+            'granted' => true,
         ]);
     }
 
     /** @test */
     #[Test]
-    public function itAssignsPermissionToUserAsDenied(): void
+    public function it_assigns_permission_to_user_as_denied(): void
     {
         // Arrange
-        $user       = User::create(['name' => 'Bob', 'email' => 'bob@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Bob', 'email' => 'bob@example.com', 'password' => bcrypt('pass')]);
         $permission = Permission::create(['name' => 'sections.delete', 'display_name' => 'Delete Pages']);
-        $vo         = new AssignPermission($user->uuid, $permission->uuid, false);
+        $vo = new AssignPermission($user->uuid, $permission->uuid, false);
 
         // Act
         $this->repository->assignToUser($vo);
 
         // Assert
         $this->assertDatabaseHas('user_permission', [
-            'user_id'       => $user->id,
+            'user_id' => $user->id,
             'permission_id' => $permission->id,
-            'granted'       => false,
+            'granted' => false,
         ]);
     }
 
     /** @test */
     #[Test]
-    public function itDefaultsGrantedToTrueWhenNotSpecified(): void
+    public function it_defaults_granted_to_true_when_not_specified(): void
     {
         // Arrange
-        $user       = User::create(['name' => 'Carol', 'email' => 'carol@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Carol', 'email' => 'carol@example.com', 'password' => bcrypt('pass')]);
         $permission = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
-        $vo         = new AssignPermission($user->uuid, $permission->uuid);
+        $vo = new AssignPermission($user->uuid, $permission->uuid);
 
         // Act
         $this->repository->assignToUser($vo);
 
         // Assert
         $this->assertDatabaseHas('user_permission', [
-            'user_id'       => $user->id,
+            'user_id' => $user->id,
             'permission_id' => $permission->id,
-            'granted'       => true,
+            'granted' => true,
         ]);
     }
 
     /** @test */
     #[Test]
-    public function itThrowsWhenAssigningPermissionToNonExistentUser(): void
+    public function it_throws_when_assigning_permission_to_non_existent_user(): void
     {
         // Arrange
-        $permission      = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
+        $permission = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
         $nonExistentUuid = Uuid::uuid7()->toString();
-        $vo              = new AssignPermission($nonExistentUuid, $permission->uuid);
+        $vo = new AssignPermission($nonExistentUuid, $permission->uuid);
 
         // Assert
         $this->expectException(ModelNotFoundException::class);
@@ -226,12 +226,12 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenAssigningNonExistentPermissionToUser(): void
+    public function it_throws_when_assigning_non_existent_permission_to_user(): void
     {
         // Arrange
-        $user            = User::create(['name' => 'Dave', 'email' => 'dave@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Dave', 'email' => 'dave@example.com', 'password' => bcrypt('pass')]);
         $nonExistentUuid = Uuid::uuid7()->toString();
-        $vo              = new AssignPermission($user->uuid, $nonExistentUuid);
+        $vo = new AssignPermission($user->uuid, $nonExistentUuid);
 
         // Assert
         $this->expectException(ModelNotFoundException::class);
@@ -246,10 +246,10 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itRemovesPermissionFromUser(): void
+    public function it_removes_permission_from_user(): void
     {
         // Arrange
-        $user       = User::create(['name' => 'Eve', 'email' => 'eve@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Eve', 'email' => 'eve@example.com', 'password' => bcrypt('pass')]);
         $permission = Permission::create(['name' => 'sections.update', 'display_name' => 'Update Pages']);
 
         $assignVo = new AssignPermission($user->uuid, $permission->uuid, true);
@@ -263,19 +263,19 @@ class PermissionRepositoryTest extends TestCase
 
         // Assert
         $this->assertDatabaseMissing('user_permission', [
-            'user_id'       => $user->id,
+            'user_id' => $user->id,
             'permission_id' => $permission->id,
         ]);
     }
 
     /** @test */
     #[Test]
-    public function itThrowsWhenRemovingPermissionFromNonExistentUser(): void
+    public function it_throws_when_removing_permission_from_non_existent_user(): void
     {
         // Arrange
-        $permission      = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
+        $permission = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
         $nonExistentUuid = Uuid::uuid7()->toString();
-        $vo              = new RemovePermission($nonExistentUuid, $permission->uuid);
+        $vo = new RemovePermission($nonExistentUuid, $permission->uuid);
 
         // Assert
         $this->expectException(ModelNotFoundException::class);
@@ -290,12 +290,12 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsOnlyGrantedDirectPermissions(): void
+    public function it_returns_only_granted_direct_permissions(): void
     {
         // Arrange
-        $user    = User::create(['name' => 'Frank', 'email' => 'frank@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Frank', 'email' => 'frank@example.com', 'password' => bcrypt('pass')]);
         $granted = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
-        $denied  = Permission::create(['name' => 'sections.delete', 'display_name' => 'Delete Pages']);
+        $denied = Permission::create(['name' => 'sections.delete', 'display_name' => 'Delete Pages']);
 
         $user->permissions()->attach($granted->id, ['granted' => true]);
         $user->permissions()->attach($denied->id, ['granted' => false]);
@@ -310,7 +310,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsEmptyArrayWhenUserHasNoDirectPermissions(): void
+    public function it_returns_empty_array_when_user_has_no_direct_permissions(): void
     {
         // Arrange
         $user = User::create(['name' => 'Grace', 'email' => 'grace@example.com', 'password' => bcrypt('pass')]);
@@ -325,7 +325,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenGettingDirectPermissionsForNonExistentUser(): void
+    public function it_throws_when_getting_direct_permissions_for_non_existent_user(): void
     {
         // Arrange
         $nonExistentUuid = Uuid::uuid7()->toString();
@@ -343,12 +343,12 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsPermissionsGrantedViaRole(): void
+    public function it_returns_permissions_granted_via_role(): void
     {
         // Arrange
-        $user       = User::create(['name' => 'Hank', 'email' => 'hank@example.com', 'password' => bcrypt('pass')]);
-        $role       = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
-        $viewPerm   = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
+        $user = User::create(['name' => 'Hank', 'email' => 'hank@example.com', 'password' => bcrypt('pass')]);
+        $role = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
+        $viewPerm = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
         $createPerm = Permission::create(['name' => 'sections.create', 'display_name' => 'Create Pages']);
 
         $role->permissions()->attach([$viewPerm->id, $createPerm->id]);
@@ -359,19 +359,19 @@ class PermissionRepositoryTest extends TestCase
 
         // Assert
         $this->assertCount(2, $results);
-        $names = array_map(fn(PermissionEntity $p) => $p->name(), $results);
+        $names = array_map(fn (PermissionEntity $p) => $p->name(), $results);
         $this->assertContains('sections.view', $names);
         $this->assertContains('sections.create', $names);
     }
 
     /** @test */
     #[Test]
-    public function itIncludesDirectlyGrantedPermissionsNotInRole(): void
+    public function it_includes_directly_granted_permissions_not_in_role(): void
     {
         // Arrange
-        $user       = User::create(['name' => 'Iris', 'email' => 'iris@example.com', 'password' => bcrypt('pass')]);
-        $role       = Role::create(['name' => 'aviewer', 'display_name' => 'Aviewer']);
-        $viewPerm   = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
+        $user = User::create(['name' => 'Iris', 'email' => 'iris@example.com', 'password' => bcrypt('pass')]);
+        $role = Role::create(['name' => 'aviewer', 'display_name' => 'Aviewer']);
+        $viewPerm = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
         $deletePerm = Permission::create(['name' => 'sections.delete', 'display_name' => 'Delete Pages']);
 
         $role->permissions()->attach($viewPerm->id);
@@ -382,20 +382,20 @@ class PermissionRepositoryTest extends TestCase
         $results = $this->repository->getAllByUserUuid($user->uuid);
 
         // Assert
-        $names = array_map(fn(PermissionEntity $p) => $p->name(), $results);
+        $names = array_map(fn (PermissionEntity $p) => $p->name(), $results);
         $this->assertContains('sections.view', $names);
         $this->assertContains('sections.delete', $names);
     }
 
     /** @test */
     #[Test]
-    public function itExcludesDeniedPermissionEvenIfGrantedByRole(): void
+    public function it_excludes_denied_permission_even_if_granted_by_role(): void
     {
         // Arrange
-        $user     = User::create(['name' => 'Jack', 'email' => 'jack@example.com', 'password' => bcrypt('pass')]);
-        $role     = Role::create(['name' => 'tadmin', 'display_name' => 'Tadministrator']);
+        $user = User::create(['name' => 'Jack', 'email' => 'jack@example.com', 'password' => bcrypt('pass')]);
+        $role = Role::create(['name' => 'tadmin', 'display_name' => 'Tadministrator']);
         $viewPerm = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
-        $delPerm  = Permission::create(['name' => 'sections.delete', 'display_name' => 'Delete Pages']);
+        $delPerm = Permission::create(['name' => 'sections.delete', 'display_name' => 'Delete Pages']);
 
         $role->permissions()->attach([$viewPerm->id, $delPerm->id]);
         $user->roles()->attach($role->id);
@@ -407,19 +407,19 @@ class PermissionRepositoryTest extends TestCase
         $results = $this->repository->getAllByUserUuid($user->uuid);
 
         // Assert
-        $names = array_map(fn(PermissionEntity $p) => $p->name(), $results);
+        $names = array_map(fn (PermissionEntity $p) => $p->name(), $results);
         $this->assertContains('sections.view', $names);
         $this->assertNotContains('sections.delete', $names);
     }
 
     /** @test */
     #[Test]
-    public function itDeduplicatesPermissionsGrantedByMultipleRoles(): void
+    public function it_deduplicates_permissions_granted_by_multiple_roles(): void
     {
         // Arrange
-        $user    = User::create(['name' => 'Kate', 'email' => 'kate@example.com', 'password' => bcrypt('pass')]);
-        $role1   = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
-        $role2   = Role::create(['name' => 'areviewer', 'display_name' => 'Areviewer']);
+        $user = User::create(['name' => 'Kate', 'email' => 'kate@example.com', 'password' => bcrypt('pass')]);
+        $role1 = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
+        $role2 = Role::create(['name' => 'areviewer', 'display_name' => 'Areviewer']);
         $viewPerm = Permission::create(['name' => 'sections.view', 'display_name' => 'View Pages']);
 
         $role1->permissions()->attach($viewPerm->id);
@@ -430,13 +430,13 @@ class PermissionRepositoryTest extends TestCase
         $results = $this->repository->getAllByUserUuid($user->uuid);
 
         // Assert: sections.view appears only once despite being in two roles
-        $names = array_map(fn(PermissionEntity $p) => $p->name(), $results);
-        $this->assertCount(1, array_filter($names, fn($n) => $n === 'sections.view'));
+        $names = array_map(fn (PermissionEntity $p) => $p->name(), $results);
+        $this->assertCount(1, array_filter($names, fn ($n) => $n === 'sections.view'));
     }
 
     /** @test */
     #[Test]
-    public function itReturnsEmptyArrayWhenUserHasNoRolesOrDirectPermissions(): void
+    public function it_returns_empty_array_when_user_has_no_roles_or_direct_permissions(): void
     {
         // Arrange
         $user = User::create(['name' => 'Leo', 'email' => 'leo@example.com', 'password' => bcrypt('pass')]);
@@ -451,7 +451,7 @@ class PermissionRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenGettingAllPermissionsForNonExistentUser(): void
+    public function it_throws_when_getting_all_permissions_for_non_existent_user(): void
     {
         // Arrange
         $nonExistentUuid = Uuid::uuid7()->toString();

@@ -32,7 +32,7 @@ class PageRepository implements Repository
         return $payload;
     }
 
-    public function isSlugUnique(array $slugs, string|null $pageId = null): bool
+    public function isSlugUnique(array $slugs, ?string $pageId = null): bool
     {
         return ! EloquentPage::where(function ($query) use ($slugs) {
             foreach ($slugs as $lang => $value) {
@@ -45,7 +45,7 @@ class PageRepository implements Repository
             ->exists();
     }
 
-    public function findByUuid(string $uuid, bool $withImages = false): PageEntity|null
+    public function findByUuid(string $uuid, bool $withImages = false): ?PageEntity
     {
         $query = EloquentPage::where('uuid', $uuid);
         if ($withImages) {
@@ -139,18 +139,18 @@ class PageRepository implements Repository
             ])
             ->orderBy('order')
             ->get()
-            ->map(fn(EloquentPage $page) => [
-                'id'        => $page->uuid,
-                'title'     => $page->title,
-                'status'    => $page->is_active,
-                'order'     => $page->order,
-                'parentId'  => $page->parentPage?->uuid,
+            ->map(fn (EloquentPage $page) => [
+                'id' => $page->uuid,
+                'title' => $page->title,
+                'status' => $page->is_active,
+                'order' => $page->order,
+                'parentId' => $page->parentPage?->uuid,
                 'updatedAt' => $page->updated_at,
             ])
             ->toArray();
     }
 
-    public function findOriginalIdByUuid(string $uuid): int|null
+    public function findOriginalIdByUuid(string $uuid): ?int
     {
         $model = EloquentPage::where('uuid', $uuid)->first();
         if (! $model) {

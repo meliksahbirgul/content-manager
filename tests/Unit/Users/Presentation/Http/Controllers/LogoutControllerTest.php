@@ -17,6 +17,7 @@ class LogoutControllerTest extends TestCase
     use RefreshDatabase;
 
     private const string LOGOUT_ENDPOINT = '/api/panel/v1/auth/logout';
+
     private const string LOGIN_ENDPOINT = '/api/panel/v1/auth/login';
 
     /**
@@ -39,7 +40,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutSuccessfullyWithBearerToken(): void
+    public function should_logout_successfully_with_bearer_token(): void
     {
         // Arrange
         User::create([
@@ -50,7 +51,7 @@ class LogoutControllerTest extends TestCase
         $tokens = $this->loginUser();
 
         // Act
-        $response = $this->withHeader('Authorization', 'Bearer ' . $tokens['accessToken'])
+        $response = $this->withHeader('Authorization', 'Bearer '.$tokens['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT);
 
         // Assert
@@ -59,7 +60,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutSuccessfullyWithBearerTokenAndRefreshToken(): void
+    public function should_logout_successfully_with_bearer_token_and_refresh_token(): void
     {
         // Arrange
         User::create([
@@ -70,7 +71,7 @@ class LogoutControllerTest extends TestCase
         $tokens = $this->loginUser();
 
         // Act
-        $response = $this->withHeader('Authorization', 'Bearer ' . $tokens['accessToken'])
+        $response = $this->withHeader('Authorization', 'Bearer '.$tokens['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT, [
                 'refreshToken' => $tokens['refreshToken'],
             ]);
@@ -81,7 +82,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNoContentWhenNoBearerTokenProvided(): void
+    public function should_return_no_content_when_no_bearer_token_provided(): void
     {
         // Act - No bearer token means accessToken is null, so logout is skipped
         $response = $this->postJson(self::LOGOUT_ENDPOINT);
@@ -92,7 +93,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNoContentWithInvalidBearerToken(): void
+    public function should_return_no_content_with_invalid_bearer_token(): void
     {
         // Act - Invalid bearer token (token doesn't exist in DB)
         $response = $this->withHeader('Authorization', 'Bearer invalidtoken123')
@@ -104,7 +105,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnEmptyBodyOnLogout(): void
+    public function should_return_empty_body_on_logout(): void
     {
         // Arrange
         User::create([
@@ -115,7 +116,7 @@ class LogoutControllerTest extends TestCase
         $tokens = $this->loginUser();
 
         // Act
-        $response = $this->withHeader('Authorization', 'Bearer ' . $tokens['accessToken'])
+        $response = $this->withHeader('Authorization', 'Bearer '.$tokens['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT);
 
         // Assert
@@ -125,7 +126,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLogoutWithOnlyRefreshTokenInBody(): void
+    public function should_handle_logout_with_only_refresh_token_in_body(): void
     {
         // Arrange
         User::create([
@@ -136,7 +137,7 @@ class LogoutControllerTest extends TestCase
         $tokens = $this->loginUser();
 
         // Act - Send refresh token in body along with bearer
-        $response = $this->withHeader('Authorization', 'Bearer ' . $tokens['accessToken'])
+        $response = $this->withHeader('Authorization', 'Bearer '.$tokens['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT, [
                 'refreshToken' => $tokens['refreshToken'],
             ]);
@@ -147,7 +148,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAllowMultipleLogoutsWithDifferentTokens(): void
+    public function should_allow_multiple_logouts_with_different_tokens(): void
     {
         // Arrange
         User::create([
@@ -161,9 +162,9 @@ class LogoutControllerTest extends TestCase
         $tokens2 = $this->loginUser();
 
         // Act - Logout both sessions
-        $response1 = $this->withHeader('Authorization', 'Bearer ' . $tokens1['accessToken'])
+        $response1 = $this->withHeader('Authorization', 'Bearer '.$tokens1['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT);
-        $response2 = $this->withHeader('Authorization', 'Bearer ' . $tokens2['accessToken'])
+        $response2 = $this->withHeader('Authorization', 'Bearer '.$tokens2['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT);
 
         // Assert
@@ -173,7 +174,7 @@ class LogoutControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutDifferentUsersIndependently(): void
+    public function should_logout_different_users_independently(): void
     {
         // Arrange
         User::create([
@@ -190,9 +191,9 @@ class LogoutControllerTest extends TestCase
         $tokens2 = $this->loginUser('user2@example.com');
 
         // Act
-        $response1 = $this->withHeader('Authorization', 'Bearer ' . $tokens1['accessToken'])
+        $response1 = $this->withHeader('Authorization', 'Bearer '.$tokens1['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT);
-        $response2 = $this->withHeader('Authorization', 'Bearer ' . $tokens2['accessToken'])
+        $response2 = $this->withHeader('Authorization', 'Bearer '.$tokens2['accessToken'])
             ->postJson(self::LOGOUT_ENDPOINT);
 
         // Assert

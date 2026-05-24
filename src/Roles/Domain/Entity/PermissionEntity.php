@@ -10,7 +10,7 @@ class PermissionEntity
         private string $uuid,
         private string $name,
         private string $displayName,
-        private string|null $description,
+        private ?string $description,
     ) {}
 
     public function uuid(): string
@@ -28,7 +28,7 @@ class PermissionEntity
         return $this->displayName;
     }
 
-    public function description(): string|null
+    public function description(): ?string
     {
         return $this->description;
     }

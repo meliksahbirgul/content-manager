@@ -12,7 +12,7 @@ class LoginDTOSadPathTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithMissingEmailKey(): void
+    public function should_handle_from_request_with_missing_email_key(): void
     {
         // GIVEN: Request data without email key
         $data = ['password' => 'password123'];
@@ -26,7 +26,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithMissingPasswordKey(): void
+    public function should_handle_from_request_with_missing_password_key(): void
     {
         // GIVEN: Request data without password key
         $data = ['email' => 'user@example.com'];
@@ -40,7 +40,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithTypeCoercion(): void
+    public function should_handle_from_request_with_type_coercion(): void
     {
         // GIVEN: Request data with coercible types
         // Note: Type hints on LoginDTO require strings, so numeric types may cause issues
@@ -57,7 +57,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldIgnoreExtraKeysFromRequest(): void
+    public function should_ignore_extra_keys_from_request(): void
     {
         // GIVEN: Request data with extra keys
         $data = [
@@ -77,7 +77,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringEmail(): void
+    public function should_handle_empty_string_email(): void
     {
         // GIVEN: Empty string email
         $dto = new LoginDTO(email: '', password: 'password123');
@@ -88,7 +88,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringPassword(): void
+    public function should_handle_empty_string_password(): void
     {
         // GIVEN: Empty string password
         $dto = new LoginDTO(email: 'user@example.com', password: '');
@@ -99,7 +99,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceOnlyEmail(): void
+    public function should_handle_whitespace_only_email(): void
     {
         // GIVEN: Whitespace-only email
         $dto = new LoginDTO(email: '   ', password: 'password123');
@@ -110,7 +110,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceOnlyPassword(): void
+    public function should_handle_whitespace_only_password(): void
     {
         // GIVEN: Whitespace-only password
         $dto = new LoginDTO(email: 'user@example.com', password: '        ');
@@ -121,10 +121,10 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongEmail(): void
+    public function should_handle_very_long_email(): void
     {
         // GIVEN: Very long but valid email
-        $longEmail = str_repeat('a', 200) . '@example.com';
+        $longEmail = str_repeat('a', 200).'@example.com';
         $dto = new LoginDTO(email: $longEmail, password: 'password123');
 
         // THEN: Should create DTO
@@ -133,7 +133,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongPassword(): void
+    public function should_handle_very_long_password(): void
     {
         // GIVEN: Very long password
         $longPassword = str_repeat('a', 1000);
@@ -145,7 +145,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericStringsInEmail(): void
+    public function should_handle_numeric_strings_in_email(): void
     {
         // GIVEN: Numeric string (not valid email)
         $dto = new LoginDTO(email: '12345', password: 'password123');
@@ -156,7 +156,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericStringsInPassword(): void
+    public function should_handle_numeric_strings_in_password(): void
     {
         // GIVEN: Numeric string password
         $dto = new LoginDTO(email: 'user@example.com', password: '12345678');
@@ -167,7 +167,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInEmail(): void
+    public function should_handle_special_characters_in_email(): void
     {
         // GIVEN: Special characters in email
         $dto = new LoginDTO(email: 'user+tag@example.co.uk', password: 'password123');
@@ -178,7 +178,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteInjectionAttempt(): void
+    public function should_handle_null_byte_injection_attempt(): void
     {
         // GIVEN: Null byte injection attempt
         $dto = new LoginDTO(email: "user@example.com\0admin", password: 'password123');
@@ -189,7 +189,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithEmptyArray(): void
+    public function should_handle_from_request_with_empty_array(): void
     {
         // GIVEN: Empty request data
         $data = [];
@@ -203,7 +203,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithOnlyExtraKeys(): void
+    public function should_handle_from_request_with_only_extra_keys(): void
     {
         // GIVEN: Request with only extra keys
         $data = ['extra' => 'value', 'another' => 'data'];
@@ -217,7 +217,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithIntegerValues(): void
+    public function should_handle_from_request_with_integer_values(): void
     {
         // GIVEN: Request with integer values (wrong type)
         $data = ['email' => 123, 'password' => 456];
@@ -235,7 +235,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromRequestWithArrayValues(): void
+    public function should_handle_from_request_with_array_values(): void
     {
         // GIVEN: Request with array values (wrong type)
         $data = ['email' => ['nested' => 'value'], 'password' => []];
@@ -251,7 +251,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveEmailCaseSensitivity(): void
+    public function should_preserve_email_case_sensitivity(): void
     {
         // GIVEN: Email with mixed case
         $email = 'User@Example.COM';
@@ -263,7 +263,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreservePasswordCaseSensitivity(): void
+    public function should_preserve_password_case_sensitivity(): void
     {
         // GIVEN: Password with mixed case
         $password = 'PassWord123ABC';
@@ -275,7 +275,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeCharactersInEmail(): void
+    public function should_handle_unicode_characters_in_email(): void
     {
         // GIVEN: Email with unicode characters (invalid email but should not crash)
         $dto = new LoginDTO(email: 'user@例え.jp', password: 'password123');
@@ -286,7 +286,7 @@ class LoginDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeCharactersInPassword(): void
+    public function should_handle_unicode_characters_in_password(): void
     {
         // GIVEN: Password with unicode characters
         $dto = new LoginDTO(email: 'user@example.com', password: 'пароль123');

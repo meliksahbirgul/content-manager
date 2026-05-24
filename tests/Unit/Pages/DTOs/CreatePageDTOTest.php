@@ -14,7 +14,7 @@ class CreatePageDTOTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithRequiredParameters(): void
+    public function should_create_instance_with_required_parameters(): void
     {
         // GIVEN: Required parameters
         $title = ['en' => 'Test Title'];
@@ -34,7 +34,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithOptionalParameters(): void
+    public function should_create_instance_with_optional_parameters(): void
     {
         // GIVEN: All parameters
         $title = ['en' => 'Test Title'];
@@ -60,7 +60,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromRequestWithMinimalData(): void
+    public function should_create_from_request_with_minimal_data(): void
     {
         // GIVEN: Minimal request data
         $data = [
@@ -78,7 +78,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromRequestWithAllData(): void
+    public function should_create_from_request_with_all_data(): void
     {
         // GIVEN: Full request data
         $title = ['en' => 'Test Title', 'tr' => 'Test Başlığı'];
@@ -112,7 +112,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldDefaultToNullParentId(): void
+    public function should_default_to_null_parent_id(): void
     {
         // GIVEN: Request data without parentId
         $data = [
@@ -130,7 +130,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldDefaultOrderToZero(): void
+    public function should_default_order_to_zero(): void
     {
         // GIVEN: Request data without order
         $data = [
@@ -148,7 +148,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldDefaultStatusToPassive(): void
+    public function should_default_status_to_passive(): void
     {
         // GIVEN: Request data without status
         $data = [
@@ -166,7 +166,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldConvertOrderToInteger(): void
+    public function should_convert_order_to_integer(): void
     {
         // GIVEN: Request data with string order
         $data = [
@@ -186,7 +186,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultilingualDataFromRequest(): void
+    public function should_handle_multilingual_data_from_request(): void
     {
         // GIVEN: Request with multilingual data
         $title = ['en' => 'English', 'tr' => 'Turkish', 'es' => 'Spanish'];
@@ -211,7 +211,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldIgnoreExtraDataFromRequest(): void
+    public function should_ignore_extra_data_from_request(): void
     {
         // GIVEN: Request with extra fields
         $data = [
@@ -231,7 +231,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnArrayFromToArray(): void
+    public function should_return_array_from_to_array(): void
     {
         // GIVEN: CreatePageDTO
         $title = ['en' => 'Title'];
@@ -263,7 +263,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleActiveStatus(): void
+    public function should_handle_active_status(): void
     {
         // GIVEN: Request with active status
         $data = [
@@ -282,7 +282,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePassiveStatus(): void
+    public function should_handle_passive_status(): void
     {
         // GIVEN: Request with passive status
         $data = [
@@ -301,7 +301,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonly(): void
+    public function should_be_readonly(): void
     {
         // THEN: CreatePageDTO should be readonly
         $dto = new CreatePageDTO(
@@ -317,7 +317,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousOrderValues(): void
+    public function should_handle_various_order_values(): void
     {
         // GIVEN: Various order values in request
         $orderValues = [0, 1, 10, 100, 999];
@@ -340,7 +340,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveNullParentIdInArray(): void
+    public function should_preserve_null_parent_id_in_array(): void
     {
         // GIVEN: CreatePageDTO without parent
         $dto = new CreatePageDTO(
@@ -359,7 +359,7 @@ class CreatePageDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldConvertFromRequestWithExtraOrderField(): void
+    public function should_convert_from_request_with_extra_order_field(): void
     {
         // GIVEN: Request with float order value
         $data = [

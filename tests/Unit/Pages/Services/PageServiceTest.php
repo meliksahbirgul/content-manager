@@ -14,8 +14,8 @@ use Source\Pages\Application\Contracts\ActivityLogger;
 use Source\Pages\Application\DTOs\CreatePageDTO;
 use Source\Pages\Application\DTOs\UpdatePageDTO;
 use Source\Pages\Application\Services\PageService;
-use Source\Pages\Domain\Enums\PageStatus;
 use Source\Pages\Domain\Entity\PageEntity;
+use Source\Pages\Domain\Enums\PageStatus;
 use Source\Pages\Domain\Repository\Repository;
 use Source\Pages\Domain\ValueObjects\CreatePage;
 use Source\Pages\Domain\ValueObjects\UpdatePage;
@@ -37,7 +37,7 @@ class PageServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->repositoryMock     = Mockery::mock(Repository::class);
+        $this->repositoryMock = Mockery::mock(Repository::class);
         $this->activityLoggerMock = Mockery::mock(ActivityLogger::class)->shouldIgnoreMissing();
         $this->languageRepository = Mockery::mock(LanguageRepository::class);
         $this->languageRepository->allows('codeExists')->andReturn(true)->byDefault();
@@ -53,7 +53,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreatePageSuccessfully(): void
+    public function should_create_page_successfully(): void
     {
         // GIVEN: A valid PageCreateDTO
         $dto = new CreatePageDTO(
@@ -88,7 +88,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenSlugIsNotUnique(): void
+    public function should_throw_exception_when_slug_is_not_unique(): void
     {
         // GIVEN: A PageCreateDTO with a slug that already exists
         $dto = new CreatePageDTO(
@@ -117,7 +117,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCallOrderIsCorrect(): void
+    public function should_verify_repository_call_order_is_correct(): void
     {
         // GIVEN: A valid CreatePageDTO
         $dto = new CreatePageDTO(
@@ -151,7 +151,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePageWithParentId(): void
+    public function should_handle_page_with_parent_id(): void
     {
         // GIVEN: A CreatePageDTO with parent ID
         $parentUuid = Uuid::uuid7()->toString();
@@ -192,7 +192,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifySlugValidationBeforeCreation(): void
+    public function should_verify_slug_validation_before_creation(): void
     {
         // GIVEN: A CreatePageDTO
         $dto = new CreatePageDTO(
@@ -226,7 +226,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultilingualPages(): void
+    public function should_handle_multilingual_pages(): void
     {
         // GIVEN: A multilingual CreatePageDTO
         $dto = new CreatePageDTO(
@@ -278,7 +278,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRethrowRepositoryException(): void
+    public function should_rethrow_repository_exception(): void
     {
         // GIVEN: Repository throws an exception during slug check
         $dto = new CreatePageDTO(
@@ -302,7 +302,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCreateReceivesCorrectData(): void
+    public function should_verify_repository_create_receives_correct_data(): void
     {
         // GIVEN: A specific CreatePageDTO
         $dto = new CreatePageDTO(
@@ -338,7 +338,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldUpdatePageSuccessfully(): void
+    public function should_update_page_successfully(): void
     {
         // GIVEN: A valid UpdatePageDTO
         $pageId = Uuid::uuid7()->toString();
@@ -353,12 +353,12 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         $this->repositoryMock
             ->shouldReceive('updatePage')
             ->once()
-            ->andReturnUsing(function (UpdatePage $page) use ($pageId) {
+            ->andReturnUsing(function (UpdatePage $page) {
                 return $page;
             });
 
@@ -371,7 +371,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenPageNotFound(): void
+    public function should_throw_exception_when_page_not_found(): void
     {
         // GIVEN: An UpdatePageDTO with non-existent page ID
         $pageId = Uuid::uuid7()->toString();
@@ -400,7 +400,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenUpdatingWithDuplicateSlug(): void
+    public function should_throw_exception_when_updating_with_duplicate_slug(): void
     {
         // GIVEN: An UpdatePageDTO with a slug that already exists
         $pageId = Uuid::uuid7()->toString();
@@ -414,7 +414,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // Mock repository to return false (slug not unique)
         $this->repositoryMock
@@ -436,7 +436,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldUpdatePageWithUniqueSlug(): void
+    public function should_update_page_with_unique_slug(): void
     {
         // GIVEN: An UpdatePageDTO with a unique slug
         $pageId = Uuid::uuid7()->toString();
@@ -450,7 +450,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // Mock repository slug uniqueness check
         $this->repositoryMock
@@ -472,7 +472,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSkipSlugValidationWhenSlugIsNull(): void
+    public function should_skip_slug_validation_when_slug_is_null(): void
     {
         // GIVEN: An UpdatePageDTO without slug update
         $pageId = Uuid::uuid7()->toString();
@@ -487,7 +487,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // AND: isSlugUnique should NOT be called
         $this->repositoryMock->shouldNotReceive('isSlugUnique');
@@ -505,7 +505,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCallOrderDuringUpdate(): void
+    public function should_verify_repository_call_order_during_update(): void
     {
         // GIVEN: A valid UpdatePageDTO
         $pageId = Uuid::uuid7()->toString();
@@ -520,7 +520,7 @@ class PageServiceTest extends TestCase
             ->once()
             ->ordered()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         $this->repositoryMock
             ->shouldReceive('isSlugUnique')
@@ -543,7 +543,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultilingualPageUpdate(): void
+    public function should_handle_multilingual_page_update(): void
     {
         // GIVEN: A multilingual UpdatePageDTO
         $pageId = Uuid::uuid7()->toString();
@@ -571,7 +571,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // Mock repository slug uniqueness check
         $this->repositoryMock
@@ -600,7 +600,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldUpdateSingleFieldOnly(): void
+    public function should_update_single_field_only(): void
     {
         // GIVEN: An UpdatePageDTO with only one field to update
         $pageId = Uuid::uuid7()->toString();
@@ -614,7 +614,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // AND: isSlugUnique should NOT be called (no slug update)
         $this->repositoryMock->shouldNotReceive('isSlugUnique');
@@ -632,7 +632,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionIfRepositoryThrowsDuringUpdate(): void
+    public function should_throw_exception_if_repository_throws_during_update(): void
     {
         // GIVEN: Repository throws an exception
         $pageId = Uuid::uuid7()->toString();
@@ -656,7 +656,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldUpdatePageWithContentOnly(): void
+    public function should_update_page_with_content_only(): void
     {
         // GIVEN: An UpdatePageDTO with only content field
         $pageId = Uuid::uuid7()->toString();
@@ -670,7 +670,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // AND: isSlugUnique should NOT be called (no slug update)
         $this->repositoryMock->shouldNotReceive('isSlugUnique');
@@ -688,7 +688,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldUpdateMultipleFieldsTogether(): void
+    public function should_update_multiple_fields_together(): void
     {
         // GIVEN: An UpdatePageDTO with multiple fields
         $pageId = Uuid::uuid7()->toString();
@@ -704,7 +704,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // Mock repository slug uniqueness check
         $this->repositoryMock
@@ -716,7 +716,7 @@ class PageServiceTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('updatePage')
             ->once()
-            ->andReturnUsing(function (UpdatePage $page) use ($pageId) {
+            ->andReturnUsing(function (UpdatePage $page) {
                 return $page;
             });
 
@@ -729,7 +729,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUpdateWithMinimalData(): void
+    public function should_handle_update_with_minimal_data(): void
     {
         // GIVEN: An UpdatePageDTO with only required id field
         $pageId = Uuid::uuid7()->toString();
@@ -740,7 +740,7 @@ class PageServiceTest extends TestCase
             ->shouldReceive('findByUuid')
             ->once()
             ->with($pageId)
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // AND: isSlugUnique should NOT be called (no slug)
         $this->repositoryMock->shouldNotReceive('isSlugUnique');
@@ -758,7 +758,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyUpdatePageReceivesCorrectData(): void
+    public function should_verify_update_page_receives_correct_data(): void
     {
         // GIVEN: A specific UpdatePageDTO
         $pageId = Uuid::uuid7()->toString();
@@ -772,7 +772,7 @@ class PageServiceTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('findByUuid')
             ->once()
-            ->andReturn(\Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
+            ->andReturn(Mockery::mock('Source\Pages\Domain\Entity\PageEntity'));
 
         // Mock repository slug uniqueness check
         $this->repositoryMock
@@ -801,7 +801,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenParentPageNotFound(): void
+    public function should_throw_exception_when_parent_page_not_found(): void
     {
         // GIVEN: A CreatePageDTO with parent ID that doesn't exist
         $parentUuid = Uuid::uuid7()->toString();
@@ -838,7 +838,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenParentPageIdIsZero(): void
+    public function should_throw_exception_when_parent_page_id_is_zero(): void
     {
         // GIVEN: A CreatePageDTO with parent ID but repository returns 0 (falsy)
         $parentUuid = Uuid::uuid7()->toString();
@@ -875,7 +875,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSetParentOriginalIdWhenParentFound(): void
+    public function should_set_parent_original_id_when_parent_found(): void
     {
         // GIVEN: A CreatePageDTO with parent ID that exists
         $parentUuid = Uuid::uuid7()->toString();
@@ -920,7 +920,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyFindOriginalIdByUuidCalledWithCorrectParentId(): void
+    public function should_verify_find_original_id_by_uuid_called_with_correct_parent_id(): void
     {
         // GIVEN: A CreatePageDTO with a specific parent UUID
         $parentUuid = Uuid::uuid7()->toString();
@@ -962,7 +962,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotCallFindOriginalIdByUuidWhenParentIdIsNull(): void
+    public function should_not_call_find_original_id_by_uuid_when_parent_id_is_null(): void
     {
         // GIVEN: A CreatePageDTO without parent ID
         $dto = new CreatePageDTO(
@@ -998,7 +998,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleChildrenWithSameParent(): void
+    public function should_handle_multiple_children_with_same_parent(): void
     {
         // GIVEN: Two pages with the same parent
         $parentUuid = Uuid::uuid7()->toString();
@@ -1081,7 +1081,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyCallOrderForParentValidation(): void
+    public function should_verify_call_order_for_parent_validation(): void
     {
         // GIVEN: A CreatePageDTO with parent ID
         $parentUuid = Uuid::uuid7()->toString();
@@ -1125,7 +1125,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogPageCreatedAfterSuccessfulCreate(): void
+    public function should_log_page_created_after_successful_create(): void
     {
         // GIVEN: A valid CreatePageDTO (default status is PASSIVE)
         $dto = new CreatePageDTO(
@@ -1135,7 +1135,7 @@ class PageServiceTest extends TestCase
         );
 
         $this->repositoryMock->shouldReceive('isSlugUnique')->once()->andReturn(true);
-        $this->repositoryMock->shouldReceive('create')->once()->andReturnUsing(fn($p) => $p);
+        $this->repositoryMock->shouldReceive('create')->once()->andReturnUsing(fn ($p) => $p);
 
         $this->activityLoggerMock
             ->shouldReceive('logPageCreated')
@@ -1151,7 +1151,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotLogPageCreatedWhenCreationFails(): void
+    public function should_not_log_page_created_when_creation_fails(): void
     {
         // GIVEN: Slug is taken so creation throws before reaching the logger
         $dto = new CreatePageDTO(
@@ -1171,7 +1171,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogStatusChangedWhenStatusDiffers(): void
+    public function should_log_status_changed_when_status_differs(): void
     {
         // GIVEN: Page currently PASSIVE, DTO sets it to ACTIVE
         $pageId = Uuid::uuid7()->toString();
@@ -1197,7 +1197,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotLogStatusChangedWhenStatusIsUnchanged(): void
+    public function should_not_log_status_changed_when_status_is_unchanged(): void
     {
         // GIVEN: Page already ACTIVE, DTO also sets ACTIVE
         $pageId = Uuid::uuid7()->toString();
@@ -1220,7 +1220,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotLogStatusChangedWhenStatusNotInDto(): void
+    public function should_not_log_status_changed_when_status_not_in_dto(): void
     {
         // GIVEN: DTO has no status field (title-only update)
         $pageId = Uuid::uuid7()->toString();
@@ -1245,7 +1245,7 @@ class PageServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreatePageWithParentIdAndCustomOrder(): void
+    public function should_create_page_with_parent_id_and_custom_order(): void
     {
         // GIVEN: A CreatePageDTO with parent ID and custom order
         $parentUuid = Uuid::uuid7()->toString();

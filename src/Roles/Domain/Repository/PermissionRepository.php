@@ -10,9 +10,9 @@ use Source\Roles\Domain\ValueObjects\RemovePermission;
 
 interface PermissionRepository
 {
-    public function findByUuid(string $uuid): PermissionEntity|null;
+    public function findByUuid(string $uuid): ?PermissionEntity;
 
-    public function findByName(string $name): PermissionEntity|null;
+    public function findByName(string $name): ?PermissionEntity;
 
     /** @return list<PermissionEntity> */
     public function all(): array;

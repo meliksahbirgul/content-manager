@@ -27,9 +27,9 @@ return new class extends Migration
         $permissionIds = DB::table('permissions')->pluck('id');
 
         $rows = $permissionIds->map(fn ($pid) => [
-            'user_id'       => $user->id,
+            'user_id' => $user->id,
             'permission_id' => $pid,
-            'granted'       => true,
+            'granted' => true,
         ])->all();
 
         DB::table('user_permission')->insertOrIgnore($rows);

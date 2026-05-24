@@ -12,7 +12,7 @@ class RefreshDTOTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithValidToken(): void
+    public function should_create_instance_with_valid_token(): void
     {
         // GIVEN: Valid refresh token
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
@@ -27,7 +27,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectRefreshToken(): void
+    public function should_return_correct_refresh_token(): void
     {
         // GIVEN: RefreshDTO with specific token
         $token = 'refresh_token_abc123xyz';
@@ -42,7 +42,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleJWTTokenFormat(): void
+    public function should_handle_jwt_token_format(): void
     {
         // GIVEN: JWT format token
         $jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
@@ -56,7 +56,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSimpleTokenFormat(): void
+    public function should_handle_simple_token_format(): void
     {
         // GIVEN: Simple token format
         $simpleToken = 'simple_token_123456';
@@ -70,7 +70,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongTokens(): void
+    public function should_handle_very_long_tokens(): void
     {
         // GIVEN: Very long token
         $longToken = str_repeat('a', 10000);
@@ -84,7 +84,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithSpecialCharacters(): void
+    public function should_handle_tokens_with_special_characters(): void
     {
         // GIVEN: Token with special characters
         $specialTokens = [
@@ -107,7 +107,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyToken(): void
+    public function should_handle_empty_token(): void
     {
         // GIVEN: Empty token (validation happens in RefreshUser value object)
         $emptyToken = '';
@@ -121,7 +121,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonly(): void
+    public function should_be_readonly(): void
     {
         // GIVEN: RefreshDTO instance
         $dto = new RefreshDTO(refreshToken: 'token123');
@@ -134,7 +134,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleInstances(): void
+    public function should_handle_multiple_instances(): void
     {
         // GIVEN: Multiple RefreshDTO instances
         $dto1 = new RefreshDTO(refreshToken: 'token_1');
@@ -157,7 +157,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithWhitespace(): void
+    public function should_handle_tokens_with_whitespace(): void
     {
         // GIVEN: Token with whitespace (preserved as-is)
         $tokenWithSpaces = '  token with spaces  ';
@@ -171,7 +171,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeCharactersInToken(): void
+    public function should_handle_unicode_characters_in_token(): void
     {
         // GIVEN: Token with unicode characters
         $unicodeToken = 'token_with_émojis_🔐_and_ñ';
@@ -185,7 +185,7 @@ class RefreshDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTokensWithNewlines(): void
+    public function should_handle_tokens_with_newlines(): void
     {
         // GIVEN: Token with newlines
         $tokenWithNewlines = "token\nwith\nmultiple\nlines";

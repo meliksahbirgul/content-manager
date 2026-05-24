@@ -10,11 +10,11 @@ use Source\Pages\Domain\Enums\PageStatus;
 class PageEntity
 {
     /**
-     * @param array<string, string> $title
-     * @param array<string, string> $content
-     * @param array<string, string> $slug
-     * @param array<string, mixed>|null $metadata
-     * @param list<MediaEntity> $images
+     * @param  array<string, string>  $title
+     * @param  array<string, string>  $content
+     * @param  array<string, string>  $slug
+     * @param  array<string, mixed>|null  $metadata
+     * @param  list<MediaEntity>  $images
      */
     public function __construct(
         private string $id,
@@ -23,8 +23,8 @@ class PageEntity
         private array $slug,
         private int $order,
         private PageStatus $status,
-        private string|null $parentId = null,
-        private array|null $metadata = null,
+        private ?string $parentId = null,
+        private ?array $metadata = null,
         private array $images = [],
     ) {}
 
@@ -51,7 +51,7 @@ class PageEntity
         return $this->slug;
     }
 
-    public function parentId(): string|null
+    public function parentId(): ?string
     {
         return $this->parentId;
     }
@@ -67,7 +67,7 @@ class PageEntity
     }
 
     /** @return array<string, mixed>|null */
-    public function metadata(): array|null
+    public function metadata(): ?array
     {
         return $this->metadata;
     }

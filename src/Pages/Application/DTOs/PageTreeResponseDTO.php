@@ -10,8 +10,8 @@ use JsonSerializable;
 readonly class PageTreeResponseDTO implements JsonSerializable
 {
     /**
-     * @param array<string, string> $title
-     * @param self[] $children
+     * @param  array<string, string>  $title
+     * @param  self[]  $children
      */
     public function __construct(
         private string $id,
@@ -19,12 +19,12 @@ readonly class PageTreeResponseDTO implements JsonSerializable
         private string $status,
         private int $order,
         private array $children = [],
-        private Carbon|null $updatedAt = null,
+        private ?Carbon $updatedAt = null,
     ) {}
 
-    /** 
-     * @param array<string, mixed> $data
-     * @param self[] $children
+    /**
+     * @param  array<string, mixed>  $data
+     * @param  self[]  $children
      */
     public static function createFromArray(array $data, array $children = []): self
     {
@@ -65,7 +65,7 @@ readonly class PageTreeResponseDTO implements JsonSerializable
         return $this->order;
     }
 
-    public function updatedAt(): Carbon|null
+    public function updatedAt(): ?Carbon
     {
         return $this->updatedAt;
     }

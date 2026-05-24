@@ -14,7 +14,7 @@ class PageEditResponseTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllRequiredParameters(): void
+    public function should_create_instance_with_all_required_parameters(): void
     {
         $id = Uuid::uuid7()->toString();
         $title = ['en' => 'Test Title', 'tr' => 'Test Başlığı'];
@@ -44,7 +44,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithParentId(): void
+    public function should_create_instance_with_parent_id(): void
     {
         $id = Uuid::uuid7()->toString();
         $parentId = Uuid::uuid7()->toString();
@@ -70,7 +70,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectId(): void
+    public function should_return_correct_id(): void
     {
         $id = Uuid::uuid7()->toString();
 
@@ -89,7 +89,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTitle(): void
+    public function should_return_correct_title(): void
     {
         $title = [
             'en' => 'English Title',
@@ -114,7 +114,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectContent(): void
+    public function should_return_correct_content(): void
     {
         $content = [
             'en' => 'English Content',
@@ -138,7 +138,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectSlug(): void
+    public function should_return_correct_slug(): void
     {
         $slug = [
             'en' => 'english-page',
@@ -162,7 +162,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectStatus(): void
+    public function should_return_correct_status(): void
     {
         $activeStatus = PageStatus::ACTIVE->value;
         $passiveStatus = PageStatus::PASSIVE->value;
@@ -191,7 +191,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectOrder(): void
+    public function should_return_correct_order(): void
     {
         $orders = [0, 1, 5, 10, 100];
 
@@ -211,7 +211,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNullParentIdWhenNotProvided(): void
+    public function should_return_null_parent_id_when_not_provided(): void
     {
         $dto = new PageEditResponseDTO(
             id: Uuid::uuid7()->toString(),
@@ -227,7 +227,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnValidParentIdWhenProvided(): void
+    public function should_return_valid_parent_id_when_provided(): void
     {
         $parentId = Uuid::uuid7()->toString();
 
@@ -247,7 +247,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultilingualDataCorrectly(): void
+    public function should_handle_multilingual_data_correctly(): void
     {
         $dto = new PageEditResponseDTO(
             id: Uuid::uuid7()->toString(),
@@ -265,7 +265,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeCorrectly(): void
+    public function should_json_serialize_correctly(): void
     {
         // GIVEN: PageEditResponseDTO with all data
         $id = Uuid::uuid7()->toString();
@@ -302,7 +302,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeWithoutParentId(): void
+    public function should_json_serialize_without_parent_id(): void
     {
         // GIVEN: PageEditResponseDTO without parentId
         $id = Uuid::uuid7()->toString();
@@ -331,7 +331,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeJsonSerializable(): void
+    public function should_be_json_serializable(): void
     {
         // GIVEN: PageEditResponseDTO
         $dto = new PageEditResponseDTO(
@@ -355,7 +355,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeWithMultilingualData(): void
+    public function should_json_serialize_with_multilingual_data(): void
     {
         // GIVEN: PageEditResponseDTO with multilingual data
         $title = ['en' => 'English', 'tr' => 'Turkish', 'es' => 'Spanish'];
@@ -384,7 +384,7 @@ class PageEditResponseTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeContainAllKeys(): void
+    public function should_json_serialize_contain_all_keys(): void
     {
         // GIVEN: PageEditResponseDTO
         $dto = new PageEditResponseDTO(

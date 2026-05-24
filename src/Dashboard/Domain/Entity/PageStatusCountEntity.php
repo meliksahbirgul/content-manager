@@ -8,7 +8,7 @@ class PageStatusCountEntity
 {
     public function __construct(
         private string $status,
-        private int    $count,
+        private int $count,
     ) {}
 
     public function status(): string

@@ -27,7 +27,7 @@ class PageRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = new PageRepository();
+        $this->repository = new PageRepository;
     }
 
     // ─── Helpers ─────────────────────────────────────────────────────
@@ -57,7 +57,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itCreatesAPageSuccessfully(): void
+    public function it_creates_a_page_successfully(): void
     {
         // Arrange
         $uuid = Uuid::uuid7()->toString();
@@ -73,7 +73,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itPersistsAllFieldsOnCreate(): void
+    public function it_persists_all_fields_on_create(): void
     {
         // Arrange
         $uuid = Uuid::uuid7()->toString();
@@ -101,7 +101,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itCreatesPageWithParentId(): void
+    public function it_creates_page_with_parent_id(): void
     {
         // Arrange – create parent first
         $parent = $this->createPageInDb(['slug' => ['en' => 'parent-page']]);
@@ -126,7 +126,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itCreatesPageWithDefaultPassiveStatus(): void
+    public function it_creates_page_with_default_passive_status(): void
     {
         // Arrange & Act
         $page = $this->createPageInDb();
@@ -140,7 +140,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsByUuid(): void
+    public function it_finds_by_uuid(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -156,7 +156,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenUuidNotFound(): void
+    public function it_returns_null_when_uuid_not_found(): void
     {
         // Act
         $entity = $this->repository->findByUuid(Uuid::uuid7()->toString());
@@ -167,7 +167,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itMapsAllFieldsToPageEntity(): void
+    public function it_maps_all_fields_to_page_entity(): void
     {
         // Arrange
         $page = $this->createPageInDb([
@@ -192,7 +192,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itMapsParentUuidOnFind(): void
+    public function it_maps_parent_uuid_on_find(): void
     {
         // Arrange
         $parent = $this->createPageInDb(['slug' => ['en' => 'parent']]);
@@ -215,7 +215,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsTrueWhenSlugIsUnique(): void
+    public function it_returns_true_when_slug_is_unique(): void
     {
         // Act
         $result = $this->repository->isSlugUnique(['en' => 'unique-slug']);
@@ -226,7 +226,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsFalseWhenSlugAlreadyExists(): void
+    public function it_returns_false_when_slug_already_exists(): void
     {
         // Arrange
         $this->createPageInDb(['slug' => ['en' => 'existing-slug']]);
@@ -240,7 +240,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsTrueWhenSlugBelongsToSamePage(): void
+    public function it_returns_true_when_slug_belongs_to_same_page(): void
     {
         // Arrange
         $page = $this->createPageInDb(['slug' => ['en' => 'my-slug']]);
@@ -254,7 +254,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsFalseWhenSlugBelongsToDifferentPage(): void
+    public function it_returns_false_when_slug_belongs_to_different_page(): void
     {
         // Arrange
         $this->createPageInDb(['slug' => ['en' => 'taken-slug']]);
@@ -269,7 +269,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itChecksMultipleLanguageSlugsForUniqueness(): void
+    public function it_checks_multiple_language_slugs_for_uniqueness(): void
     {
         // Arrange
         $this->createPageInDb(['slug' => ['en' => 'hello', 'tr' => 'merhaba']]);
@@ -285,7 +285,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itUpdatesPageTitle(): void
+    public function it_updates_page_title(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -304,7 +304,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itUpdatesPageContent(): void
+    public function it_updates_page_content(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -323,7 +323,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itUpdatesPageSlug(): void
+    public function it_updates_page_slug(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -342,7 +342,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itUpdatesPageOrder(): void
+    public function it_updates_page_order(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -361,7 +361,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itUpdatesPageStatus(): void
+    public function it_updates_page_status(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -380,7 +380,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itUpdatesMultipleFieldsAtOnce(): void
+    public function it_updates_multiple_fields_at_once(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -407,7 +407,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itDoesNotChangeFieldsNotIncludedInUpdate(): void
+    public function it_does_not_change_fields_not_included_in_update(): void
     {
         // Arrange
         $page = $this->createPageInDb([
@@ -435,7 +435,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itSkipsUpdateWhenNoFieldsProvided(): void
+    public function it_skips_update_when_no_fields_provided(): void
     {
         // Arrange
         $page = $this->createPageInDb([
@@ -453,7 +453,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsExceptionWhenUpdatingNonexistentPage(): void
+    public function it_throws_exception_when_updating_nonexistent_page(): void
     {
         // Arrange
         $update = new UpdatePage(
@@ -473,7 +473,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsEmptyArrayWhenNoPagesExist(): void
+    public function it_returns_empty_array_when_no_pages_exist(): void
     {
         // Act
         $result = $this->repository->listPages();
@@ -485,7 +485,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itListsAllPages(): void
+    public function it_lists_all_pages(): void
     {
         // Arrange
         $page1 = $this->createPageInDb(['slug' => ['en' => 'page-1'], 'order' => 1]);
@@ -500,7 +500,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itListsPagesOrderedByOrderField(): void
+    public function it_lists_pages_ordered_by_order_field(): void
     {
         // Arrange
         $page2 = $this->createPageInDb(['slug' => ['en' => 'second'], 'order' => 2]);
@@ -518,7 +518,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itListPagesMapsCorrectStructure(): void
+    public function it_list_pages_maps_correct_structure(): void
     {
         // Arrange
         $page = $this->createPageInDb([
@@ -543,7 +543,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itListPagesIncludesParentUuid(): void
+    public function it_list_pages_includes_parent_uuid(): void
     {
         // Arrange
         $parent = $this->createPageInDb(['slug' => ['en' => 'parent-list'], 'order' => 1]);
@@ -567,7 +567,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsOriginalIdByUuid(): void
+    public function it_finds_original_id_by_uuid(): void
     {
         // Arrange
         $page = $this->createPageInDb();
@@ -583,7 +583,7 @@ class PageRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullForNonexistentUuid(): void
+    public function it_returns_null_for_nonexistent_uuid(): void
     {
         // Act
         $result = $this->repository->findOriginalIdByUuid(Uuid::uuid7()->toString());

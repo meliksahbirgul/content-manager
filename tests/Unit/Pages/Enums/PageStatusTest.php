@@ -13,7 +13,7 @@ class PageStatusTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldHaveActiveCase(): void
+    public function should_have_active_case(): void
     {
         // WHEN: Accessing ACTIVE case
         $status = PageStatus::ACTIVE;
@@ -25,7 +25,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHavePassiveCase(): void
+    public function should_have_passive_case(): void
     {
         // WHEN: Accessing PASSIVE case
         $status = PageStatus::PASSIVE;
@@ -37,7 +37,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHaveCorrectValues(): void
+    public function should_have_correct_values(): void
     {
         // THEN: Enum values should be correct strings
         $this->assertEquals('active', PageStatus::ACTIVE->value);
@@ -46,7 +46,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromStringActive(): void
+    public function should_create_from_string_active(): void
     {
         // GIVEN: String value 'active'
         $value = 'active';
@@ -61,7 +61,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromStringPassive(): void
+    public function should_create_from_string_passive(): void
     {
         // GIVEN: String value 'passive'
         $value = 'passive';
@@ -76,7 +76,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForInvalidString(): void
+    public function should_throw_exception_for_invalid_string(): void
     {
         // GIVEN: Invalid string value
         $invalidValue = 'invalid';
@@ -91,7 +91,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForUnknownStatus(): void
+    public function should_throw_exception_for_unknown_status(): void
     {
         // GIVEN: Unknown status string
         $unknownStatus = 'unknown';
@@ -106,7 +106,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForEmptyString(): void
+    public function should_throw_exception_for_empty_string(): void
     {
         // GIVEN: Empty string
         $emptyString = '';
@@ -121,7 +121,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForCaseSensitive(): void
+    public function should_throw_exception_for_case_sensitive(): void
     {
         // GIVEN: Incorrect case strings
         $invalidValues = ['Active', 'ACTIVE', 'Passive', 'PASSIVE'];
@@ -137,7 +137,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCompareCasesCorrectly(): void
+    public function should_compare_cases_correctly(): void
     {
         // GIVEN: Two references to ACTIVE case
         $status1 = PageStatus::ACTIVE;
@@ -150,7 +150,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCompareDifferentCasesCorrectly(): void
+    public function should_compare_different_cases_correctly(): void
     {
         // GIVEN: ACTIVE and PASSIVE cases
         $active = PageStatus::ACTIVE;
@@ -163,7 +163,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnStringValue(): void
+    public function should_return_string_value(): void
     {
         // GIVEN: PageStatus enum
         $status = PageStatus::ACTIVE;
@@ -178,7 +178,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHaveNameProperty(): void
+    public function should_have_name_property(): void
     {
         // GIVEN: PageStatus enum
         $activeStatus = PageStatus::ACTIVE;
@@ -191,7 +191,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSupportFromMethod(): void
+    public function should_support_from_method(): void
     {
         // WHEN: Using from() method with value
         $status = PageStatus::from('active');
@@ -202,7 +202,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionFromMethodWithInvalidValue(): void
+    public function should_throw_exception_from_method_with_invalid_value(): void
     {
         // THEN: Should throw ValueError (built-in enum behavior)
         $this->expectException(\ValueError::class);
@@ -213,7 +213,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSupportTryFromMethod(): void
+    public function should_support_try_from_method(): void
     {
         // WHEN: Using tryFrom() method with valid value
         $status = PageStatus::tryFrom('active');
@@ -224,7 +224,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNullFromTryFromWithInvalidValue(): void
+    public function should_return_null_from_try_from_with_invalid_value(): void
     {
         // WHEN: Using tryFrom() with invalid value
         $status = PageStatus::tryFrom('invalid');
@@ -235,7 +235,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeCastableToString(): void
+    public function should_be_castable_to_string(): void
     {
         // GIVEN: PageStatus enum
         $status = PageStatus::ACTIVE;
@@ -250,7 +250,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleFromStringCalls(): void
+    public function should_handle_multiple_from_string_calls(): void
     {
         // GIVEN: Multiple calls to fromString
         $status1 = PageStatus::fromString('active');
@@ -266,7 +266,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeUsableInSwitchStatement(): void
+    public function should_be_usable_in_switch_statement(): void
     {
         // GIVEN: Various PageStatus values
         $testStatuses = [PageStatus::ACTIVE, PageStatus::PASSIVE];
@@ -289,7 +289,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeComparableWithValue(): void
+    public function should_be_comparable_with_value(): void
     {
         // GIVEN: PageStatus enum
         $status = PageStatus::ACTIVE;
@@ -301,7 +301,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSupportInArray(): void
+    public function should_support_in_array(): void
     {
         // GIVEN: Array of allowed statuses
         $allowedStatuses = [PageStatus::ACTIVE, PageStatus::PASSIVE];
@@ -317,7 +317,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSupportArrayAccess(): void
+    public function should_support_array_access(): void
     {
         // GIVEN: Collection of statuses
         $statuses = [
@@ -332,7 +332,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeSerializable(): void
+    public function should_be_serializable(): void
     {
         // GIVEN: PageStatus enum
         $status = PageStatus::ACTIVE;
@@ -346,7 +346,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleFromStringWithWhitespace(): void
+    public function should_handle_from_string_with_whitespace(): void
     {
         // GIVEN: Strings with whitespace
         $invalidValues = [' active', 'active ', ' active '];
@@ -362,7 +362,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHaveExactlyTwoCases(): void
+    public function should_have_exactly_two_cases(): void
     {
         // WHEN: Getting all cases
         $cases = PageStatus::cases();
@@ -375,7 +375,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSupportCasesIteration(): void
+    public function should_support_cases_iteration(): void
     {
         // WHEN: Iterating through all cases
         $caseNames = [];
@@ -395,7 +395,7 @@ class PageStatusTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMapStringToAllCases(): void
+    public function should_map_string_to_all_cases(): void
     {
         // GIVEN: Valid string values
         $mappings = [

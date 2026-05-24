@@ -4,9 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Source\Dashboard\Domain\Repository\DashboardRepository;
+use Source\Dashboard\Infrastructure\Persistence\EloquentDashboardRepository;
 use Source\Languages\Domain\Repository\LanguageRepository;
 use Source\Languages\Infrastructure\Persistence\EloquentLanguageRepository;
-use Source\Dashboard\Infrastructure\Persistence\EloquentDashboardRepository;
 use Source\Media\Application\Contracts\StorageDriver;
 use Source\Media\Domain\Repository\MediaRepository;
 use Source\Media\Infrastructure\Persistence\EloquentMediaRepository;
@@ -42,8 +42,8 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(StorageDriver::class, function () {
             return config('filesystems.default') === 's3'
-                ? new S3StorageDriver()
-                : new LocalStorageDriver();
+                ? new S3StorageDriver
+                : new LocalStorageDriver;
         });
 
         $this->app->bind(

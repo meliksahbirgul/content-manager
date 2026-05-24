@@ -12,7 +12,7 @@ class LogoutDTOTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAccessTokenOnly(): void
+    public function should_create_instance_with_access_token_only(): void
     {
         // GIVEN: Valid access token
         $accessToken = 'access_token_12345';
@@ -28,7 +28,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAccessTokenAndRefreshToken(): void
+    public function should_create_instance_with_access_token_and_refresh_token(): void
     {
         // GIVEN: Valid access token and refresh token
         $accessToken = 'access_token_12345';
@@ -45,7 +45,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectAccessToken(): void
+    public function should_return_correct_access_token(): void
     {
         // GIVEN: LogoutDTO with specific access token
         $accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
@@ -60,7 +60,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectRefreshToken(): void
+    public function should_return_correct_refresh_token(): void
     {
         // GIVEN: LogoutDTO with specific refresh token
         $refreshToken = 'refresh_token_xyz789';
@@ -78,7 +78,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNullWhenRefreshTokenNotProvided(): void
+    public function should_return_null_when_refresh_token_not_provided(): void
     {
         // GIVEN: LogoutDTO without refresh token
         $dto = new LogoutDTO(accessToken: 'access_token_12345');
@@ -92,7 +92,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousAccessTokenFormats(): void
+    public function should_handle_various_access_token_formats(): void
     {
         // GIVEN: Various access token formats
         $accessTokens = [
@@ -100,7 +100,7 @@ class LogoutDTOTest extends TestCase
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
             'token_with_special_chars_!@#$%',
             'token_with_numbers_123456789',
-            'very_long_token_' . str_repeat('a', 256),
+            'very_long_token_'.str_repeat('a', 256),
         ];
 
         foreach ($accessTokens as $token) {
@@ -114,7 +114,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousRefreshTokenFormats(): void
+    public function should_handle_various_refresh_token_formats(): void
     {
         // GIVEN: Various refresh token formats
         $refreshTokens = [
@@ -122,7 +122,7 @@ class LogoutDTOTest extends TestCase
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
             'refresh_token_with_special_chars_!@#$%',
             'refresh_token_with_numbers_987654321',
-            'very_long_refresh_token_' . str_repeat('a', 256),
+            'very_long_refresh_token_'.str_repeat('a', 256),
         ];
 
         foreach ($refreshTokens as $token) {
@@ -139,7 +139,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonly(): void
+    public function should_be_readonly(): void
     {
         // GIVEN: LogoutDTO instance
         $dto = new LogoutDTO(accessToken: 'access_token_12345');
@@ -152,7 +152,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleAccessTokenWithLeadingTrailingSpaces(): void
+    public function should_handle_access_token_with_leading_trailing_spaces(): void
     {
         // GIVEN: Access token with whitespace
         $tokenWithSpaces = '  access_token_12345  ';
@@ -166,7 +166,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleRefreshTokenWithLeadingTrailingSpaces(): void
+    public function should_handle_refresh_token_with_leading_trailing_spaces(): void
     {
         // GIVEN: Refresh token with whitespace
         $refreshTokenWithSpaces = '  refresh_token_67890  ';
@@ -183,7 +183,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyAccessToken(): void
+    public function should_handle_empty_access_token(): void
     {
         // GIVEN: Empty access token string
         $emptyToken = '';
@@ -197,7 +197,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyRefreshToken(): void
+    public function should_handle_empty_refresh_token(): void
     {
         // GIVEN: Empty refresh token string
         $emptyToken = '';
@@ -214,7 +214,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMultipleInstancesBeIndependent(): void
+    public function should_multiple_instances_be_independent(): void
     {
         // GIVEN: Two different LogoutDTO instances
         $dto1 = new LogoutDTO(
@@ -243,7 +243,7 @@ class LogoutDTOTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNullRefreshTokenRemainsNullAcrossInstances(): void
+    public function should_null_refresh_token_remains_null_across_instances(): void
     {
         // GIVEN: Multiple instances with and without refresh token
         $dtoWithoutRefresh = new LogoutDTO(accessToken: 'access_token_1');

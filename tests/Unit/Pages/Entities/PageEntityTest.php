@@ -25,7 +25,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithRequiredParameters(): void
+    public function should_create_instance_with_required_parameters(): void
     {
         // GIVEN: Required parameters
         $id = $this->validUuid;
@@ -57,7 +57,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithAllParameters(): void
+    public function should_create_instance_with_all_parameters(): void
     {
         // GIVEN: All parameters including optional ones
         $id = $this->validUuid;
@@ -95,7 +95,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectId(): void
+    public function should_return_correct_id(): void
     {
         // GIVEN: PageEntity with specific id
         $id = $this->validUuid;
@@ -118,7 +118,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTitle(): void
+    public function should_return_correct_title(): void
     {
         // GIVEN: PageEntity with specific title
         $title = ['en' => 'English Title', 'tr' => 'Türkçe Başlık'];
@@ -143,7 +143,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectContent(): void
+    public function should_return_correct_content(): void
     {
         // GIVEN: PageEntity with specific content
         $content = ['en' => 'English Content', 'tr' => 'Türkçe İçerik'];
@@ -168,7 +168,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectSlug(): void
+    public function should_return_correct_slug(): void
     {
         // GIVEN: PageEntity with specific slug
         $slug = ['en' => 'english-title', 'tr' => 'turkce-basligi'];
@@ -191,7 +191,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectParentId(): void
+    public function should_return_correct_parent_id(): void
     {
         // GIVEN: PageEntity with specific parentId
         $parentId = $this->validParentUuid;
@@ -215,7 +215,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNullParentIdWhenNotProvided(): void
+    public function should_return_null_parent_id_when_not_provided(): void
     {
         // GIVEN: PageEntity without parentId
         $entity = new PageEntity(
@@ -236,7 +236,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectOrder(): void
+    public function should_return_correct_order(): void
     {
         // GIVEN: PageEntity with specific order
         $order = 10;
@@ -259,7 +259,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectStatus(): void
+    public function should_return_correct_status(): void
     {
         // GIVEN: PageEntity with specific status
         $status = PageStatus::ACTIVE;
@@ -282,7 +282,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectMetadata(): void
+    public function should_return_correct_metadata(): void
     {
         // GIVEN: PageEntity with specific metadata
         $metadata = [
@@ -311,7 +311,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnNullMetadataWhenNotProvided(): void
+    public function should_return_null_metadata_when_not_provided(): void
     {
         // GIVEN: PageEntity without metadata
         $entity = new PageEntity(
@@ -332,7 +332,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldSupportMultilingualData(): void
+    public function should_support_multilingual_data(): void
     {
         // GIVEN: PageEntity with multilingual content
         $title = [
@@ -375,7 +375,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVariousOrderValues(): void
+    public function should_handle_various_order_values(): void
     {
         // GIVEN: Various order values
         $orderValues = [0, 1, 10, 100, 999, PHP_INT_MAX];
@@ -398,7 +398,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleAllPageStatuses(): void
+    public function should_handle_all_page_statuses(): void
     {
         // GIVEN: All PageStatus enum values
         $statuses = [PageStatus::ACTIVE, PageStatus::PASSIVE];
@@ -421,7 +421,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveComplexMetadata(): void
+    public function should_preserve_complex_metadata(): void
     {
         // GIVEN: Complex nested metadata
         $metadata = [
@@ -462,7 +462,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateMultipleIndependentInstances(): void
+    public function should_create_multiple_independent_instances(): void
     {
         // GIVEN: Two different PageEntity instances
         $entity1 = new PageEntity(
@@ -504,7 +504,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringArrays(): void
+    public function should_handle_empty_string_arrays(): void
     {
         // GIVEN: PageEntity with empty language entries
         $title = ['en' => ''];
@@ -529,7 +529,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInData(): void
+    public function should_handle_special_characters_in_data(): void
     {
         // GIVEN: Data with special characters
         $title = ['en' => 'Title with Special Characters: @#$%^&*()'];
@@ -554,7 +554,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLongTextContent(): void
+    public function should_handle_long_text_content(): void
     {
         // GIVEN: Long text content
         $longText = str_repeat('Lorem ipsum dolor sit amet, consectetur adipiscing elit. ', 100);
@@ -579,7 +579,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectTypeForAllProperties(): void
+    public function should_return_correct_type_for_all_properties(): void
     {
         // GIVEN: PageEntity instance
         $entity = new PageEntity(
@@ -606,7 +606,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeImmutableAfterConstruction(): void
+    public function should_be_immutable_after_construction(): void
     {
         // GIVEN: PageEntity instance
         $entity = new PageEntity(
@@ -630,7 +630,7 @@ class PageEntityTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullableParentIdAndMetadata(): void
+    public function should_handle_nullable_parent_id_and_metadata(): void
     {
         // GIVEN: PageEntity with explicitly null optional parameters
         $entity = new PageEntity(

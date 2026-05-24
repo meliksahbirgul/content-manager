@@ -9,15 +9,15 @@ use DateTimeImmutable;
 class ActivityLogEntity
 {
     /**
-     * @param array<string, mixed> $properties
+     * @param  array<string, mixed>  $properties
      */
     public function __construct(
-        private int               $id,
-        private string|null       $logName,
-        private string            $description,
-        private string|null       $event,
-        private array             $properties,
-        private int|null          $causerId,
+        private int $id,
+        private ?string $logName,
+        private string $description,
+        private ?string $event,
+        private array $properties,
+        private ?int $causerId,
         private DateTimeImmutable $createdAt,
     ) {}
 
@@ -26,7 +26,7 @@ class ActivityLogEntity
         return $this->id;
     }
 
-    public function logName(): string|null
+    public function logName(): ?string
     {
         return $this->logName;
     }
@@ -36,7 +36,7 @@ class ActivityLogEntity
         return $this->description;
     }
 
-    public function event(): string|null
+    public function event(): ?string
     {
         return $this->event;
     }
@@ -47,7 +47,7 @@ class ActivityLogEntity
         return $this->properties;
     }
 
-    public function causerId(): int|null
+    public function causerId(): ?int
     {
         return $this->causerId;
     }

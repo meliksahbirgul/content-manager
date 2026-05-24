@@ -15,7 +15,7 @@ class LogoutController extends Controller
 {
     public function __invoke(Request $request, UserService $userService): JsonResponse
     {
-        $accessToken  = $request->bearerToken();
+        $accessToken = $request->bearerToken();
         $refreshToken = $request->input('refreshToken', null);
         if ($accessToken) {
             $userService->logout(new LogoutDTO($accessToken, $refreshToken));

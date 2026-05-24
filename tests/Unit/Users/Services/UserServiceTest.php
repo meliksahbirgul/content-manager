@@ -60,7 +60,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLoginSuccessfully(): void
+    public function should_login_successfully(): void
     {
         // GIVEN: Valid login credentials
         $uuid = Uuid::uuid7()->toString();
@@ -120,7 +120,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenUserNotFound(): void
+    public function should_throw_exception_when_user_not_found(): void
     {
         // GIVEN: Non-existent user
         $email = 'nonexistent@example.com';
@@ -146,7 +146,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenPasswordIsWrong(): void
+    public function should_throw_exception_when_password_is_wrong(): void
     {
         // GIVEN: Wrong password
         $email = 'user@example.com';
@@ -183,7 +183,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenTokenCreationFails(): void
+    public function should_throw_exception_when_token_creation_fails(): void
     {
         // GIVEN: Token creation fails
         $email = 'user@example.com';
@@ -225,7 +225,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCallOrderDuringLogin(): void
+    public function should_verify_repository_call_order_during_login(): void
     {
         // GIVEN: Valid login credentials
         $email = 'user@example.com';
@@ -279,7 +279,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRefreshTokenSuccessfully(): void
+    public function should_refresh_token_successfully(): void
     {
         // GIVEN: Valid refresh token
         $refreshToken = 'refreshToken123';
@@ -333,7 +333,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenRefreshTokenUserNotFound(): void
+    public function should_throw_exception_when_refresh_token_user_not_found(): void
     {
         // GIVEN: Invalid refresh token
         $refreshToken = 'invalidRefreshToken';
@@ -359,7 +359,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenTokenCreationFailsOnRefresh(): void
+    public function should_throw_exception_when_token_creation_fails_on_refresh(): void
     {
         // GIVEN: Token creation fails during refresh
         $refreshToken = 'refreshToken123';
@@ -398,7 +398,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCallOrderDuringRefresh(): void
+    public function should_verify_repository_call_order_during_refresh(): void
     {
         // GIVEN: Valid refresh token
         $refreshToken = 'refreshToken123';
@@ -451,7 +451,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLoginWithDifferentPasswords(): void
+    public function should_handle_login_with_different_passwords(): void
     {
         // GIVEN: Different passwords for different users
         $testUsers = [
@@ -505,7 +505,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleRefreshTokens(): void
+    public function should_handle_multiple_refresh_tokens(): void
     {
         // GIVEN: Multiple refresh tokens
         $testTokens = [
@@ -553,7 +553,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotCreateTokenIfPasswordCheckFails(): void
+    public function should_not_create_token_if_password_check_fails(): void
     {
         // GIVEN: Wrong password
         $email = 'user@example.com';
@@ -590,7 +590,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotDeleteTokenIfUserNotFoundDuringRefresh(): void
+    public function should_not_delete_token_if_user_not_found_during_refresh(): void
     {
         // GIVEN: Invalid refresh token
         $refreshToken = 'invalidRefreshToken';
@@ -616,7 +616,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUsersWithSameEmailDifferentNames(): void
+    public function should_handle_users_with_same_email_different_names(): void
     {
         // GIVEN: Same email but different name (edge case)
         $email = 'user@example.com';
@@ -665,7 +665,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldValidateLoginDTOBeforeProcessing(): void
+    public function should_validate_login_dto_before_processing(): void
     {
         // GIVEN: Invalid LoginDTO (empty email)
         $dto = new LoginDTO(email: '', password: 'password123');
@@ -679,7 +679,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldValidateRefreshDTOBeforeProcessing(): void
+    public function should_validate_refresh_dto_before_processing(): void
     {
         // GIVEN: Invalid RefreshDTO (empty token)
         $dto = new RefreshDTO(refreshToken: '');
@@ -693,7 +693,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutSuccessfullyWithAccessTokenOnly(): void
+    public function should_logout_successfully_with_access_token_only(): void
     {
         // GIVEN: LogoutDTO with access token only
         $accessToken = 'access_token_12345';
@@ -713,7 +713,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutSuccessfullyWithAccessTokenAndRefreshToken(): void
+    public function should_logout_successfully_with_access_token_and_refresh_token(): void
     {
         // GIVEN: LogoutDTO with both access token and refresh token
         $accessToken = 'access_token_12345';
@@ -741,7 +741,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldVerifyRepositoryCallOrderDuringLogout(): void
+    public function should_verify_repository_call_order_during_logout(): void
     {
         // GIVEN: LogoutDTO with both tokens
         $accessToken = 'access_token_12345';
@@ -771,7 +771,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldDeleteOnlyAccessTokenWhenRefreshTokenIsNull(): void
+    public function should_delete_only_access_token_when_refresh_token_is_null(): void
     {
         // GIVEN: LogoutDTO with null refresh token
         $accessToken = 'access_token_12345';
@@ -795,7 +795,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLogoutWithVariousAccessTokenFormats(): void
+    public function should_handle_logout_with_various_access_token_formats(): void
     {
         // GIVEN: Various access token formats
         $accessTokens = [
@@ -803,7 +803,7 @@ class UserServiceTest extends TestCase
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
             'token_with_special_chars_!@#$%',
             'token_with_numbers_123456789',
-            'very_long_token_' . str_repeat('a', 256),
+            'very_long_token_'.str_repeat('a', 256),
         ];
 
         foreach ($accessTokens as $token) {
@@ -828,7 +828,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLogoutWithVariousRefreshTokenFormats(): void
+    public function should_handle_logout_with_various_refresh_token_formats(): void
     {
         // GIVEN: Various refresh token formats
         $refreshTokens = [
@@ -836,7 +836,7 @@ class UserServiceTest extends TestCase
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U',
             'refresh_token_with_special_chars_!@#$%',
             'refresh_token_with_numbers_987654321',
-            'very_long_refresh_token_' . str_repeat('a', 256),
+            'very_long_refresh_token_'.str_repeat('a', 256),
         ];
 
         foreach ($refreshTokens as $token) {
@@ -869,7 +869,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleConsecutiveLogouts(): void
+    public function should_handle_multiple_consecutive_logouts(): void
     {
         // GIVEN: Multiple logout requests
         $logoutRequests = [
@@ -903,7 +903,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLogoutWithEmptyAccessToken(): void
+    public function should_handle_logout_with_empty_access_token(): void
     {
         // GIVEN: LogoutDTO with empty access token
         $dto = new LogoutDTO(accessToken: '');
@@ -922,7 +922,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCallDeleteTokenExactlyTwiceWhenBothTokensProvided(): void
+    public function should_call_delete_token_exactly_twice_when_both_tokens_provided(): void
     {
         // GIVEN: LogoutDTO with both tokens
         $accessToken = 'access_token_12345';
@@ -946,7 +946,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCallDeleteTokenExactlyOnceWhenOnlyAccessTokenProvided(): void
+    public function should_call_delete_token_exactly_once_when_only_access_token_provided(): void
     {
         // GIVEN: LogoutDTO with only access token
         $accessToken = 'access_token_12345';
@@ -969,7 +969,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutReturnVoid(): void
+    public function should_logout_return_void(): void
     {
         // GIVEN: LogoutDTO
         $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: 'refresh_token_67890');
@@ -989,7 +989,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldNotThrowExceptionDuringLogout(): void
+    public function should_not_throw_exception_during_logout(): void
     {
         // GIVEN: LogoutDTO
         $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: 'refresh_token_67890');
@@ -1006,7 +1006,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutBeIdempotent(): void
+    public function should_logout_be_idempotent(): void
     {
         // GIVEN: Same logout request called multiple times
         $dto = new LogoutDTO(accessToken: 'access_token_12345', refreshToken: 'refresh_token_67890');
@@ -1036,7 +1036,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutWithAccessTokenContainingSpaces(): void
+    public function should_logout_with_access_token_containing_spaces(): void
     {
         // GIVEN: LogoutDTO with access token containing spaces
         $accessToken = '  access_token_12345  ';
@@ -1056,7 +1056,7 @@ class UserServiceTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldLogoutWithRefreshTokenContainingSpaces(): void
+    public function should_logout_with_refresh_token_containing_spaces(): void
     {
         // GIVEN: LogoutDTO with refresh token containing spaces
         $refreshToken = '  refresh_token_67890  ';

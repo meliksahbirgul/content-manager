@@ -9,14 +9,14 @@ use Source\Pages\Domain\Enums\PageStatus;
 readonly class CreatePageDTO
 {
     /** @param array<string,string> $title
-     * @param array<string,string> $content
-     * @param array<string,string> $slug
+     * @param  array<string,string>  $content
+     * @param  array<string,string>  $slug
      */
     public function __construct(
         private array $title,
         private array $content,
         private array $slug,
-        private string|null $parentId = null,
+        private ?string $parentId = null,
         private int $order = 0,
         private string $status = 'passive'
     ) {}

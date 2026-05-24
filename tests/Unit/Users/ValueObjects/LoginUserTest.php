@@ -14,7 +14,7 @@ class LoginUserTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldCreateInstanceWithValidCredentials(): void
+    public function should_create_instance_with_valid_credentials(): void
     {
         // GIVEN: Valid email and password
         $email = 'user@example.com';
@@ -31,7 +31,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenEmailIsEmpty(): void
+    public function should_throw_exception_when_email_is_empty(): void
     {
         // GIVEN: Empty email
         $emptyEmail = '';
@@ -47,7 +47,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenPasswordIsEmpty(): void
+    public function should_throw_exception_when_password_is_empty(): void
     {
         // GIVEN: Empty password
         $email = 'user@example.com';
@@ -63,7 +63,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenEmailIsInvalid(): void
+    public function should_throw_exception_when_email_is_invalid(): void
     {
         // GIVEN: Invalid email formats
         $invalidEmails = [
@@ -87,7 +87,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenPasswordIsTooShort(): void
+    public function should_throw_exception_when_password_is_too_short(): void
     {
         // GIVEN: Password shorter than 8 characters
         $email = 'user@example.com';
@@ -110,7 +110,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptValidEmails(): void
+    public function should_accept_valid_emails(): void
     {
         // GIVEN: Valid email formats
         $validEmails = [
@@ -133,7 +133,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptPasswordWithMinimumEightCharacters(): void
+    public function should_accept_password_with_minimum_eight_characters(): void
     {
         // GIVEN: Password with exactly 8 characters
         $email = 'user@example.com';
@@ -148,7 +148,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptLongPasswords(): void
+    public function should_accept_long_passwords(): void
     {
         // GIVEN: Long password
         $email = 'user@example.com';
@@ -163,7 +163,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptPasswordsWithSpecialCharacters(): void
+    public function should_accept_passwords_with_special_characters(): void
     {
         // GIVEN: Passwords with special characters
         $specialPasswords = [
@@ -187,7 +187,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromDTO(): void
+    public function should_create_from_dto(): void
     {
         // GIVEN: LoginDTO with valid credentials
         $dto = new LoginDTO(
@@ -206,7 +206,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenCreatingFromDTOWithInvalidData(): void
+    public function should_throw_exception_when_creating_from_dto_with_invalid_data(): void
     {
         // GIVEN: LoginDTO with invalid credentials
         $dto = new LoginDTO(
@@ -223,7 +223,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldValidateUponInstantiation(): void
+    public function should_validate_upon_instantiation(): void
     {
         // GIVEN: Invalid credentials
         $testCases = [
@@ -245,7 +245,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectEmail(): void
+    public function should_return_correct_email(): void
     {
         // GIVEN: LoginUser with specific email
         $email = 'testuser@example.com';
@@ -260,7 +260,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldReturnCorrectPassword(): void
+    public function should_return_correct_password(): void
     {
         // GIVEN: LoginUser with specific password
         $password = 'securePassword123!@#';
@@ -275,7 +275,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleInstances(): void
+    public function should_handle_multiple_instances(): void
     {
         // GIVEN: Multiple LoginUser instances
         $user1 = new LoginUser(email: 'user1@example.com', password: 'password1234');
@@ -296,7 +296,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleCaseSensitiveEmails(): void
+    public function should_handle_case_sensitive_emails(): void
     {
         // GIVEN: Emails with different cases
         $emailLower = 'user@example.com';
@@ -316,7 +316,7 @@ class LoginUserTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptComplexEmailAddresses(): void
+    public function should_accept_complex_email_addresses(): void
     {
         // GIVEN: Complex but valid email addresses
         $complexEmails = [

@@ -12,6 +12,7 @@ use Source\Dashboard\Application\Service\DashboardService;
 use Source\Dashboard\Domain\Entity\ActivityLogEntity;
 use Source\Dashboard\Domain\Entity\DashboardEntity;
 use Source\Dashboard\Domain\Entity\PageStatusCountEntity;
+use Source\Users\Domain\Models\User;
 use Tests\TestCase;
 
 #[Group('presentation')]
@@ -23,7 +24,7 @@ class DashboardControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRenderDashboardViewForAuthenticatedUser(): void
+    public function should_render_dashboard_view_for_authenticated_user(): void
     {
         // GIVEN: An authenticated user and a DashboardEntity returned by the service
         $dashboard = new DashboardEntity(
@@ -39,7 +40,7 @@ class DashboardControllerTest extends TestCase
                     event: 'created',
                     properties: [],
                     causerId: 1,
-                    createdAt: new DateTimeImmutable(),
+                    createdAt: new DateTimeImmutable,
                 ),
             ],
         );
@@ -63,7 +64,7 @@ class DashboardControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRedirectGuestToLogin(): void
+    public function should_redirect_guest_to_login(): void
     {
         // GIVEN: No authenticated user (guest)
 
@@ -76,7 +77,7 @@ class DashboardControllerTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRenderDashboardWithEmptyCollections(): void
+    public function should_render_dashboard_with_empty_collections(): void
     {
         // GIVEN: Service returns a DashboardEntity with no data (fresh install)
         $dashboard = new DashboardEntity(pageStatusCounts: [], recentActivityLogs: []);
@@ -108,9 +109,9 @@ class DashboardControllerTest extends TestCase
 
     private function actingAsUser(): void
     {
-        $user = \Source\Users\Domain\Models\User::create([
-            'name'     => 'Test User',
-            'email'    => 'test@example.com',
+        $user = User::create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
             'password' => bcrypt('password'),
         ]);
         $this->actingAs($user);

@@ -26,7 +26,7 @@ class RoleRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->repository = new EloquentRoleRepository();
+        $this->repository = new EloquentRoleRepository;
     }
 
     // -------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsRoleByUuid(): void
+    public function it_finds_role_by_uuid(): void
     {
         // Arrange
         $role = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
@@ -53,7 +53,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenRoleNotFoundByUuid(): void
+    public function it_returns_null_when_role_not_found_by_uuid(): void
     {
         // Arrange
         $nonExistentUuid = Uuid::uuid7()->toString();
@@ -71,7 +71,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itFindsRoleByName(): void
+    public function it_finds_role_by_name(): void
     {
         // Arrange
         Role::create(['name' => 'feditor', 'display_name' => 'Feditor', 'description' => 'Can edit pages.']);
@@ -89,7 +89,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsNullWhenRoleNotFoundByName(): void
+    public function it_returns_null_when_role_not_found_by_name(): void
     {
         // Act
         $result = $this->repository->findByName('nonexistent-role');
@@ -104,7 +104,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsAllRoles(): void
+    public function it_returns_all_roles(): void
     {
         // Arrange
         Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
@@ -117,7 +117,7 @@ class RoleRepositoryTest extends TestCase
         // Assert
         $this->assertContainsOnlyInstancesOf(RoleEntity::class, $results);
 
-        $names = array_map(fn(RoleEntity $r) => $r->name(), $results);
+        $names = array_map(fn (RoleEntity $r) => $r->name(), $results);
         $this->assertContains('fadmin', $names);
         $this->assertContains('feditor', $names);
         $this->assertContains('aviewer', $names);
@@ -125,7 +125,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsEmptyArrayWhenNoRolesExist(): void
+    public function it_returns_empty_array_when_no_roles_exist(): void
     {
         // Act
         $results = $this->repository->all();
@@ -140,12 +140,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itAssignsRoleToUser(): void
+    public function it_assigns_role_to_user(): void
     {
         // Arrange
         $user = User::create(['name' => 'Alice', 'email' => 'alice@example.com', 'password' => bcrypt('pass')]);
         $role = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
-        $vo   = new AssignRole($user->uuid, $role->uuid);
+        $vo = new AssignRole($user->uuid, $role->uuid);
 
         // Act
         $this->repository->assignToUser($vo);
@@ -159,12 +159,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itAssignsRoleToUserIdempotently(): void
+    public function it_assigns_role_to_user_idempotently(): void
     {
         // Arrange
         $user = User::create(['name' => 'Bob', 'email' => 'bob@example.com', 'password' => bcrypt('pass')]);
         $role = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
-        $vo   = new AssignRole($user->uuid, $role->uuid);
+        $vo = new AssignRole($user->uuid, $role->uuid);
 
         // Act: assign twice
         $this->repository->assignToUser($vo);
@@ -176,12 +176,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenAssigningRoleToNonExistentUser(): void
+    public function it_throws_when_assigning_role_to_non_existent_user(): void
     {
         // Arrange
-        $role            = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
+        $role = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
         $nonExistentUuid = Uuid::uuid7()->toString();
-        $vo              = new AssignRole($nonExistentUuid, $role->uuid);
+        $vo = new AssignRole($nonExistentUuid, $role->uuid);
 
         // Assert
         $this->expectException(ModelNotFoundException::class);
@@ -192,12 +192,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenAssigningNonExistentRoleToUser(): void
+    public function it_throws_when_assigning_non_existent_role_to_user(): void
     {
         // Arrange
-        $user            = User::create(['name' => 'Alice', 'email' => 'alice@example.com', 'password' => bcrypt('pass')]);
+        $user = User::create(['name' => 'Alice', 'email' => 'alice@example.com', 'password' => bcrypt('pass')]);
         $nonExistentUuid = Uuid::uuid7()->toString();
-        $vo              = new AssignRole($user->uuid, $nonExistentUuid);
+        $vo = new AssignRole($user->uuid, $nonExistentUuid);
 
         // Assert
         $this->expectException(ModelNotFoundException::class);
@@ -212,12 +212,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itRemovesRoleFromUser(): void
+    public function it_removes_role_from_user(): void
     {
         // Arrange
         $user = User::create(['name' => 'Carol', 'email' => 'carol@example.com', 'password' => bcrypt('pass')]);
         $role = Role::create(['name' => 'aviewer', 'display_name' => 'Aviewer']);
-        $vo   = new AssignRole($user->uuid, $role->uuid);
+        $vo = new AssignRole($user->uuid, $role->uuid);
 
         $this->repository->assignToUser($vo);
         $this->assertDatabaseHas('user_role', ['user_id' => $user->id, 'role_id' => $role->id]);
@@ -231,12 +231,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenRemovingRoleFromNonExistentUser(): void
+    public function it_throws_when_removing_role_from_non_existent_user(): void
     {
         // Arrange
-        $role            = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
+        $role = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
         $nonExistentUuid = Uuid::uuid7()->toString();
-        $vo              = new AssignRole($nonExistentUuid, $role->uuid);
+        $vo = new AssignRole($nonExistentUuid, $role->uuid);
 
         // Assert
         $this->expectException(ModelNotFoundException::class);
@@ -251,12 +251,12 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itReturnsRolesForUser(): void
+    public function it_returns_roles_for_user(): void
     {
         // Arrange
-        $user    = User::create(['name' => 'Dave', 'email' => 'dave@example.com', 'password' => bcrypt('pass')]);
-        $admin   = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
-        $editor  = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
+        $user = User::create(['name' => 'Dave', 'email' => 'dave@example.com', 'password' => bcrypt('pass')]);
+        $admin = Role::create(['name' => 'fadmin', 'display_name' => 'Fadministrator']);
+        $editor = Role::create(['name' => 'feditor', 'display_name' => 'Feditor']);
 
         $user->roles()->attach([$admin->id, $editor->id]);
 
@@ -267,14 +267,14 @@ class RoleRepositoryTest extends TestCase
         $this->assertCount(2, $results);
         $this->assertContainsOnlyInstancesOf(RoleEntity::class, $results);
 
-        $names = array_map(fn(RoleEntity $r) => $r->name(), $results);
+        $names = array_map(fn (RoleEntity $r) => $r->name(), $results);
         $this->assertContains('fadmin', $names);
         $this->assertContains('feditor', $names);
     }
 
     /** @test */
     #[Test]
-    public function itReturnsEmptyArrayWhenUserHasNoRoles(): void
+    public function it_returns_empty_array_when_user_has_no_roles(): void
     {
         // Arrange
         $user = User::create(['name' => 'Eve', 'email' => 'eve@example.com', 'password' => bcrypt('pass')]);
@@ -289,7 +289,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itThrowsWhenGettingRolesForNonExistentUser(): void
+    public function it_throws_when_getting_roles_for_non_existent_user(): void
     {
         // Arrange
         $nonExistentUuid = Uuid::uuid7()->toString();
@@ -307,7 +307,7 @@ class RoleRepositoryTest extends TestCase
 
     /** @test */
     #[Test]
-    public function itMapsNullDescriptionToEntity(): void
+    public function it_maps_null_description_to_entity(): void
     {
         // Arrange
         Role::create(['name' => 'aviewer', 'display_name' => 'Viewer', 'description' => null]);

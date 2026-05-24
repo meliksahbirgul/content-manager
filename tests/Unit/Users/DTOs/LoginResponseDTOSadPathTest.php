@@ -13,7 +13,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldHandleEmptyEmail(): void
+    public function should_handle_empty_email(): void
     {
         // GIVEN: Empty email
         $dto = new LoginResponseDTO(
@@ -31,7 +31,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyName(): void
+    public function should_handle_empty_name(): void
     {
         // GIVEN: Empty name
         $dto = new LoginResponseDTO(
@@ -49,7 +49,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyToken(): void
+    public function should_handle_empty_token(): void
     {
         // GIVEN: Empty token
         $dto = new LoginResponseDTO(
@@ -67,7 +67,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmptyRefreshToken(): void
+    public function should_handle_empty_refresh_token(): void
     {
         // GIVEN: Empty refresh token
         $dto = new LoginResponseDTO(
@@ -85,7 +85,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleZeroExpireTime(): void
+    public function should_handle_zero_expire_time(): void
     {
         // GIVEN: Zero expire time
         $dto = new LoginResponseDTO(
@@ -103,7 +103,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNegativeExpireTime(): void
+    public function should_handle_negative_expire_time(): void
     {
         // GIVEN: Negative expire time (edge case)
         $dto = new LoginResponseDTO(
@@ -121,11 +121,11 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLargeExpireTime(): void
+    public function should_handle_very_large_expire_time(): void
     {
         // GIVEN: Very large expire time
         $largeTime = PHP_INT_MAX;
-        $dto       = new LoginResponseDTO(
+        $dto = new LoginResponseDTO(
             uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: 'User',
@@ -140,11 +140,11 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongEmail(): void
+    public function should_handle_very_long_email(): void
     {
         // GIVEN: Very long email
-        $longEmail = str_repeat('a', 500) . '@example.com';
-        $dto       = new LoginResponseDTO(
+        $longEmail = str_repeat('a', 500).'@example.com';
+        $dto = new LoginResponseDTO(
             uuid: Uuid::uuid7()->toString(),
             email: $longEmail,
             name: 'User',
@@ -160,11 +160,11 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongName(): void
+    public function should_handle_very_long_name(): void
     {
         // GIVEN: Very long name
         $longName = str_repeat('A', 1000);
-        $dto      = new LoginResponseDTO(
+        $dto = new LoginResponseDTO(
             uuid: Uuid::uuid7()->toString(),
             email: 'user@example.com',
             name: $longName,
@@ -180,7 +180,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInAllFields(): void
+    public function should_handle_special_characters_in_all_fields(): void
     {
         // GIVEN: Special characters in all fields
         $dto = new LoginResponseDTO(
@@ -202,7 +202,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInAllFields(): void
+    public function should_handle_unicode_in_all_fields(): void
     {
         // GIVEN: Unicode characters
         $dto = new LoginResponseDTO(
@@ -224,7 +224,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldJsonSerializeToCorrectKeyNames(): void
+    public function should_json_serialize_to_correct_key_names(): void
     {
         // GIVEN: LoginResponseDTO with specific values
         $dto = new LoginResponseDTO(
@@ -254,7 +254,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceInAllFields(): void
+    public function should_handle_whitespace_in_all_fields(): void
     {
         // GIVEN: Whitespace in all fields
         $dto = new LoginResponseDTO(
@@ -274,7 +274,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNewlinesInFields(): void
+    public function should_handle_newlines_in_fields(): void
     {
         // GIVEN: Newlines in text fields
         $dto = new LoginResponseDTO(
@@ -293,7 +293,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTabsInFields(): void
+    public function should_handle_tabs_in_fields(): void
     {
         // GIVEN: Tabs in fields
         $dto = new LoginResponseDTO(
@@ -312,7 +312,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleQuotesInNames(): void
+    public function should_handle_quotes_in_names(): void
     {
         // GIVEN: Quotes in name
         $dto = new LoginResponseDTO(
@@ -332,7 +332,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldMultipleInstancesBeIndependent(): void
+    public function should_multiple_instances_be_independent(): void
     {
         // GIVEN: Multiple instances
         $dto1 = new LoginResponseDTO(
@@ -364,7 +364,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleConsecutiveJsonSerializeCalls(): void
+    public function should_handle_consecutive_json_serialize_calls(): void
     {
         // GIVEN: LoginResponseDTO instance
         $dto = new LoginResponseDTO(
@@ -388,7 +388,7 @@ class LoginResponseDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteAttemptInFields(): void
+    public function should_handle_null_byte_attempt_in_fields(): void
     {
         // GIVEN: Null byte injection attempt
         $dto = new LoginResponseDTO(

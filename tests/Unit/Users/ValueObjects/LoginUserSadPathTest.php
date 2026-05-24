@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Users\ValueObjects;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
 use Source\Users\Application\DTOs\LoginDTO;
 use Source\Users\Domain\ValueObjects\LoginUser;
 
@@ -14,7 +14,7 @@ class LoginUserSadPathTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForWhitespaceOnlyEmail(): void
+    public function should_throw_exception_for_whitespace_only_email(): void
     {
         // GIVEN: Whitespace-only email
         // Note: PHP's filter_var doesn't consider whitespace as valid email
@@ -29,7 +29,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptWhitespaceOnlyPassword(): void
+    public function should_accept_whitespace_only_password(): void
     {
         // GIVEN: Whitespace-only password
         // Note: empty('        ') returns false in PHP, so it passes empty() check
@@ -46,7 +46,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForEmailWithLeadingTrailingWhitespace(): void
+    public function should_throw_exception_for_email_with_leading_trailing_whitespace(): void
     {
         // GIVEN: Email with leading/trailing spaces (becomes valid email when trimmed)
         // However, email validation doesn't trim, so this should fail
@@ -59,7 +59,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForPasswordJustUnderMinimumLength(): void
+    public function should_throw_exception_for_password_just_under_minimum_length(): void
     {
         // GIVEN: Password with 7 characters (minimum is 8)
         // THEN: Should throw exception
@@ -71,11 +71,11 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForPasswordWithNullByte(): void
+    public function should_throw_exception_for_password_with_null_byte(): void
     {
         // GIVEN: Password with null byte
         // Password length check should pass, but it's still invalid
-        $password = 'password' . chr(0) . '123';
+        $password = 'password'.chr(0).'123';
 
         // WHEN/THEN: Should still create (null bytes don't affect length check)
         // This demonstrates that the length validation is simplistic
@@ -85,7 +85,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForInvalidEmailFormats(): void
+    public function should_throw_exception_for_invalid_email_formats(): void
     {
         $invalidEmails = [
             'notanemail',           // No @ symbol
@@ -106,7 +106,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptValidEmailFormats(): void
+    public function should_accept_valid_email_formats(): void
     {
         $validEmails = [
             'user@example.com',
@@ -125,7 +125,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptPasswordWithMinimumLength(): void
+    public function should_accept_password_with_minimum_length(): void
     {
         // GIVEN: Password with exactly 8 characters
         $password = 'password';
@@ -139,7 +139,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForNullByteInEmail(): void
+    public function should_throw_exception_for_null_byte_in_email(): void
     {
         // GIVEN: Email with null byte
         $email = "user@example.com\0admin@example.com";
@@ -158,7 +158,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForEmailWithOnlyNumbers(): void
+    public function should_throw_exception_for_email_with_only_numbers(): void
     {
         // GIVEN: Email with only numbers (no @ or domain)
         // THEN: Should throw exception
@@ -170,11 +170,11 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForVeryLongEmail(): void
+    public function should_throw_exception_for_very_long_email(): void
     {
         // GIVEN: Email exceeding typical length limits
         // Note: PHP filter_var has no length limit, but real mail servers do
-        $longEmail = str_repeat('a', 255) . '@example.com'; // > 255 chars is invalid per RFC
+        $longEmail = str_repeat('a', 255).'@example.com'; // > 255 chars is invalid per RFC
 
         // THEN: May not throw (filter_var doesn't check length)
         try {
@@ -189,7 +189,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInPassword(): void
+    public function should_handle_special_characters_in_password(): void
     {
         // GIVEN: Password with special characters
         $passwords = [
@@ -208,7 +208,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveCaseInEmail(): void
+    public function should_preserve_case_in_email(): void
     {
         // GIVEN: Email with mixed case
         $email = 'User.Name@Example.COM';
@@ -222,7 +222,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveCaseInPassword(): void
+    public function should_preserve_case_in_password(): void
     {
         // GIVEN: Password with mixed case
         $password = 'PassWord123ABC';
@@ -236,7 +236,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldAcceptUnicodeInPassword(): void
+    public function should_accept_unicode_in_password(): void
     {
         // GIVEN: Password with unicode characters
         $password = 'пароль123абв'; // Russian password
@@ -250,7 +250,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionForNegativePasswordLength(): void
+    public function should_throw_exception_for_negative_password_length(): void
     {
         // This is impossible in practice, but tests the boundary
         // We can't create a string with negative length, so this is just for documentation
@@ -259,7 +259,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldCreateFromDTOWithValidData(): void
+    public function should_create_from_dto_with_valid_data(): void
     {
         // GIVEN: Valid LoginDTO
         $dto = new LoginDTO(email: 'user@example.com', password: 'password123');
@@ -274,7 +274,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenCreatingFromDTOWithInvalidEmail(): void
+    public function should_throw_exception_when_creating_from_dto_with_invalid_email(): void
     {
         // GIVEN: LoginDTO with invalid email
         $dto = new LoginDTO(email: 'notanemail', password: 'password123');
@@ -288,7 +288,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldThrowExceptionWhenCreatingFromDTOWithShortPassword(): void
+    public function should_throw_exception_when_creating_from_dto_with_short_password(): void
     {
         // GIVEN: LoginDTO with short password
         $dto = new LoginDTO(email: 'user@example.com', password: 'short');
@@ -302,7 +302,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmailWithPlus(): void
+    public function should_handle_email_with_plus(): void
     {
         // GIVEN: Email with plus addressing (Gmail-style)
         $email = 'user+tag@example.com';
@@ -316,7 +316,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleEmailWithSubdomain(): void
+    public function should_handle_email_with_subdomain(): void
     {
         // GIVEN: Email with subdomain
         $email = 'user@mail.example.co.uk';
@@ -330,7 +330,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandlePasswordWith8CharactersExactly(): void
+    public function should_handle_password_with8_characters_exactly(): void
     {
         // GIVEN: Password with exactly 8 characters (boundary)
         $password = '12345678';
@@ -344,7 +344,7 @@ class LoginUserSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldRejectPasswordWith7CharactersOrLess(): void
+    public function should_reject_password_with7_characters_or_less(): void
     {
         $shortPasswords = [
             '1234567',  // 7 chars

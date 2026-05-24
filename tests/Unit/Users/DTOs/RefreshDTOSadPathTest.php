@@ -12,7 +12,7 @@ class RefreshDTOSadPathTest extends TestCase
 {
     /** @test */
     #[Test]
-    public function shouldHandleEmptyStringRefreshToken(): void
+    public function should_handle_empty_string_refresh_token(): void
     {
         // GIVEN: Empty string token
         $dto = new RefreshDTO(refreshToken: '');
@@ -23,7 +23,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleWhitespaceOnlyToken(): void
+    public function should_handle_whitespace_only_token(): void
     {
         // GIVEN: Whitespace-only token
         $dto = new RefreshDTO(refreshToken: '   ');
@@ -34,7 +34,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleTabsInToken(): void
+    public function should_handle_tabs_in_token(): void
     {
         // GIVEN: Token with tabs
         $dto = new RefreshDTO(refreshToken: "\t\t\t");
@@ -45,7 +45,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNewlinesInToken(): void
+    public function should_handle_newlines_in_token(): void
     {
         // GIVEN: Token with newlines
         $dto = new RefreshDTO(refreshToken: "token\nwith\nnewlines");
@@ -56,7 +56,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleVeryLongToken(): void
+    public function should_handle_very_long_token(): void
     {
         // GIVEN: Extremely long token
         $longToken = str_repeat('a', 10000);
@@ -68,7 +68,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSpecialCharactersInToken(): void
+    public function should_handle_special_characters_in_token(): void
     {
         // GIVEN: Token with special characters
         $token = '!@#$%^&*()_+-=[]{}|;:,.<>?';
@@ -80,7 +80,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNullByteInToken(): void
+    public function should_handle_null_byte_in_token(): void
     {
         // GIVEN: Token with null byte
         $token = "token\0injection";
@@ -92,7 +92,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleUnicodeInToken(): void
+    public function should_handle_unicode_in_token(): void
     {
         // GIVEN: Token with unicode characters
         $token = 'token_トークン_🔐';
@@ -104,7 +104,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleNumericToken(): void
+    public function should_handle_numeric_token(): void
     {
         // GIVEN: Pure numeric token
         $dto = new RefreshDTO(refreshToken: '123456789');
@@ -115,7 +115,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSingleCharacterToken(): void
+    public function should_handle_single_character_token(): void
     {
         // GIVEN: Single character token
         $dto = new RefreshDTO(refreshToken: 'a');
@@ -126,7 +126,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldBeReadonly(): void
+    public function should_be_readonly(): void
     {
         // GIVEN: RefreshDTO instance
         $dto = new RefreshDTO(refreshToken: 'mytoken');
@@ -145,7 +145,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldPreserveTokenExactly(): void
+    public function should_preserve_token_exactly(): void
     {
         // GIVEN: Token with mixed case and special formatting
         $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U';
@@ -157,7 +157,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleMultipleInstancesIndependently(): void
+    public function should_handle_multiple_instances_independently(): void
     {
         // GIVEN: Multiple RefreshDTO instances
         $dto1 = new RefreshDTO(refreshToken: 'token1');
@@ -172,7 +172,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleHtmlInjectionAttempt(): void
+    public function should_handle_html_injection_attempt(): void
     {
         // GIVEN: Token with HTML/XSS attempt
         $token = '<script>alert("xss")</script>';
@@ -184,7 +184,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleSqlInjectionAttempt(): void
+    public function should_handle_sql_injection_attempt(): void
     {
         // GIVEN: Token with SQL injection attempt
         $token = "'; DROP TABLE users; --";
@@ -196,7 +196,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLineBreaksWithDifferentFormats(): void
+    public function should_handle_line_breaks_with_different_formats(): void
     {
         // GIVEN: Token with various line break formats
         $tokenLF = "token\nwith\nlf";
@@ -215,7 +215,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleZeroLengthString(): void
+    public function should_handle_zero_length_string(): void
     {
         // GIVEN: Zero-length string
         $dto = new RefreshDTO(refreshToken: '');
@@ -226,7 +226,7 @@ class RefreshDTOSadPathTest extends TestCase
 
     /** @test */
     #[Test]
-    public function shouldHandleLeadingAndTrailingWhitespace(): void
+    public function should_handle_leading_and_trailing_whitespace(): void
     {
         // GIVEN: Token with leading and trailing whitespace
         $token = '   token_with_spaces   ';
