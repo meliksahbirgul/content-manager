@@ -9,6 +9,17 @@
 <div class="bg-white border border-gray-200 rounded-xl p-4">
     <p class="text-sm text-gray-500 mb-3">Images</p>
 
+    {{-- Lightbox modal --}}
+    <div id="media-lightbox"
+         class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60"
+         onclick="closeMediaLightbox()">
+        <img id="media-lightbox-img"
+             src=""
+             alt=""
+             class="max-w-[90vw] max-h-[90vh] rounded-xl shadow-2xl object-contain"
+             onclick="event.stopPropagation()">
+    </div>
+
     {{-- Existing thumbnails --}}
     <div id="media-thumbnails" class="flex flex-wrap gap-3 mb-4">
         @foreach ($images as $image)
@@ -17,7 +28,8 @@
                  data-media-uuid="{{ $image->uuid() }}">
                 <img src="{{ $image->url() }}"
                      alt="{{ $image->altText() ?? $image->originalName() }}"
-                     class="w-full h-full object-cover">
+                     class="w-full h-full object-cover cursor-zoom-in"
+                     onclick="openMediaLightbox(this)">
                 <button type="button"
                         onclick="deleteMedia('{{ $image->uuid() }}')"
                         title="Remove"
@@ -124,6 +136,21 @@
                     });
                 };
 
+                window.openMediaLightbox = function (imgEl) {
+                    var lb = document.getElementById('media-lightbox');
+                    var lbImg = document.getElementById('media-lightbox-img');
+                    lbImg.src = imgEl.src;
+                    lbImg.alt = imgEl.alt;
+                    lb.classList.remove('hidden');
+                    lb.classList.add('flex');
+                };
+
+                window.closeMediaLightbox = function () {
+                    var lb = document.getElementById('media-lightbox');
+                    lb.classList.add('hidden');
+                    lb.classList.remove('flex');
+                };
+
                 function appendThumb(media) {
                     var container = document.getElementById('media-thumbnails');
                     var div = document.createElement('div');
@@ -131,7 +158,7 @@
                     div.id = 'thumb-' + media.id;
                     div.dataset.mediaUuid = media.id;
                     div.innerHTML =
-                        '<img src="' + media.url + '" alt="' + (media.alt_text || media.original_name) + '" class="w-full h-full object-cover">' +
+                        '<img src="' + media.url + '" alt="' + (media.alt_text || media.original_name) + '" class="w-full h-full object-cover cursor-zoom-in" onclick="openMediaLightbox(this)">' +
                         '<button type="button" onclick="deleteMedia(\'' + media.id + '\')" title="Remove"' +
                         ' class="absolute top-2 right-2 w-5 h-5 bg-gray-500 hover:bg-red-500 rounded-full flex items-center justify-center transition">' +
                         '<svg class="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">' +
@@ -154,6 +181,10 @@
                 function clearError() {
                     document.getElementById('media-upload-error').classList.add('hidden');
                 }
+
+                document.addEventListener('keydown', function (e) {
+                    if (e.key === 'Escape') closeMediaLightbox();
+                });
             })();
         </script>
     @endif
