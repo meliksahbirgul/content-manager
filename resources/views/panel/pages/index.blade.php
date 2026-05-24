@@ -37,7 +37,13 @@
         </div>
 
         {{-- Table --}}
-        <table class="w-full">
+        <table class="w-full table-fixed">
+            <colgroup>
+                <col class="w-1/2">
+                <col class="w-28">
+                <col class="w-36">
+                <col class="w-20">
+            </colgroup>
             <thead>
                 <tr class="border-b border-gray-100 text-left">
                     <th class="pb-3 text-sm font-medium text-gray-400 pl-4">{{ __('panel/pages.col_title') }}</th>
@@ -48,14 +54,13 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 @php
-                    // Flatten the tree into [{item, depth}] while preserving order
                     $flatPages = [];
-                    $stack = array_map(fn($p) => [$p, 0], array_reverse($pages));
+                    $stack = array_map(fn($p) => [$p, 0, null], array_reverse($pages));
                     while (!empty($stack)) {
-                        [$node, $depth] = array_pop($stack);
-                        $flatPages[] = ['item' => $node, 'depth' => $depth];
+                        [$node, $depth, $parentId] = array_pop($stack);
+                        $flatPages[] = ['item' => $node, 'depth' => $depth, 'parentId' => $parentId];
                         foreach (array_reverse($node->children()) as $child) {
-                            $stack[] = [$child, $depth + 1];
+                            $stack[] = [$child, $depth + 1, $node->id()];
                         }
                     }
                     $locale = app()->getLocale();
@@ -64,6 +69,8 @@
                     @php
                         $page = $row['item'];
                         $depth = $row['depth'];
+                        $parentId = $row['parentId'];
+                        $hasChildren = count($page->children()) > 0;
                         $title =
                             $page->title()[$locale] ??
                             ($page->title()['en'] ?? (array_values($page->title())[0] ?? '-'));
@@ -73,12 +80,22 @@
                             default => ['bg-yellow-100 text-yellow-700', __('panel/pages.status_draft')],
                         };
                     @endphp
-                    <tr class="hover:bg-gray-50 transition">
-                        <td class="py-4 text-sm font-medium text-gray-800" style="padding-left: {{ 16 + $depth * 24 }}px">
-                            @if ($depth > 0)
-                                <span class="text-gray-300 mr-1">{{ str_repeat('—', $depth) }}</span>
-                            @endif
-                            {{ $title }}
+                    <tr class="hover:bg-gray-50 transition {{ $depth > 0 ? 'hidden' : '' }}" data-id="{{ $page->id() }}"
+                        @if ($depth > 0) data-parent-id="{{ $parentId }}" @endif>
+                        <td class="py-4 text-sm font-medium text-gray-800 max-w-0" style="padding-left: {{ 16 + $depth * 24 }}px">
+                            <div class="flex items-center gap-1.5 min-w-0">
+                                <span class="truncate">{{ $title }}</span>
+                                @if ($hasChildren)
+                                    <button type="button" data-toggle="{{ $page->id() }}"
+                                        onclick="toggleChildren('{{ $page->id() }}')"
+                                        class="shrink-0 text-gray-400 hover:text-gray-600 transition">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                @endif
+                            </div>
                         </td>
                         <td class="py-4">
                             <span class="inline-block text-xs font-medium px-3 py-1 rounded-full {{ $badgeClass }}">
@@ -113,5 +130,36 @@
                 document.getElementById('search-input').closest('form').submit();
             }, 350);
         });
+
+        const chevronDown =
+            `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>`;
+        const chevronUp =
+            `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>`;
+
+        function toggleChildren(pageId) {
+            const btn = document.querySelector(`[data-toggle="${pageId}"]`);
+            const children = document.querySelectorAll(`[data-parent-id="${pageId}"]`);
+            const isExpanding = children.length > 0 && children[0].classList.contains('hidden');
+
+            if (isExpanding) {
+                children.forEach(row => row.classList.remove('hidden'));
+                btn.innerHTML = chevronUp;
+            } else {
+                collapseAll(pageId);
+                btn.innerHTML = chevronDown;
+            }
+        }
+
+        function collapseAll(pageId) {
+            document.querySelectorAll(`[data-parent-id="${pageId}"]`).forEach(row => {
+                row.classList.add('hidden');
+                const childId = row.dataset.id;
+                if (childId) {
+                    const childBtn = document.querySelector(`[data-toggle="${childId}"]`);
+                    if (childBtn) childBtn.innerHTML = chevronDown;
+                    collapseAll(childId);
+                }
+            });
+        }
     </script>
 @endsection
