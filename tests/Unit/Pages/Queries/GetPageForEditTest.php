@@ -52,11 +52,12 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
         $pageEntity->shouldReceive('order')->andReturn(0);
         $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
             ->once()
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -80,7 +81,7 @@ class GetPageForEditTest extends TestCase
         $this->repositoryMock
             ->shouldReceive('findByUuid')
             ->once()
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn(null);
 
         // THEN: Should throw DomainException
@@ -105,11 +106,12 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::PASSIVE);
         $pageEntity->shouldReceive('order')->andReturn(0);
         $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
             ->once()
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -140,10 +142,11 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn($status);
         $pageEntity->shouldReceive('order')->andReturn($order);
         $pageEntity->shouldReceive('parentId')->andReturn($parentUuid);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -173,10 +176,11 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::PASSIVE);
         $pageEntity->shouldReceive('order')->andReturn(0);
         $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -200,10 +204,11 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
         $pageEntity->shouldReceive('order')->andReturn(0);
         $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -243,10 +248,11 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
         $pageEntity->shouldReceive('order')->andReturn(0);
         $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -277,10 +283,11 @@ class GetPageForEditTest extends TestCase
             $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
             $pageEntity->shouldReceive('order')->andReturn($order);
             $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
             $this->repositoryMock
                 ->shouldReceive('findByUuid')
-                ->with($uuid)
+                ->with($uuid, true)
                 ->andReturn($pageEntity);
 
             // WHEN: Executing query
@@ -305,10 +312,11 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
         $pageEntity->shouldReceive('order')->andReturn(5);
         $pageEntity->shouldReceive('parentId')->andReturn(Uuid::uuid7()->toString());
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // WHEN: Executing query
@@ -333,10 +341,11 @@ class GetPageForEditTest extends TestCase
         $pageEntity->shouldReceive('status')->andReturn(PageStatus::ACTIVE);
         $pageEntity->shouldReceive('order')->andReturn(0);
         $pageEntity->shouldReceive('parentId')->andReturn(null);
+        $pageEntity->shouldReceive('images')->andReturn([]);
 
         $this->repositoryMock
             ->shouldReceive('findByUuid')
-            ->with($uuid)
+            ->with($uuid, true)
             ->andReturn($pageEntity);
 
         // THEN: Should not throw exception
