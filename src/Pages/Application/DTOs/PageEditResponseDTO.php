@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Source\Pages\Application\DTOs;
 
 use JsonSerializable;
+use Source\Media\Application\DTOs\MediaResponseDTO;
 use Source\Pages\Domain\Entity\PageEntity;
 
 readonly class PageEditResponseDTO implements JsonSerializable
@@ -13,6 +14,7 @@ readonly class PageEditResponseDTO implements JsonSerializable
      * @param array<string, string> $title
      * @param array<string, string> $content
      * @param array<string, string> $slug
+     * @param list<MediaResponseDTO> $images
      */
     public function __construct(
         private string $id,
@@ -22,6 +24,7 @@ readonly class PageEditResponseDTO implements JsonSerializable
         private string $status,
         private int $order,
         private string|null $parentId = null,
+        private array $images = [],
     ) {}
 
     public static function fromEntity(PageEntity $entity): self
@@ -33,7 +36,11 @@ readonly class PageEditResponseDTO implements JsonSerializable
             slug: $entity->slug(),
             status: $entity->status()->value,
             parentId: $entity->parentId(),
-            order: $entity->order()
+            order: $entity->order(),
+            images: array_map(
+                fn($image) => MediaResponseDTO::fromEntity($image),
+                $entity->images()
+            ),
         );
     }
 
@@ -75,6 +82,12 @@ readonly class PageEditResponseDTO implements JsonSerializable
         return $this->parentId;
     }
 
+    /** @return list<MediaResponseDTO> */
+    public function images(): array
+    {
+        return $this->images;
+    }
+
     /** @return array<string, mixed> */
     public function jsonSerialize(): array
     {
@@ -86,6 +99,7 @@ readonly class PageEditResponseDTO implements JsonSerializable
             'status' => $this->status(),
             'order' => $this->order(),
             'parentId' => $this->parentId(),
+            'images' => $this->images(),
         ];
     }
 }

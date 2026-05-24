@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Source\Pages\Domain\Entity;
 
+use Source\Media\Domain\Entity\MediaEntity;
 use Source\Pages\Domain\Enums\PageStatus;
 
 class PageEntity
@@ -13,6 +14,7 @@ class PageEntity
      * @param array<string, string> $content
      * @param array<string, string> $slug
      * @param array<string, mixed>|null $metadata
+     * @param list<MediaEntity> $images
      */
     public function __construct(
         private string $id,
@@ -23,6 +25,7 @@ class PageEntity
         private PageStatus $status,
         private string|null $parentId = null,
         private array|null $metadata = null,
+        private array $images = [],
     ) {}
 
     public function id(): string
@@ -67,5 +70,11 @@ class PageEntity
     public function metadata(): array|null
     {
         return $this->metadata;
+    }
+
+    /** @return list<MediaEntity> */
+    public function images(): array
+    {
+        return $this->images;
     }
 }

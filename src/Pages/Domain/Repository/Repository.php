@@ -15,7 +15,7 @@ interface Repository
     /** @param array<string> $slugs */
     public function isSlugUnique(array $slugs, string|null $pageId = null): bool;
 
-    public function findByUuid(string $uuid): PageEntity|null;
+    public function findByUuid(string $uuid, bool $withImages = false): PageEntity|null;
 
     public function updatePage(UpdatePage $payload): void;
 

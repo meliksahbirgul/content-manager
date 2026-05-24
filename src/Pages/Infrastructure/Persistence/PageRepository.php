@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Source\Pages\Infrastructure\Persistence;
 
 use DomainException;
+use Source\Media\Domain\Entity\MediaEntity;
+use Source\Media\Domain\Enums\MediaCollection;
+use Source\Media\Domain\Enums\MediaDisk;
 use Source\Pages\Domain\Entity\PageEntity;
 use Source\Pages\Domain\Enums\PageStatus;
 use Source\Pages\Domain\Models\Page as EloquentPage;
@@ -42,11 +45,38 @@ class PageRepository implements Repository
             ->exists();
     }
 
-    public function findByUuid(string $uuid): PageEntity|null
+    public function findByUuid(string $uuid, bool $withImages = false): PageEntity|null
     {
-        $model = EloquentPage::where('uuid', $uuid)->first();
+        $query = EloquentPage::where('uuid', $uuid);
+        if ($withImages) {
+            $query->with('images');
+        }
+
+        $model = $query->first();
         if (! $model) {
             return null;
+        }
+
+        $images = [];
+        if ($withImages) {
+            /** @var list<MediaEntity> $images */
+            $images = array_values(array_map(function ($media) {
+                return new MediaEntity(
+                    uuid: $media->uuid,
+                    mediableType: $media->mediable_type,
+                    mediableId: $media->mediable_id,
+                    collection: MediaCollection::from($media->collection),
+                    disk: MediaDisk::from($media->disk),
+                    path: $media->path,
+                    url: $media->url,
+                    originalName: $media->original_name,
+                    mimeType: $media->mime_type,
+                    size: $media->size,
+                    altText: $media->alt_text,
+                    linkPageUuid: $media->link_page_uuid,
+                    order: $media->order,
+                );
+            }, $model->images->all()));
         }
 
         return new PageEntity(
@@ -58,6 +88,7 @@ class PageRepository implements Repository
             order: $model->order,
             status: PageStatus::from($model->is_active),
             metadata: $model->metadata ?? null,
+            images: $images,
         );
     }
 

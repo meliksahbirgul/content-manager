@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Attributes\Touches;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Source\Media\Domain\Enums\MediaCollection;
+use Source\Media\Domain\Models\Media;
 
 #[Table('pages')]
 #[Fillable(['uuid', 'parent_id', 'title', 'content', 'slug', 'order', 'is_active'])]
@@ -37,6 +40,20 @@ class Page extends Model
         'metadata' => 'array',
         'is_active' => 'string',
     ];
+
+    /** @return MorphMany<Media,$this> */
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable')->orderBy('order');
+    }
+
+    /** @return MorphMany<Media,$this> */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable')
+            ->where('collection', MediaCollection::Images->value)
+            ->orderBy('order');
+    }
 
     /** @return HasMany<Page,$this> */
     public function subPages(): HasMany

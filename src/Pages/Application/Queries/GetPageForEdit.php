@@ -16,7 +16,7 @@ readonly class GetPageForEdit
 
     public function execute(string $uuid): PageEditResponseDTO
     {
-        $page = $this->repository->findByUuid($uuid);
+        $page = $this->repository->findByUuid($uuid, withImages: true);
 
         if (! $page) {
             throw new DomainException('Page not found.');

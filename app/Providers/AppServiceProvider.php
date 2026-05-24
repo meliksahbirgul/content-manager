@@ -7,6 +7,11 @@ use Source\Dashboard\Domain\Repository\DashboardRepository;
 use Source\Languages\Domain\Repository\LanguageRepository;
 use Source\Languages\Infrastructure\Persistence\EloquentLanguageRepository;
 use Source\Dashboard\Infrastructure\Persistence\EloquentDashboardRepository;
+use Source\Media\Application\Contracts\StorageDriver;
+use Source\Media\Domain\Repository\MediaRepository;
+use Source\Media\Infrastructure\Persistence\EloquentMediaRepository;
+use Source\Media\Infrastructure\Storage\LocalStorageDriver;
+use Source\Media\Infrastructure\Storage\S3StorageDriver;
 use Source\Pages\Application\Contracts\ActivityLogger as PageActivityLoggerInterface;
 use Source\Pages\Domain\Repository\Repository as PageInterface;
 use Source\Pages\Infrastructure\Logging\PageActivityLogger;
@@ -29,6 +34,17 @@ class AppServiceProvider extends ServiceProvider
             PageInterface::class,
             PageRepository::class,
         );
+
+        $this->app->bind(
+            MediaRepository::class,
+            EloquentMediaRepository::class,
+        );
+
+        $this->app->bind(StorageDriver::class, function () {
+            return config('filesystems.default') === 's3'
+                ? new S3StorageDriver()
+                : new LocalStorageDriver();
+        });
 
         $this->app->bind(
             PageActivityLoggerInterface::class,
