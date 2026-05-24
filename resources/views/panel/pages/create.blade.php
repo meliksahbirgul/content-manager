@@ -71,6 +71,12 @@
                     </div>
                 </div>
 
+                {{-- Image uploader (disabled until page is saved) --}}
+                @include('components.image-uploader', [
+                    'pageUuid' => null,
+                    'images' => [],
+                ])
+
             </div>
 
             {{-- Right column --}}

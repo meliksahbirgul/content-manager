@@ -72,6 +72,12 @@
                     </div>
                 </div>
 
+                {{-- Image uploader --}}
+                @include('components.image-uploader', [
+                    'pageUuid' => $page->id(),
+                    'images' => $page->images(),
+                ])
+
             </div>
 
             {{-- Right column --}}
