@@ -7,4 +7,5 @@ return [
     'dashboard' => 'Dashboard',
     'pages' => 'Pages',
     'page_editor' => 'Page editor',
+    'hero' => 'Hero',
 ];

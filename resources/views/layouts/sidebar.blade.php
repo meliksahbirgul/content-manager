@@ -23,6 +23,7 @@
                     $navItem('panel.dashboard', __('panel/sidebar.dashboard')),
                     $navItem('panel.pages', __('panel/sidebar.pages'), \Source\Pages\Domain\Models\Page::count()),
                     $navItem('panel.pages.create', __('panel/sidebar.page_editor')),
+                    $navItem('panel.hero', __('panel/sidebar.hero')),
                 ];
             @endphp
 

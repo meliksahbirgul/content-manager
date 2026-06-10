@@ -7,4 +7,5 @@ return [
     'dashboard' => 'Panel',
     'pages' => 'Sayfalar',
     'page_editor' => 'Sayfa Düzenleyici',
+    'hero' => 'Hero',
 ];

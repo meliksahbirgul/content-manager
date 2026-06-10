@@ -10,6 +10,14 @@ use Source\Pages\Presentation\Http\Controllers\View\EditPageViewController;
 use Source\Pages\Presentation\Http\Controllers\View\ListPagesController;
 use Source\Pages\Presentation\Http\Controllers\View\StorePageController;
 use Source\Pages\Presentation\Http\Controllers\View\UpdatePageController;
+use Source\References\Presentation\Http\Controllers\CreateReferenceController;
+use Source\References\Presentation\Http\Controllers\DeleteReferenceController;
+use Source\References\Presentation\Http\Controllers\UploadReferenceMediaController;
+use Source\Sliders\Presentation\Http\Controllers\CreateSliderController;
+use Source\Sliders\Presentation\Http\Controllers\DeleteSliderController;
+use Source\Sliders\Presentation\Http\Controllers\UpdateSliderController;
+use Source\Sliders\Presentation\Http\Controllers\UploadSliderMediaController;
+use Source\Sliders\Presentation\Http\Controllers\View\HeroPageViewController;
 use Source\Users\Presentation\Http\Controllers\View\LoginController;
 use Source\Users\Presentation\Http\Controllers\View\LogoutController;
 
@@ -41,4 +49,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/panel/language', SwitchLanguageController::class)->name('panel.language.switch');
     Route::post('/logout', LogoutController::class)->name('logout');
+
+    Route::get('/panel/hero', HeroPageViewController::class)->name('panel.hero');
+    Route::post('/panel/hero/sliders', CreateSliderController::class)->name('panel.hero.sliders.store');
+    Route::put('/panel/hero/sliders/{sliderId}', UpdateSliderController::class)->name('panel.hero.sliders.update');
+    Route::delete('/panel/hero/sliders/{sliderId}', DeleteSliderController::class)->name('panel.hero.sliders.destroy');
+    Route::post('/panel/hero/sliders/{sliderId}/media', UploadSliderMediaController::class)->name('panel.hero.sliders.media.upload');
+    Route::post('/panel/hero/references', CreateReferenceController::class)->name('panel.hero.references.store');
+    Route::delete('/panel/hero/references/{referenceId}', DeleteReferenceController::class)->name('panel.hero.references.destroy');
+    Route::post('/panel/hero/references/{referenceId}/media', UploadReferenceMediaController::class)->name('panel.hero.references.media.upload');
 });
