@@ -16,10 +16,14 @@ use Source\Pages\Application\Contracts\ActivityLogger as PageActivityLoggerInter
 use Source\Pages\Domain\Repository\Repository as PageInterface;
 use Source\Pages\Infrastructure\Logging\PageActivityLogger;
 use Source\Pages\Infrastructure\Persistence\PageRepository;
+use Source\References\Domain\Repository\ReferenceRepository;
+use Source\References\Infrastructure\Persistence\EloquentReferenceRepository;
 use Source\Roles\Domain\Repository\PermissionRepository;
 use Source\Roles\Domain\Repository\RoleRepository;
 use Source\Roles\Infrastructure\Persistence\EloquentPermissionRepository;
 use Source\Roles\Infrastructure\Persistence\EloquentRoleRepository;
+use Source\Sliders\Domain\Repository\SliderRepository;
+use Source\Sliders\Infrastructure\Persistence\EloquentSliderRepository;
 use Source\Users\Domain\Repository\Repository as DomainInterface;
 use Source\Users\Infrastructure\Persistence\UserRepository;
 
@@ -74,6 +78,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             LanguageRepository::class,
             EloquentLanguageRepository::class,
+        );
+
+        $this->app->bind(
+            SliderRepository::class,
+            EloquentSliderRepository::class,
+        );
+
+        $this->app->bind(
+            ReferenceRepository::class,
+            EloquentReferenceRepository::class,
         );
     }
 
