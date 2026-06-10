@@ -19,8 +19,8 @@ class EloquentReferenceRepository implements ReferenceRepository
     public function create(CreateReference $payload): CreateReference
     {
         EloquentReference::create([
-            'uuid'  => $payload->id(),
-            'name'  => $payload->name(),
+            'uuid' => $payload->id(),
+            'name' => $payload->name(),
             'order' => $payload->order(),
         ]);
 
@@ -109,9 +109,9 @@ class EloquentReferenceRepository implements ReferenceRepository
             ->orderBy('order')
             ->get()
             ->map(fn (EloquentReference $reference) => [
-                'id'        => $reference->uuid,
-                'name'      => $reference->name,
-                'order'     => $reference->order,
+                'id' => $reference->uuid,
+                'name' => $reference->name,
+                'order' => $reference->order,
                 'updatedAt' => $reference->updated_at,
             ])
             ->toArray();

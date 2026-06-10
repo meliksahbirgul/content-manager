@@ -14,9 +14,9 @@ enum SliderStatus: string
     public static function fromString(string $value): self
     {
         return match ($value) {
-            'active'  => self::Active,
+            'active' => self::Active,
             'passive' => self::Passive,
-            default   => throw new InvalidArgumentException("Invalid slider status: $value"),
+            default => throw new InvalidArgumentException("Invalid slider status: $value"),
         };
     }
 }

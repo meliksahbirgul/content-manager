@@ -20,10 +20,10 @@ class EloquentSliderRepository implements SliderRepository
     public function create(CreateSlider $payload): CreateSlider
     {
         EloquentSlider::create([
-            'uuid'      => $payload->id(),
-            'title'     => $payload->title(),
-            'href'      => $payload->href(),
-            'order'     => $payload->order(),
+            'uuid' => $payload->id(),
+            'title' => $payload->title(),
+            'href' => $payload->href(),
+            'order' => $payload->order(),
             'is_active' => $payload->status()->value,
         ]);
 
@@ -120,11 +120,11 @@ class EloquentSliderRepository implements SliderRepository
             ->orderBy('order')
             ->get()
             ->map(fn (EloquentSlider $slider) => [
-                'id'        => $slider->uuid,
-                'title'     => $slider->title,
-                'href'      => $slider->href,
-                'order'     => $slider->order,
-                'isActive'  => $slider->is_active,
+                'id' => $slider->uuid,
+                'title' => $slider->title,
+                'href' => $slider->href,
+                'order' => $slider->order,
+                'isActive' => $slider->is_active,
                 'updatedAt' => $slider->updated_at,
             ])
             ->toArray();

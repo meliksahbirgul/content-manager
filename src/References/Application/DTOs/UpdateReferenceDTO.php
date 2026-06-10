@@ -26,8 +26,8 @@ readonly class UpdateReferenceDTO
     public function toArray(): array
     {
         return [
-            'id'    => $this->id,
-            'name'  => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
             'order' => $this->order,
         ];
     }

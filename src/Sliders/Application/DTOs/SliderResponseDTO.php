@@ -70,12 +70,12 @@ readonly class SliderResponseDTO implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'id'       => $this->id(),
-            'title'    => $this->title(),
-            'href'     => $this->href(),
-            'order'    => $this->order(),
+            'id' => $this->id(),
+            'title' => $this->title(),
+            'href' => $this->href(),
+            'order' => $this->order(),
             'isActive' => $this->isActive(),
-            'images'   => $this->images(),
+            'images' => $this->images(),
         ];
     }
 }

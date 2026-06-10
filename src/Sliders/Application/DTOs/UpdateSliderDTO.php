@@ -33,10 +33,10 @@ readonly class UpdateSliderDTO
     public function toArray(): array
     {
         return [
-            'id'     => $this->id,
-            'title'  => $this->title,
-            'href'   => $this->href,
-            'order'  => $this->order,
+            'id' => $this->id,
+            'title' => $this->title,
+            'href' => $this->href,
+            'order' => $this->order,
             'status' => $this->status,
         ];
     }

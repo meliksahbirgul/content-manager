@@ -24,7 +24,7 @@ readonly class CreateReferenceDTO
     public function toArray(): array
     {
         return [
-            'name'  => $this->name,
+            'name' => $this->name,
             'order' => $this->order,
         ];
     }

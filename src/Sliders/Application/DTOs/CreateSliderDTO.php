@@ -33,9 +33,9 @@ readonly class CreateSliderDTO
     public function toArray(): array
     {
         return [
-            'title'  => $this->title,
-            'href'   => $this->href,
-            'order'  => $this->order,
+            'title' => $this->title,
+            'href' => $this->href,
+            'order' => $this->order,
             'status' => $this->status,
         ];
     }
