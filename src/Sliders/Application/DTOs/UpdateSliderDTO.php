@@ -8,11 +8,12 @@ readonly class UpdateSliderDTO
 {
     /**
      * @param  array<string, string>|null  $title
+     * @param  array<string, string>|null  $href
      */
     public function __construct(
         private string $id,
         private ?array $title = null,
-        private ?string $href = null,
+        private ?array $href = null,
         private ?int $order = null,
         private ?string $status = null,
     ) {}
@@ -50,5 +51,11 @@ readonly class UpdateSliderDTO
     public function title(): ?array
     {
         return $this->title;
+    }
+
+    /** @return array<string, string>|null */
+    public function href(): ?array
+    {
+        return $this->href;
     }
 }

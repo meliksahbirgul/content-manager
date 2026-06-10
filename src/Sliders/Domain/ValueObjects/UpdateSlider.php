@@ -12,11 +12,12 @@ readonly class UpdateSlider
 {
     /**
      * @param  array<string, string>|null  $title
+     * @param  array<string, string>|null  $href
      */
     public function __construct(
         private string $id,
         private ?array $title = null,
-        private ?string $href = null,
+        private ?array $href = null,
         private ?int $order = null,
         private ?SliderStatus $status = null,
     ) {
@@ -52,7 +53,8 @@ readonly class UpdateSlider
         return $this->title;
     }
 
-    public function href(): ?string
+    /** @return array<string, string>|null */
+    public function href(): ?array
     {
         return $this->href;
     }

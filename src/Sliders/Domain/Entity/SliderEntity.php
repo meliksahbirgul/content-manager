@@ -11,12 +11,13 @@ class SliderEntity
 {
     /**
      * @param  array<string, string>  $title
+     * @param  array<string, string>  $href
      * @param  list<MediaEntity>  $images
      */
     public function __construct(
         private string $id,
         private array $title,
-        private string $href,
+        private array $href,
         private int $order,
         private SliderStatus $isActive,
         private array $images = [],
@@ -33,7 +34,8 @@ class SliderEntity
         return $this->title;
     }
 
-    public function href(): string
+    /** @return array<string, string> */
+    public function href(): array
     {
         return $this->href;
     }

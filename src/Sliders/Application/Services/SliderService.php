@@ -21,7 +21,7 @@ readonly class SliderService
 
     public function createSlider(CreateSliderDTO $dto): CreateSlider
     {
-        $this->assertValidLanguageCodes($dto->title());
+        $this->assertValidLanguageCodes($dto->title(), $dto->href());
 
         $payload = CreateSlider::createFromArray($dto->toArray());
 
@@ -30,7 +30,7 @@ readonly class SliderService
 
     public function updateSlider(UpdateSliderDTO $dto): void
     {
-        $this->assertValidLanguageCodes($dto->title());
+        $this->assertValidLanguageCodes($dto->title(), $dto->href());
 
         $payload = UpdateSlider::createFromArray($dto->toArray());
 

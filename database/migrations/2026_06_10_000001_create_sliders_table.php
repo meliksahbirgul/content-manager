@@ -14,7 +14,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->jsonb('title');
-            $table->string('href');
+            $table->jsonb('href');
             $table->unsignedInteger('order')->default(0);
             $table->string('is_active')->default('active');
             $table->timestamps();

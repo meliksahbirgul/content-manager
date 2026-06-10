@@ -14,7 +14,8 @@ class CreateSliderRequest extends FormRequest
         return [
             'title' => 'required|array|min:1',
             'title.*' => 'required|string|max:255',
-            'href' => 'required|url|max:2048',
+            'href' => 'required|array|min:1',
+            'href.*' => 'required|url|max:2048',
             'order' => 'nullable|integer|min:0',
             'status' => 'nullable|string',
         ];

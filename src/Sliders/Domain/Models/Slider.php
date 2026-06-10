@@ -19,7 +19,8 @@ class Slider extends Model
     use SoftDeletes;
 
     protected $casts = [
-        'title' => 'array',
+        'title'     => 'array',
+        'href'      => 'array',
         'is_active' => 'string',
     ];
 

@@ -12,11 +12,12 @@ class CreateSlider
 {
     /**
      * @param  array<string, string>  $title
+     * @param  array<string, string>  $href
      */
     public function __construct(
         private string $id,
         private array $title,
-        private string $href,
+        private array $href,
         private int $order,
         private SliderStatus $status,
     ) {
@@ -44,6 +45,10 @@ class CreateSlider
         if (empty($this->title)) {
             throw new InvalidArgumentException('Title cannot be empty.');
         }
+
+        if (empty($this->href)) {
+            throw new InvalidArgumentException('Href cannot be empty.');
+        }
     }
 
     public function id(): string
@@ -57,7 +62,8 @@ class CreateSlider
         return $this->title;
     }
 
-    public function href(): string
+    /** @return array<string, string> */
+    public function href(): array
     {
         return $this->href;
     }

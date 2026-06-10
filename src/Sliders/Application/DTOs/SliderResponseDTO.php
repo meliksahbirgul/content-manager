@@ -11,12 +11,13 @@ readonly class SliderResponseDTO implements JsonSerializable
 {
     /**
      * @param  array<string, string>  $title
+     * @param  array<string, string>  $href
      * @param  list<MediaEntity>  $images
      */
     public function __construct(
         private string $id,
         private array $title,
-        private string $href,
+        private array $href,
         private int $order,
         private string $isActive,
         private array $images = [],
@@ -45,7 +46,8 @@ readonly class SliderResponseDTO implements JsonSerializable
         return $this->title;
     }
 
-    public function href(): string
+    /** @return array<string, string> */
+    public function href(): array
     {
         return $this->href;
     }

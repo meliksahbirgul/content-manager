@@ -10,10 +10,11 @@ readonly class CreateSliderDTO
 {
     /**
      * @param  array<string, string>  $title
+     * @param  array<string, string>  $href
      */
     public function __construct(
         private array $title,
-        private string $href,
+        private array $href,
         private int $order,
         private string $status,
     ) {}
@@ -46,7 +47,8 @@ readonly class CreateSliderDTO
         return $this->title;
     }
 
-    public function href(): string
+    /** @return array<string, string> */
+    public function href(): array
     {
         return $this->href;
     }
