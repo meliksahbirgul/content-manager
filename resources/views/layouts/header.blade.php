@@ -23,16 +23,14 @@
                 <div class="flex justify-between items-center">
                     <h1 class="text-xl font-bold text-orange-600">@yield('page-title')</h1>
                     <div class="flex items-center gap-4">
-                        <span
-                            class="text-gray-600 text-sm">{{ __('panel/dashboard.hello') }}<strong>{{ Auth::user()->name }}</strong></span>
-
                         {{-- Language switcher --}}
                         <div class="relative" id="lang-switcher">
                             <button type="button" id="lang-toggle"
                                 class="flex items-center gap-1 text-xs font-semibold bg-orange-100 hover:bg-orange-200 text-orange-700 px-3 py-1 rounded transition">
                                 <span id="lang-current">{{ strtoupper(app()->getLocale()) }}</span>
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
                             <div id="lang-dropdown"

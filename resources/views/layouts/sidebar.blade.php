@@ -47,4 +47,11 @@
 
     </div>
 
+    <div class="px-4 py-5 border-t border-gray-100 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-orange-300 flex items-center justify-center shrink-0">
+            <span class="text-sm font-semibold text-orange-900">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
+        </div>
+        <span class="text-sm font-semibold text-gray-600">{{ Auth::user()->name }}</span>
+    </div>
+
 </aside>
